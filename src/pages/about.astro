@@ -1,29 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import aboutHtml from '../data/about.html?raw';
-
-// The WordPress "About" body relies on auto-paragraphs: turn blank-line-separated
-// blocks into <p> so it renders the way it did on WP.
-const paragraphs = aboutHtml
-  .trim()
-  .split(/\n\s*\n/)
-  .map((block) => block.trim().replace(/\n/g, ' '))
-  .filter(Boolean);
 ---
 
 <BaseLayout
   title="About"
-  description="About Tom Ron — data scientist."
+  description="About Tom Ron — engineering leader working in AI, currently Head of AI Solutions at Goodnotes."
   path="/about/"
 >
   <h1>About</h1>
   <div class="about-body">
-    {paragraphs.map((p) => <p set:html={p} />)}
+    <p>
+      I’m Tom Ron, an engineering leader working in AI. I’m currently Head of AI
+      Solutions at <a href="https://www.goodnotes.com/">Goodnotes</a>.
+    </p>
+    <p>
+      Before that I was CTO at Beteende and Head of Engineering at Lynx.MD, where
+      I built and led engineering teams, took products from MVP to production,
+      and owned architecture, cloud cost, security and compliance (SOC 2,
+      HIPAA), and delivery. Earlier I spent several years as a senior data
+      scientist across healthtech and consumer companies in Berlin, and started
+      out as an algorithm engineer working on NLP and large-scale data. I’ve
+      also taught discrete mathematics as a teaching assistant at the Technion.
+    </p>
+    <p>
+      I started in data science and still think like a data scientist —
+      measure first, be honest about uncertainty, and keep visualizations
+      clear. These days I write mostly about what engineering leadership looks
+      like in the AI era: coding agents, spec-driven development, token
+      economics and FinOps, RAG, and how teams and review workflows adapt when
+      implementation gets cheap.
+    </p>
+    <p>
+      I write here and on <a href="https://medium.com/@rontom">Medium</a>, share
+      code on <a href="https://github.com/tomron">GitHub</a>, and post on <a
+        href="https://x.com/tomron696">X</a
+      >. The best way to reach me is on <a
+        href="https://www.linkedin.com/in/rontom/">LinkedIn</a
+      >.
+    </p>
   </div>
 </BaseLayout>
 
 <style>
   .about-body {
     margin-top: 1.5rem;
+  }
+  .about-body p {
+    margin: 0 0 1rem;
   }
 </style>

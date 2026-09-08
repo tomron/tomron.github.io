@@ -1,0 +1,150 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts, getTagMap, type Post } from '../../lib/posts';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getPublishedPosts();
+  return paginate(posts, { pageSize: 25 });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<Post>;
+}
+const { page } = Astro.props as Props;
+
+// A few popular tags to offer as quick filters.
+const tagMap = await getTagMap();
+const topTags = [...tagMap.entries()]
+  .map(([slug, { label, posts }]) => ({ slug, label, count: posts.length }))
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 12);
+
+const decodeLabel = (s: string) =>
+  s.replace(/&#0*39;|&apos;/gi, '’').replace(/&amp;/gi, '&');
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+const isFirst = page.currentPage === 1;
+---
+
+<BaseLayout
+  title={isFirst ? 'Blog' : `Blog — page ${page.currentPage}`}
+  description="Posts by Tom Ron — engineering leadership in the AI era, plus older notes on data and Python."
+  path={page.url.current}
+>
+  <h1>Blog</h1>
+  <p class="count">
+    {page.total} posts · page {page.currentPage} of {page.lastPage}
+  </p>
+
+  <nav class="tag-filter" aria-label="Filter by tag">
+    <span>Browse by tag:</span>
+    {topTags.map((t) => <a href={`/tags/${t.slug}/`}>{decodeLabel(t.label)}</a>)}
+    <a class="all" href="/tags/">all tags →</a>
+  </nav>
+
+  <ul class="post-list">
+    {
+      page.data.map((post) => (
+        <li>
+          <a href={post.data.permalink}>{post.data.title}</a>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {fmt(post.data.pubDate)}
+          </time>
+        </li>
+      ))
+    }
+  </ul>
+
+  <nav class="pager" aria-label="Pagination">
+    {
+      page.url.prev ? (
+        <a href={page.url.prev} rel="prev">
+          ← Newer
+        </a>
+      ) : (
+        <span class="disabled">← Newer</span>
+      )
+    }
+    <span class="pos">{page.currentPage} / {page.lastPage}</span>
+    {
+      page.url.next ? (
+        <a href={page.url.next} rel="next">
+          Older →
+        </a>
+      ) : (
+        <span class="disabled">Older →</span>
+      )
+    }
+  </nav>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: 0.25rem;
+  }
+  .count {
+    color: var(--muted);
+    margin-top: 0;
+  }
+  .tag-filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 0.6rem;
+    margin: 1.25rem 0 1.5rem;
+    font-size: 0.9rem;
+  }
+  .tag-filter span {
+    color: var(--muted);
+  }
+  .tag-filter a {
+    background: var(--code-bg);
+    color: var(--fg);
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+  }
+  .tag-filter a:hover {
+    text-decoration: none;
+    outline: 1px solid var(--border);
+  }
+  .tag-filter a.all {
+    background: none;
+    color: var(--accent);
+    padding: 0;
+  }
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .post-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-list time {
+    color: var(--muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .pager .pos {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .pager .disabled {
+    color: var(--border);
+  }
+</style>

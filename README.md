@@ -17,11 +17,14 @@ npm run preview  # serve the build locally
 | Path | What |
 | --- | --- |
 | `src/pages/index.astro` | Home / intro |
-| `src/pages/blog/index.astro` | Blog archive (grouped by year) |
+| `src/pages/blog/[...page].astro` | Paginated blog index — `/blog/` is page 1, then `/blog/2/` … (25 posts/page) |
+| `src/pages/tags/index.astro` | Tag cloud — every tag, sized by post count |
+| `src/pages/tags/[tag].astro` | All posts for one tag, at `/tags/<slug>/` |
 | `src/pages/[...slug].astro` | One page per post, at its original WordPress permalink (`/YYYY/MM/DD/slug/`) |
 | `src/pages/[...redirect].astro` | Static redirect stubs for routes with no 1:1 equivalent (see `src/data/redirects.json`) |
 | `src/pages/rss.xml.js` | RSS feed at `/rss.xml` |
-| `src/pages/about.astro` | About page, body sourced from `src/data/about.html` |
+| `src/pages/about.astro` | About page — hand-authored, not migrated 1:1 from WordPress |
+| `src/lib/posts.ts` | `getPublishedPosts()`, `getTagMap()`, `tagSlug()` helpers |
 | `src/content/blog/*.md` | Post content — WordPress HTML kept verbatim below the frontmatter |
 | `src/content.config.ts` | Blog content-collection schema |
 | `public/wp-content/uploads/` | Images pulled from the old WordPress install and self-hosted |
@@ -39,9 +42,10 @@ Routes that couldn't be preserved get a redirect entry in
 
 ## Re-running the migration
 
-`scripts/migrate-wordpress.mjs` regenerates `src/content/blog/`,
-`src/data/about.html`, `src/data/redirects.json`, and downloads referenced
-images. It's idempotent — already-downloaded images are skipped.
+`scripts/migrate-wordpress.mjs` regenerates `src/content/blog/` and
+`src/data/redirects.json`, and downloads referenced images. It's idempotent —
+already-downloaded images are skipped. (The About page is hand-authored in
+`src/pages/about.astro` and is not touched by the script.)
 
 ```sh
 node scripts/migrate-wordpress.mjs ~/Downloads/tomron.WordPress.2026-09-08.xml

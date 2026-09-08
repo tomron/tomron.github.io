@@ -154,15 +154,8 @@ for (const it of items) {
 
   // --- PAGE handling ---
   if (type === 'page') {
-    if (route === 'about') {
-      body = await localizeImages(body);
-      writeFileSync(
-        join(ROOT, 'src/data/about.html'),
-        body.trim() + '\n',
-        'utf8',
-      );
-      console.log('page  about -> src/data/about.html');
-    } else {
+    // /about/ is hand-authored in src/pages/about.astro (not migrated 1:1).
+    if (route !== 'about') {
       // Hebrew satire page: dropped per decision, 301 -> home
       redirects.push({ from: '/' + route + '/', to: '/' });
       console.log('page  dropped, 301:', '/' + route + '/');
