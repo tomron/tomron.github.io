@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getTagMap } from '../../lib/posts';
+
+const tagMap = await getTagMap();
+const decodeLabel = (s: string) =>
+  s
+    .replace(/&#0*39;|&apos;|&#x0*27;/gi, '’')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"');
+
+const tags = [...tagMap.entries()]
+  .map(([slug, { label, posts }]) => ({
+    slug,
+    label: decodeLabel(label),
+    count: posts.length,
+  }))
+  .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+---
+
+<BaseLayout
+  title="Tags"
+  description="Browse Tom Ron's posts by tag."
+  path="/tags/"
+>
+  <h1>Tags</h1>
+  <p class="count">{tags.length} tags</p>
+
+  <ul class="tag-cloud">
+    {
+      tags.map((t) => (
+        <li>
+          <a href={`/tags/${t.slug}/`}>
+            {t.label} <span class="n">{t.count}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  .count {
+    color: var(--muted);
+    margin-top: 0;
+  }
+  .tag-cloud {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .tag-cloud a {
+    display: inline-block;
+    background: var(--code-bg);
+    color: var(--fg);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+  }
+  .tag-cloud a:hover {
+    text-decoration: none;
+    outline: 1px solid var(--border);
+  }
+  .tag-cloud .n {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+</style>

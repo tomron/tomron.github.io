@@ -1,7 +1,14 @@
 ---
 import { render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getPublishedPosts } from '../lib/posts';
+import { getPublishedPosts, tagSlug } from '../lib/posts';
+
+// WordPress tag labels can contain HTML entities like &#039; — decode for display.
+const decodeLabel = (s: string) =>
+  s
+    .replace(/&#0*39;|&apos;|&#x0*27;/gi, '’')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"');
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -45,7 +52,9 @@ const description =
           post.data.tags.length > 0 && (
             <span class="tags">
               {post.data.tags.map((t) => (
-                <span class="tag">{t}</span>
+                <a class="tag" href={`/tags/${tagSlug(t)}/`}>
+                  {decodeLabel(t)}
+                </a>
               ))}
             </span>
           )
@@ -79,9 +88,14 @@ const description =
   }
   .tag {
     background: var(--code-bg);
+    color: var(--muted);
     padding: 0.1rem 0.5rem;
     border-radius: 999px;
     font-size: 0.8rem;
+  }
+  .tag:hover {
+    color: var(--fg);
+    text-decoration: none;
   }
   .post-body {
     margin-top: 1.75rem;
