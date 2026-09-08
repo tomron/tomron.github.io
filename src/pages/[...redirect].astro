@@ -23,8 +23,10 @@ const target = new URL(to, Astro.site).toString();
     <link rel="canonical" href={target} />
     <meta http-equiv="refresh" content={`0; url=${target}`} />
     <meta name="robots" content="noindex" />
-    <script is:inline set:html={`location.replace(${JSON.stringify(target)})`}
-    ></script>
+    <script
+      is:inline
+      set:html={`location.replace(${JSON.stringify(target)})`}
+    />
   </head>
   <body>
     <p>This page has moved to <a href={target}>{target}</a>.</p>

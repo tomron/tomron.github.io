@@ -1,7 +1,13 @@
 ---
 import type { GetStaticPaths, Page } from 'astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getPublishedPosts, getTagMap, type Post } from '../../lib/posts';
+import {
+  getPublishedPosts,
+  getTagMap,
+  postExcerpt,
+  readingMinutes,
+  type Post,
+} from '../../lib/posts';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getPublishedPosts();
@@ -24,7 +30,11 @@ const decodeLabel = (s: string) =>
   s.replace(/&#0*39;|&apos;/gi, '’').replace(/&amp;/gi, '&');
 
 const fmt = (d: Date) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
 
 const isFirst = page.currentPage === 1;
 ---
@@ -41,7 +51,11 @@ const isFirst = page.currentPage === 1;
 
   <nav class="tag-filter" aria-label="Filter by tag">
     <span>Browse by tag:</span>
-    {topTags.map((t) => <a href={`/tags/${t.slug}/`}>{decodeLabel(t.label)}</a>)}
+    {
+      topTags.map((t) => (
+        <a href={`/tags/${t.slug}/`}>{decodeLabel(t.label)}</a>
+      ))
+    }
     <a class="all" href="/tags/">all tags →</a>
   </nav>
 
@@ -49,14 +63,35 @@ const isFirst = page.currentPage === 1;
     {
       page.data.map((post) => (
         <li>
-          <a href={post.data.permalink}>{post.data.title}</a>
-          <time datetime={post.data.pubDate.toISOString()}>
-            {fmt(post.data.pubDate)}
-          </time>
+          <div class="row">
+            <a class="title" href={post.data.permalink}>
+              {post.data.title}
+            </a>
+            <span class="when">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {fmt(post.data.pubDate)}
+              </time>
+              <span class="dot">·</span>
+              {readingMinutes(post)} min
+            </span>
+          </div>
+          <p class="excerpt">{postExcerpt(post, 180)}</p>
         </li>
       ))
     }
   </ul>
+
+  {
+    isFirst && (
+      <aside class="subscribe">
+        <p>
+          <strong>Follow along:</strong> new posts by <a href="/rss.xml">RSS</a>
+          , or follow me on{' '}
+          <a href="https://www.linkedin.com/in/rontom/">LinkedIn</a>.
+        </p>
+      </aside>
+    )
+  }
 
   <nav class="pager" aria-label="Pagination">
     {
@@ -121,17 +156,32 @@ const isFirst = page.currentPage === 1;
     padding: 0;
   }
   .post-list li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-list .row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 1rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border);
   }
-  .post-list time {
+  .post-list .title {
+    font-weight: 500;
+  }
+  .post-list .when {
     color: var(--muted);
     font-size: 0.85rem;
     white-space: nowrap;
+  }
+  .post-list .when .dot {
+    opacity: 0.5;
+    margin: 0 0.15rem;
+  }
+  .post-list .excerpt {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
   }
   .pager {
     display: flex;
@@ -146,5 +196,16 @@ const isFirst = page.currentPage === 1;
   }
   .pager .disabled {
     color: var(--border);
+  }
+  .subscribe {
+    margin-top: 2rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--code-bg);
+    font-size: 0.95rem;
+  }
+  .subscribe p {
+    margin: 0;
   }
 </style>

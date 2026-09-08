@@ -7,7 +7,7 @@ tags:
   - "R"
 draft: false
 ---
-<div>I have recently took "R programming" course in <a href="coursera.org">Coursera</a>. This is the second course I take there. Before that I took "Machine Learning" course which was much heavier course with respect both to what was taught, to the course length and to the assignments and other requirements.</div>
+<div>I have recently took "R programming" course in <a href="https://www.coursera.org">Coursera</a>. This is the second course I take there. Before that I took "Machine Learning" course which was much heavier course with respect both to what was taught, to the course length and to the assignments and other requirements.</div>
 <div></div>
 <ul>
 	<li>In the world of SciPy, Numpy, Pandas and others in Python I don't really see the advantage in R. Those libraries have almost the same capabilities while Python is a much stronger and more common and therefore supported and documented tool.</li>

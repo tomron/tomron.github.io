@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getTagMap } from '../../lib/posts';
+import { getTagMap, postExcerpt, readingMinutes } from '../../lib/posts';
 
 export async function getStaticPaths() {
   const tagMap = await getTagMap();
@@ -21,7 +21,11 @@ const decodeLabel = (s: string) =>
 const display = decodeLabel(label);
 
 const fmt = (d: Date) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
 ---
 
 <BaseLayout
@@ -37,10 +41,19 @@ const fmt = (d: Date) =>
     {
       posts.map((post) => (
         <li>
-          <a href={post.data.permalink}>{post.data.title}</a>
-          <time datetime={post.data.pubDate.toISOString()}>
-            {fmt(post.data.pubDate)}
-          </time>
+          <div class="row">
+            <a class="title" href={post.data.permalink}>
+              {post.data.title}
+            </a>
+            <span class="when">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {fmt(post.data.pubDate)}
+              </time>
+              <span class="dot">·</span>
+              {readingMinutes(post)} min
+            </span>
+          </div>
+          <p class="excerpt">{postExcerpt(post, 180)}</p>
         </li>
       ))
     }
@@ -65,16 +78,31 @@ const fmt = (d: Date) =>
     padding: 0;
   }
   .post-list li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-list .row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 1rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border);
   }
-  .post-list time {
+  .post-list .title {
+    font-weight: 500;
+  }
+  .post-list .when {
     color: var(--muted);
     font-size: 0.85rem;
     white-space: nowrap;
+  }
+  .post-list .when .dot {
+    opacity: 0.5;
+    margin: 0 0.15rem;
+  }
+  .post-list .excerpt {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
   }
 </style>

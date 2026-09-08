@@ -14,20 +14,24 @@ npm run preview  # serve the build locally
 
 ## Structure
 
-| Path | What |
-| --- | --- |
-| `src/pages/index.astro` | Home / intro |
-| `src/pages/blog/[...page].astro` | Paginated blog index — `/blog/` is page 1, then `/blog/2/` … (25 posts/page) |
-| `src/pages/tags/index.astro` | Tag cloud — every tag, sized by post count |
-| `src/pages/tags/[tag].astro` | All posts for one tag, at `/tags/<slug>/` |
-| `src/pages/[...slug].astro` | One page per post, at its original WordPress permalink (`/YYYY/MM/DD/slug/`) |
-| `src/pages/[...redirect].astro` | Static redirect stubs for routes with no 1:1 equivalent (see `src/data/redirects.json`) |
-| `src/pages/rss.xml.js` | RSS feed at `/rss.xml` |
-| `src/pages/about.astro` | About page — hand-authored, not migrated 1:1 from WordPress |
-| `src/lib/posts.ts` | `getPublishedPosts()`, `getTagMap()`, `tagSlug()` helpers |
-| `src/content/blog/*.md` | Post content — WordPress HTML kept verbatim below the frontmatter |
-| `src/content.config.ts` | Blog content-collection schema |
-| `public/wp-content/uploads/` | Images pulled from the old WordPress install and self-hosted |
+| Path                             | What                                                                                     |
+| -------------------------------- | ---------------------------------------------------------------------------------------- |
+| `src/pages/index.astro`          | Home / intro                                                                             |
+| `src/pages/blog/[...page].astro` | Paginated blog index — `/blog/` is page 1, then `/blog/2/` … (25 posts/page)             |
+| `src/pages/tags/index.astro`     | Tag cloud — every tag, sized by post count                                               |
+| `src/pages/tags/[tag].astro`     | All posts for one tag, at `/tags/<slug>/`                                                |
+| `src/pages/[...slug].astro`      | One page per post, at its original WordPress permalink (`/YYYY/MM/DD/slug/`)             |
+| `src/pages/[...redirect].astro`  | Static redirect stubs for routes with no 1:1 equivalent (see `src/data/redirects.json`)  |
+| `src/pages/rss.xml.js`           | RSS feed at `/rss.xml` — full post content, syntax-highlighted, sanitized                |
+| `src/pages/search.astro`         | Client-side search UI; index served from `src/pages/search-index.json.js`                |
+| `src/pages/og/[...route].ts`     | Build-time OG card images at `/og/<permalink-with-dashes>.png` (posts without a hero)    |
+| `src/pages/about.astro`          | About page — hand-authored, not migrated 1:1 from WordPress                              |
+| `src/lib/posts.ts`               | `getPublishedPosts()`, `getTagMap()`, plus excerpt / reading-time / related-post helpers |
+| `src/lib/highlight.ts`           | Shiki highlighting of the raw WordPress `<pre>` blocks, at build time                    |
+| `src/lib/webmentions.ts`         | Optional webmention.io fetch (off unless `PUBLIC_WEBMENTION_DOMAIN` is set)              |
+| `src/content/blog/*.md`          | Post content — WordPress HTML kept verbatim below the frontmatter                        |
+| `src/content.config.ts`          | Blog content-collection schema                                                           |
+| `public/wp-content/uploads/`     | Images pulled from the old WordPress install and self-hosted                             |
 
 ## URL preservation
 
@@ -51,6 +55,18 @@ already-downloaded images are skipped. (The About page is hand-authored in
 node scripts/migrate-wordpress.mjs ~/Downloads/tomron.WordPress.2026-09-08.xml
 ```
 
+## Checks
+
+| Command                  | What                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------- |
+| `npm run check`          | `astro check` — TypeScript + template diagnostics                               |
+| `npm run format`         | Prettier write (`format:check` is the CI-safe check-only variant)               |
+| `npm run lint:links`     | `linkinator` over `./dist` — internal links only (see `linkinator.config.json`) |
+| `npm run lint:links:all` | Same, but also hits external URLs — slow and flaky, run by hand                 |
+
+CI (`.github/workflows/deploy.yml`) runs `format:check`, `check`, `build`, and
+`lint:links` on every push and PR; only pushes to `main` deploy.
+
 ## Deployment
 
 `.github/workflows/deploy.yml` builds and publishes to GitHub Pages on every push
@@ -69,9 +85,21 @@ GoatCounter script on every page.
   Actions → Variables) and pass it through in `deploy.yml`'s build step
   (`env: PUBLIC_GOATCOUNTER: ${{ vars.PUBLIC_GOATCOUNTER }}`).
 
-## Sharing
+## Sharing & previews
 
 Each post footer has X / LinkedIn / copy-link buttons (`src/pages/[...slug].astro`).
 They're plain `share-offsite` / `intent/tweet` links plus a small clipboard
-script — no third-party embeds. `og:image` / `twitter:image` are set from a
-post's `heroImage`, so link unfurls show the featured image.
+script — no third-party embeds. `og:image` / `twitter:image` use a post's
+`heroImage` when it has one, otherwise a build-time OG card generated by
+`src/pages/og/[...route].ts`. Post pages also emit `BlogPosting` JSON-LD and
+`article:*` meta.
+
+## Webmentions (optional)
+
+The WordPress migration dropped native comments. To bring them back the
+static-friendly way, register the domain at
+[webmention.io](https://webmention.io) and set `PUBLIC_WEBMENTION_DOMAIN` (repo
+**variable**, same mechanism as `PUBLIC_GOATCOUNTER`). When set, `BaseLayout`
+adds the `rel="webmention"` endpoint and `[...slug].astro` renders likes,
+reposts, and replies fetched at build time. Unset → nothing fetched, nothing
+rendered.

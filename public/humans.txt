@@ -1,0 +1,11 @@
+/* TEAM */
+  Name: Tom Ron
+  Site: https://tomron.net
+  LinkedIn: https://www.linkedin.com/in/rontom/
+  GitHub: https://github.com/tomron
+
+/* SITE */
+  Language: English
+  Standards: HTML5, CSS3
+  Components: Astro
+  Hosting: GitHub Pages
