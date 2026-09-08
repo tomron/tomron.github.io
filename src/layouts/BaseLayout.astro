@@ -1,0 +1,235 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  /** Canonical path, e.g. "/2014/05/12/foo/". Defaults to current URL path. */
+  path?: string;
+  ogType?: 'website' | 'article';
+}
+
+const SITE_TITLE = 'Tom Ron';
+const SITE_DESCRIPTION =
+  'Tom Ron — data scientist. Notes on data, Python, machine learning, and things worth reading.';
+
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  path = Astro.url.pathname,
+  ogType = 'website',
+} = Astro.props;
+
+const canonical = new URL(path, Astro.site).toString();
+const fullTitle = title === SITE_TITLE ? title : `${title} — ${SITE_TITLE}`;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={SITE_TITLE}
+      href={new URL('/rss.xml', Astro.site).toString()}
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <style is:global>
+      :root {
+        --bg: #ffffff;
+        --fg: #1a1a1a;
+        --muted: #5c5c5c;
+        --accent: #1d4ed8;
+        --border: #e5e5e5;
+        --code-bg: #f4f4f5;
+        --max: 42rem;
+        --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+          Arial, sans-serif;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #101114;
+          --fg: #e8e8e8;
+          --muted: #9a9a9a;
+          --accent: #7aa2ff;
+          --border: #2a2b2f;
+          --code-bg: #1b1c20;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--font);
+        font-size: 1.05rem;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+      }
+      figure {
+        margin: 1.5rem 0;
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 0.9rem;
+        text-align: center;
+        margin-top: 0.4rem;
+      }
+      pre {
+        background: var(--code-bg);
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-size: 0.9rem;
+      }
+      code {
+        font-family: var(--mono);
+        background: var(--code-bg);
+        padding: 0.15em 0.35em;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+      }
+      blockquote {
+        margin: 1.5rem 0;
+        padding-left: 1rem;
+        border-left: 3px solid var(--border);
+        color: var(--muted);
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+      }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 0.5rem 0.75rem;
+        text-align: left;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 2rem 0;
+      }
+      .wrap {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 0 1.25rem;
+      }
+      .site-header {
+        border-bottom: 1px solid var(--border);
+      }
+      .site-header .wrap {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-top: 1.1rem;
+        padding-bottom: 1.1rem;
+      }
+      .site-header .brand {
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--fg);
+      }
+      .site-nav {
+        display: flex;
+        gap: 1.25rem;
+        font-size: 0.98rem;
+      }
+      .site-nav a {
+        color: var(--muted);
+      }
+      .site-nav a[aria-current='page'] {
+        color: var(--fg);
+        font-weight: 600;
+      }
+      main.wrap {
+        padding-top: 2.5rem;
+        padding-bottom: 3rem;
+      }
+      .site-footer {
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .site-footer .wrap {
+        padding-top: 1.5rem;
+        padding-bottom: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.25rem;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">Tom Ron</a>
+        <nav class="site-nav">
+          <a href="/" aria-current={path === '/' ? 'page' : undefined}>Home</a>
+          <a
+            href="/blog/"
+            aria-current={path.startsWith('/blog') ? 'page' : undefined}
+            >Blog</a
+          >
+          <a href="/about/" aria-current={path === '/about/' ? 'page' : undefined}
+            >About</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>© {year} Tom Ron</span>
+        <span>
+          <a href="/rss.xml">RSS</a> ·
+          <a href="https://www.linkedin.com/in/rontom/">LinkedIn</a> ·
+          <a href="https://github.com/tomron">GitHub</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../lib/posts';
+
+const posts = await getPublishedPosts();
+const latest = posts.slice(0, 6);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+
+<BaseLayout title="Tom Ron">
+  <section class="intro">
+    <img class="portrait" src="/wp-content/uploads/2022/04/ron.png" alt="Tom Ron" />
+    <div class="intro-text">
+      <h1>Hi, I’m Tom Ron.</h1>
+      <p>
+        I’m a data scientist, mostly working in Python. I love data of all
+        sizes, care about good visualizations, enjoy statistics, and like
+        getting things done.
+      </p>
+      <p>
+        I occasionally answer questions on
+        <a href="https://stackoverflow.com/users/1481986/tom-ron">Stack Overflow</a>
+        and write on <a href="https://medium.com/@rontom">Medium</a>. The best
+        way to reach me is on
+        <a href="https://www.linkedin.com/in/rontom/">LinkedIn</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="latest">
+    <div class="latest-head">
+      <h2>Latest posts</h2>
+      <a href="/blog/">All posts →</a>
+    </div>
+    <ul class="post-list">
+      {
+        latest.map((post) => (
+          <li>
+            <a href={post.data.permalink}>{post.data.title}</a>
+            <time datetime={post.data.pubDate.toISOString()}>
+              {fmt(post.data.pubDate)}
+            </time>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro {
+    display: flex;
+    gap: 1.75rem;
+    align-items: flex-start;
+    margin-bottom: 3rem;
+  }
+  .portrait {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .intro-text h1 {
+    margin: 0 0 0.5rem;
+    font-size: 1.9rem;
+  }
+  .intro-text p {
+    margin: 0.6rem 0;
+  }
+  @media (max-width: 34rem) {
+    .intro {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+    }
+  }
+
+  .latest-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .latest-head h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  .latest-head a {
+    font-size: 0.95rem;
+  }
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .post-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-list time {
+    color: var(--muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+</style>

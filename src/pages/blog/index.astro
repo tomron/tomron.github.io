@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../../lib/posts';
+
+const posts = await getPublishedPosts();
+
+// group by year
+const byYear = new Map<number, typeof posts>();
+for (const post of posts) {
+  const y = post.data.pubDate.getUTCFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(post);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+---
+
+<BaseLayout
+  title="Blog"
+  description="All posts by Tom Ron — data, Python, machine learning, and five interesting things."
+  path="/blog/"
+>
+  <h1>Blog</h1>
+  <p class="count">{posts.length} posts</p>
+
+  {
+    years.map((year) => (
+      <section class="year">
+        <h2>{year}</h2>
+        <ul class="post-list">
+          {byYear.get(year)!.map((post) => (
+            <li>
+              <a href={post.data.permalink}>{post.data.title}</a>
+              <time datetime={post.data.pubDate.toISOString()}>
+                {fmt(post.data.pubDate)}
+              </time>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: 0.25rem;
+  }
+  .count {
+    color: var(--muted);
+    margin-top: 0;
+  }
+  .year {
+    margin-top: 2rem;
+  }
+  .year h2 {
+    font-size: 1.1rem;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.3rem;
+  }
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .post-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-list time {
+    color: var(--muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+</style>

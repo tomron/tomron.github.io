@@ -1,0 +1,32 @@
+---
+// Static "301-style" redirect pages for routes that can't be preserved 1:1.
+// GitHub Pages has no server-side redirects, so each emits a canonical link +
+// meta refresh + JS fallback. Search engines treat this as a permanent redirect.
+import redirects from '../data/redirects.json';
+
+export function getStaticPaths() {
+  return redirects.map(({ from, to }) => ({
+    params: { redirect: from.replace(/^\/+|\/+$/g, '') },
+    props: { to },
+  }));
+}
+
+const { to } = Astro.props;
+const target = new URL(to, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <link rel="canonical" href={target} />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <script is:inline set:html={`location.replace(${JSON.stringify(target)})`}
+    ></script>
+  </head>
+  <body>
+    <p>This page has moved to <a href={target}>{target}</a>.</p>
+  </body>
+</html>

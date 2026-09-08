@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import aboutHtml from '../data/about.html?raw';
+
+// The WordPress "About" body relies on auto-paragraphs: turn blank-line-separated
+// blocks into <p> so it renders the way it did on WP.
+const paragraphs = aboutHtml
+  .trim()
+  .split(/\n\s*\n/)
+  .map((block) => block.trim().replace(/\n/g, ' '))
+  .filter(Boolean);
+---
+
+<BaseLayout
+  title="About"
+  description="About Tom Ron — data scientist."
+  path="/about/"
+>
+  <h1>About</h1>
+  <div class="about-body">
+    {paragraphs.map((p) => <p set:html={p} />)}
+  </div>
+</BaseLayout>
+
+<style>
+  .about-body {
+    margin-top: 1.5rem;
+  }
+</style>

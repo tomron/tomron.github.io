@@ -1,0 +1,101 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({
+    // permalink is "/2014/05/12/slug/" -> slug param "2014/05/12/slug"
+    params: { slug: post.data.permalink.replace(/^\/+|\/+$/g, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const dateLong = post.data.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// plain-text description from the body
+const description =
+  post.body
+    ?.replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 160) || undefined;
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={description}
+  path={post.data.permalink}
+  ogType="article"
+>
+  <article>
+    <header class="post-header">
+      <h1>{post.data.title}</h1>
+      <p class="meta">
+        <time datetime={post.data.pubDate.toISOString()}>{dateLong}</time>
+        {
+          post.data.tags.length > 0 && (
+            <span class="tags">
+              {post.data.tags.map((t) => (
+                <span class="tag">{t}</span>
+              ))}
+            </span>
+          )
+        }
+      </p>
+    </header>
+
+    <div class="post-body">
+      <Content />
+    </div>
+
+    <footer class="post-footer">
+      <a href="/blog/">← All posts</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-header h1 {
+    margin-bottom: 0.4rem;
+    line-height: 1.25;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    align-items: center;
+  }
+  .tag {
+    background: var(--code-bg);
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+  }
+  .post-body {
+    margin-top: 1.75rem;
+  }
+  .post-body :global(h2) {
+    margin-top: 2rem;
+  }
+  .post-body :global(iframe) {
+    max-width: 100%;
+  }
+  .post-footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+</style>
