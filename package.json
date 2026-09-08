@@ -9,17 +9,30 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:links": "linkinator dist",
+    "lint:links:all": "linkinator dist --skip 'twitter\\.com|linkedin\\.com|x\\.com'"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.3.1"
+    "astro": "^7.3.1",
+    "astro-og-canvas": "^0.13.1",
+    "sanitize-html": "^2.17.7",
+    "shiki": "^4.4.3"
   },
   "allowScripts": {
     "esbuild": true
   },
   "devDependencies": {
-    "fast-xml-parser": "^5.11.1"
+    "@astrojs/check": "^0.9.10",
+    "fast-xml-parser": "^5.11.1",
+    "linkinator": "^8.1.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^6.0.3"
   }
 }

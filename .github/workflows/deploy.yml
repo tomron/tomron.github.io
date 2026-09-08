@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -15,7 +16,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Formatting
+        run: npm run format:check
+      - name: Types & Astro diagnostics
+        run: npm run check
+      - name: Build
+        run: npm run build
+        env:
+          PUBLIC_GOATCOUNTER: ${{ vars.PUBLIC_GOATCOUNTER }}
+      - name: Broken-link check
+        run: npm run lint:links
+
   build:
+    # Only build the deploy artifact for pushes to main.
+    if: github.event_name != 'pull_request'
+    needs: verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,11 +52,14 @@ jobs:
         env:
           # Optional: set repo variable PUBLIC_GOATCOUNTER to enable analytics.
           PUBLIC_GOATCOUNTER: ${{ vars.PUBLIC_GOATCOUNTER }}
+          # Optional: set PUBLIC_WEBMENTION_DOMAIN to pull in webmention.io comments.
+          PUBLIC_WEBMENTION_DOMAIN: ${{ vars.PUBLIC_WEBMENTION_DOMAIN }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:

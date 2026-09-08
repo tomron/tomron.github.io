@@ -1,26 +1,29 @@
 ---
-import { render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getPublishedPosts, tagSlug } from '../lib/posts';
-
-// WordPress tag labels can contain HTML entities like &#039; — decode for display.
-const decodeLabel = (s: string) =>
-  s
-    .replace(/&#0*39;|&apos;|&#x0*27;/gi, '’')
-    .replace(/&amp;/gi, '&')
-    .replace(/&quot;/gi, '"');
+import {
+  getPublishedPosts,
+  tagSlug,
+  decodeLabel,
+  postDescription,
+  readingMinutes,
+  adjacentPosts,
+  relatedPosts,
+} from '../lib/posts';
+import { highlightCodeBlocks } from '../lib/highlight';
+import { getMentions } from '../lib/webmentions';
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
   return posts.map((post) => ({
     // permalink is "/2014/05/12/slug/" -> slug param "2014/05/12/slug"
     params: { slug: post.data.permalink.replace(/^\/+|\/+$/g, '') },
-    props: { post },
+    props: { post, posts },
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { post, posts } = Astro.props;
+
+const bodyHtml = await highlightCodeBlocks(post.body ?? '');
 
 const dateLong = post.data.pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -28,13 +31,18 @@ const dateLong = post.data.pubDate.toLocaleDateString('en-US', {
   day: 'numeric',
 });
 
-// plain-text description from the body
-const description =
-  post.body
-    ?.replace(/<[^>]+>/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 160) || undefined;
+const description = postDescription(post);
+const minutes = readingMinutes(post);
+const { newer, older } = adjacentPosts(posts, post);
+const related = relatedPosts(posts, post, 4, [newer, older]);
+
+const mentions = await getMentions(post.data.permalink);
+const reactions = mentions.filter(
+  (m) => m.type === 'like' || m.type === 'repost',
+);
+const responses = mentions.filter(
+  (m) => m.type === 'reply' || m.type === 'mention',
+);
 
 const shareUrl = new URL(post.data.permalink, Astro.site).toString();
 const shareText = post.data.title;
@@ -44,6 +52,29 @@ const xShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
 const linkedInShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
   shareUrl,
 )}`;
+
+const ogImage =
+  post.data.heroImage ??
+  `/og/${post.data.permalink.replace(/^\/+|\/+$/g, '').replace(/\//g, '-')}.png`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: post.data.pubDate.toISOString(),
+  description,
+  author: {
+    '@type': 'Person',
+    name: 'Tom Ron',
+    url: 'https://tomron.net/about/',
+  },
+  publisher: { '@type': 'Person', name: 'Tom Ron' },
+  mainEntityOfPage: shareUrl,
+  url: shareUrl,
+  image: new URL(ogImage, Astro.site).toString(),
+  keywords: post.data.tags.map(decodeLabel).join(', '),
+};
 ---
 
 <BaseLayout
@@ -51,8 +82,16 @@ const linkedInShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
   description={description}
   path={post.data.permalink}
   ogType="article"
-  ogImage={post.data.heroImage}
+  ogImage={ogImage}
+  publishedTime={post.data.pubDate.toISOString()}
+  tags={post.data.tags.map(decodeLabel)}
 >
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(jsonLd)}
+    slot="head"
+  />
   <article>
     {
       post.data.heroImage && (
@@ -63,6 +102,8 @@ const linkedInShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
       <h1>{post.data.title}</h1>
       <p class="meta">
         <time datetime={post.data.pubDate.toISOString()}>{dateLong}</time>
+        <span class="dot">·</span>
+        <span>{minutes} min read</span>
         {
           post.data.tags.length > 0 && (
             <span class="tags">
@@ -77,9 +118,121 @@ const linkedInShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
       </p>
     </header>
 
-    <div class="post-body">
-      <Content />
-    </div>
+    <div class="post-body" set:html={bodyHtml} />
+
+    <nav class="adjacent" aria-label="More posts">
+      {
+        newer ? (
+          <a class="prev" href={newer.data.permalink}>
+            <span class="dir">← Newer</span>
+            <span class="t">{newer.data.title}</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        older ? (
+          <a class="next" href={older.data.permalink}>
+            <span class="dir">Older →</span>
+            <span class="t">{older.data.title}</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+    </nav>
+
+    {
+      related.length > 0 && (
+        <section class="related" aria-label="Related posts">
+          <h2>Related posts</h2>
+          <ul>
+            {related.map((r) => (
+              <li>
+                <a href={r.data.permalink}>{r.data.title}</a>
+                <time datetime={r.data.pubDate.toISOString()}>
+                  {r.data.pubDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      mentions.length > 0 && (
+        <section class="webmentions" aria-label="Webmentions">
+          <h2>Mentions</h2>
+          {reactions.length > 0 && (
+            <ul class="reactions">
+              {reactions.map((m) => (
+                <li>
+                  <a
+                    href={m.url}
+                    rel="noopener"
+                    target="_blank"
+                    title={`${m.author.name} — ${m.type}`}
+                  >
+                    {m.author.photo ? (
+                      <img
+                        src={m.author.photo}
+                        alt={m.author.name}
+                        width="32"
+                        height="32"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span class="avatar-fallback">
+                        {m.author.name.slice(0, 1)}
+                      </span>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+          {responses.map((m) => (
+            <article class="mention">
+              <p class="mention-meta">
+                {m.author.url ? (
+                  <a href={m.author.url} rel="noopener" target="_blank">
+                    {m.author.name}
+                  </a>
+                ) : (
+                  <span>{m.author.name}</span>
+                )}
+                {m.published && (
+                  <time datetime={m.published}>
+                    {new Date(m.published).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </time>
+                )}
+              </p>
+              {m.content && (
+                <p class="mention-body">{m.content.slice(0, 500)}</p>
+              )}
+              <a
+                class="mention-src"
+                href={m.url}
+                rel="noopener"
+                target="_blank"
+              >
+                source →
+              </a>
+            </article>
+          ))}
+        </section>
+      )
+    }
 
     <footer class="post-footer">
       <a href="/blog/">← All posts</a>
@@ -187,6 +340,9 @@ const linkedInShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
     gap: 0.5rem 0.75rem;
     align-items: center;
   }
+  .meta .dot {
+    opacity: 0.5;
+  }
   .tag {
     background: var(--code-bg);
     color: var(--muted);
@@ -207,6 +363,149 @@ const linkedInShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
   .post-body :global(iframe) {
     max-width: 100%;
   }
+  /* Shiki output: it emits --shiki-light / --shiki-dark on every token.
+     We pick which set to honour based on the effective theme. */
+  .post-body :global(pre.shiki) {
+    background: var(--code-bg) !important;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+  }
+  .post-body :global(pre.shiki code) {
+    background: none;
+    padding: 0;
+    display: block;
+  }
+  /* Light (default): use the light token colors. */
+  .post-body :global(pre.shiki),
+  .post-body :global(pre.shiki span) {
+    color: var(--shiki-light);
+    background-color: transparent;
+  }
+  /* OS dark and the user hasn't forced light -> dark token colors. */
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .post-body :global(pre.shiki),
+    :global(:root:not([data-theme='light']))
+      .post-body
+      :global(pre.shiki span) {
+      color: var(--shiki-dark);
+    }
+  }
+  /* Explicit theme choices always win. */
+  :global(:root[data-theme='dark']) .post-body :global(pre.shiki),
+  :global(:root[data-theme='dark']) .post-body :global(pre.shiki span) {
+    color: var(--shiki-dark);
+  }
+  :global(:root[data-theme='light']) .post-body :global(pre.shiki),
+  :global(:root[data-theme='light']) .post-body :global(pre.shiki span) {
+    color: var(--shiki-light);
+  }
+
+  .adjacent {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .adjacent a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    max-width: 48%;
+  }
+  .adjacent .next {
+    text-align: right;
+    margin-left: auto;
+  }
+  .adjacent .dir {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .adjacent .t {
+    font-size: 0.95rem;
+  }
+
+  .related {
+    margin-top: 2.5rem;
+  }
+  .related h2 {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .related ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .related li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .related time {
+    color: var(--muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .webmentions {
+    margin-top: 2.5rem;
+  }
+  .webmentions h2 {
+    font-size: 1.15rem;
+    margin-bottom: 0.6rem;
+  }
+  .reactions {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0;
+    margin: 0 0 1rem;
+  }
+  .reactions img,
+  .reactions .avatar-fallback {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--code-bg);
+    color: var(--muted);
+    font-weight: 600;
+    object-fit: cover;
+  }
+  .mention {
+    border-top: 1px solid var(--border);
+    padding: 0.8rem 0;
+  }
+  .mention-meta {
+    margin: 0;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+  .mention-meta time {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .mention-body {
+    margin: 0.35rem 0;
+    font-size: 0.95rem;
+  }
+  .mention-src {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
   .post-footer {
     margin-top: 3rem;
     padding-top: 1rem;

@@ -1,0 +1,183 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Search"
+  description="Search Tom Ron's posts."
+  path="/search/"
+>
+  <h1>Search</h1>
+  <form class="search" role="search" onsubmit="return false">
+    <input
+      id="q"
+      type="search"
+      name="q"
+      placeholder="Search posts…"
+      autocomplete="off"
+      autofocus
+      aria-label="Search posts"
+    />
+  </form>
+  <p id="status" class="status" aria-live="polite"></p>
+  <ul id="results" class="post-list"></ul>
+
+  <script is:inline>
+    (function () {
+      var input = document.getElementById('q');
+      var status = document.getElementById('status');
+      var results = document.getElementById('results');
+      var index = null;
+      var pending = null;
+
+      var fmt = function (iso) {
+        var d = new Date(iso + 'T00:00:00Z');
+        return d.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
+      };
+
+      function score(post, terms) {
+        var hay = (
+          post.title +
+          ' ' +
+          post.tags.join(' ') +
+          ' ' +
+          post.excerpt
+        ).toLowerCase();
+        var s = 0;
+        for (var i = 0; i < terms.length; i++) {
+          var t = terms[i];
+          if (!t) continue;
+          if (hay.indexOf(t) === -1) return 0;
+          if (post.title.toLowerCase().indexOf(t) !== -1) s += 5;
+          if (post.tags.join(' ').toLowerCase().indexOf(t) !== -1) s += 3;
+          s += 1;
+        }
+        return s;
+      }
+
+      function render(query) {
+        var terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+        results.innerHTML = '';
+        if (!terms.length) {
+          status.textContent = '';
+          return;
+        }
+        if (!index) {
+          status.textContent = 'Loading…';
+          return;
+        }
+        var hits = index
+          .map(function (p) {
+            return { p: p, s: score(p, terms) };
+          })
+          .filter(function (x) {
+            return x.s > 0;
+          })
+          .sort(function (a, b) {
+            return b.s - a.s || (a.p.date < b.p.date ? 1 : -1);
+          })
+          .slice(0, 50);
+
+        status.textContent =
+          hits.length === 0
+            ? 'No matches.'
+            : hits.length +
+              (hits.length === 1 ? ' match' : ' matches') +
+              (hits.length === 50 ? ' (showing first 50)' : '');
+
+        var frag = document.createDocumentFragment();
+        hits.forEach(function (x) {
+          var li = document.createElement('li');
+          var a = document.createElement('a');
+          a.href = x.p.url;
+          a.textContent = x.p.title;
+          var time = document.createElement('time');
+          time.dateTime = x.p.date;
+          time.textContent = fmt(x.p.date);
+          li.appendChild(a);
+          li.appendChild(time);
+          frag.appendChild(li);
+        });
+        results.appendChild(frag);
+      }
+
+      function load() {
+        if (pending) return pending;
+        pending = fetch('/search-index.json')
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (data) {
+            index = data;
+            render(input.value);
+          })
+          .catch(function () {
+            status.textContent = 'Could not load the search index.';
+          });
+        return pending;
+      }
+
+      input.addEventListener('focus', load, { once: true });
+      input.addEventListener('input', function () {
+        load();
+        render(input.value);
+      });
+
+      // Support /search/?q=term deep links.
+      var params = new URLSearchParams(location.search);
+      var initial = params.get('q');
+      if (initial) {
+        input.value = initial;
+        load();
+      }
+    })();
+  </script>
+</BaseLayout>
+
+<style>
+  .search {
+    margin: 1.25rem 0 0.5rem;
+  }
+  #q {
+    width: 100%;
+    font: inherit;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--fg);
+  }
+  #q:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .status {
+    color: var(--muted);
+    font-size: 0.9rem;
+    min-height: 1.2em;
+  }
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  /* Results are injected by client JS, so they miss Astro's scoping
+     attribute — target them globally, scoped under #results. */
+  #results :global(li) {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  #results :global(time) {
+    color: var(--muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+</style>
