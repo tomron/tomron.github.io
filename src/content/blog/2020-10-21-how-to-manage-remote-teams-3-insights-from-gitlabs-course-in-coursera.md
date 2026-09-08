@@ -5,7 +5,7 @@ permalink: "/2020/10/21/how-to-manage-remote-teams-3-insights-from-gitlabs-cours
 tags:
   - "coursera"
   - "GitLab"
-  - "remote-work"
+  - "remote work"
 draft: false
 ---
 <!-- wp:paragraph -->

@@ -6,6 +6,7 @@ tags:
   - "ai"
   - "digital health"
   - "healthcare"
+  - "healthtech"
 draft: false
 ---
 <!-- wp:paragraph -->

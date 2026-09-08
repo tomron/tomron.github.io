@@ -7,7 +7,7 @@ tags:
   - "graphviz"
   - "matplotlib"
   - "networkx"
-  - "plot.ly"
+  - "plotly"
   - "pygraphviz"
   - "python"
   - "visualization"

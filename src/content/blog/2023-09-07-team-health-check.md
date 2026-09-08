@@ -4,6 +4,7 @@ pubDate: 2023-09-07T17:12:00.000Z
 permalink: "/2023/09/07/team-health-check/"
 tags:
   - "engineering management"
+  - "leadership"
   - "spotify"
 draft: false
 ---

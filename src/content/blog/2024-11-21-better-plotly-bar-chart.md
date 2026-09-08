@@ -4,9 +4,10 @@ pubDate: 2024-11-21T21:22:05.000Z
 permalink: "/2024/11/21/better-plotly-bar-chart/"
 tags:
   - "bookclub"
-  - "data visualization"
+  - "visualization"
   - "plotly"
   - "storytelling"
+  - "reading"
 draft: false
 ---
 <!-- wp:paragraph -->

@@ -4,7 +4,6 @@ pubDate: 2023-07-04T16:20:00.000Z
 permalink: "/2023/07/04/did-you-miss-me-pycon-il-2023/"
 tags:
   - "missing values"
-  - "missing-data"
   - "missingno"
   - "pandas"
   - "pyconil"

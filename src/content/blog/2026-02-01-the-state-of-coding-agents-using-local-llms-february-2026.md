@@ -16,6 +16,7 @@ tags:
   - "ollama"
   - "openai"
   - "vllm"
+  - "coding agents"
 draft: false
 ---
 <!-- wp:paragraph -->

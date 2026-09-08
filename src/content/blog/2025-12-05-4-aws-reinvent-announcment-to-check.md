@@ -11,6 +11,10 @@ tags:
   - "re:invent"
   - "sagemaker"
   - "serverless"
+  - "coding agents"
+  - "s3"
+  - "ec2"
+  - "athena"
 draft: false
 ---
 <!-- wp:paragraph -->

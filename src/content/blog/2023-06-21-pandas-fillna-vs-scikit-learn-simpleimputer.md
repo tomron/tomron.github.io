@@ -10,6 +10,7 @@ tags:
   - "python"
   - "scikit-learn"
   - "SimpleImputer"
+  - "numpy"
 draft: false
 ---
 <!-- wp:paragraph -->

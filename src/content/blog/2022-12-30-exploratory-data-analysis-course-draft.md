@@ -3,14 +3,14 @@ title: "Exploratory Data Analysis Course - Draft"
 pubDate: 2022-12-30T11:27:27.000Z
 permalink: "/2022/12/30/exploratory-data-analysis-course-draft/"
 tags:
-  - "data visualization"
+  - "visualization"
   - "EDA"
   - "matplotlib"
   - "pandas"
   - "plotly"
   - "python"
   - "teaching"
-  - "visualization"
+  - "numpy"
 draft: false
 ---
 <!-- wp:paragraph -->

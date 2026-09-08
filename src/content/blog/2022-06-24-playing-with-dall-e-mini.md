@@ -4,8 +4,6 @@ pubDate: 2022-06-24T19:40:18.000Z
 permalink: "/2022/06/24/playing-with-dall-e-mini/"
 tags:
   - "dall-e"
-  - "dall-e 2"
-  - "dall-e mini"
   - "imagen"
   - "openai"
 draft: false

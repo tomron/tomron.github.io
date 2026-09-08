@@ -5,10 +5,11 @@ permalink: "/2026/05/12/spec-driven-development/"
 tags:
   - "ai"
   - "bookclub"
-  - "engineering"
+  - "software engineering"
   - "LearnInPublic"
   - "llm"
   - "sdd"
+  - "reading"
 draft: false
 ---
 <!-- wp:paragraph -->

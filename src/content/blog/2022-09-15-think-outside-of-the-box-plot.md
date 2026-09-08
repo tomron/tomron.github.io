@@ -7,6 +7,7 @@ tags:
   - "datatlv"
   - "python"
   - "visualization"
+  - "plotly"
 draft: false
 ---
 <!-- wp:paragraph -->

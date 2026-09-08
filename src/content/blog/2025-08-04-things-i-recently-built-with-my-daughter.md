@@ -6,6 +6,7 @@ tags:
   - "base44"
   - "parenting"
   - "vibecoding"
+  - "coding agents"
 draft: false
 ---
 <!-- wp:paragraph -->

@@ -8,6 +8,9 @@ tags:
   - "llm"
   - "s3 vectors"
   - "strand agents"
+  - "coding agents"
+  - "s3"
+  - "bedrock"
 draft: false
 ---
 <!-- wp:paragraph -->

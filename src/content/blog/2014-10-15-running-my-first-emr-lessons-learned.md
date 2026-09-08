@@ -3,7 +3,6 @@ title: "Running my first EMR - lessons learned"
 pubDate: 2014-10-15T17:34:46.000Z
 permalink: "/2014/10/15/running-my-first-emr-lessons-learned/"
 tags:
-  - "amazon web service"
   - "aws"
   - "boto"
   - "emr"

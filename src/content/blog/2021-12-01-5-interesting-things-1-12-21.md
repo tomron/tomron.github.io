@@ -4,9 +4,9 @@ pubDate: 2021-12-01T21:49:29.000Z
 permalink: "/2021/12/01/5-interesting-things-1-12-21/"
 tags:
   - "OKR"
-  - "pathliib"
+  - "pathlib"
   - "python"
-  - "setuptols"
+  - "setuptools"
   - "type hints"
   - "urllib3"
 draft: false

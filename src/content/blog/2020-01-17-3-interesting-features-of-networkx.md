@@ -6,6 +6,7 @@ tags:
   - "graphs"
   - "networkx"
   - "python"
+  - "pandas"
 draft: false
 ---
 <span style="font-weight:400;">“</span><a href="https://networkx.github.io/"><span style="font-weight:400;">NetworkX</span></a><span style="font-weight:400;"> is a Python package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks.”</span>

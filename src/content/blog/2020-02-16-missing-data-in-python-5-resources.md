@@ -6,11 +6,12 @@ tags:
   - "imputation"
   - "mar"
   - "mcar"
-  - "missing-data"
-  - "missing-values"
+  - "missing values"
   - "missingno"
   - "mnar"
   - "python"
+  - "pandas"
+  - "scikit-learn"
 draft: false
 ---
 Bonus - <span style="text-decoration: underline"><strong>R-miss-tastic</strong></span> - theoretical background and resources which relate to R missing values package. I recommend the lecture notes.

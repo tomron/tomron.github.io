@@ -28,6 +28,7 @@ export function tagSlug(tag: string): string {
     .replace(/&amp;/gi, 'and')
     .toLowerCase()
     .trim()
+    .replace(/['’]/g, '') // drop apostrophes rather than turn them into hyphens
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 }

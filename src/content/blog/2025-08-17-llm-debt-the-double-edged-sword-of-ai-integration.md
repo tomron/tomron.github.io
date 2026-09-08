@@ -5,6 +5,7 @@ permalink: "/2025/08/17/llm-debt-the-double-edged-sword-of-ai-integration/"
 tags:
   - "ai"
   - "engineering management"
+  - "leadership"
   - "llm"
   - "tech debt"
 draft: false

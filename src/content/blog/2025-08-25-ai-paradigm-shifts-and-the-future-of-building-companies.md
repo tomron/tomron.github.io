@@ -4,8 +4,8 @@ pubDate: 2025-08-25T14:09:52.000Z
 permalink: "/2025/08/25/ai-paradigm-shifts-and-the-future-of-building-companies/"
 tags:
   - "ai"
-  - "artificial-intelligence"
   - "engineering management"
+  - "leadership"
   - "kuhn"
   - "llm"
   - "technology"

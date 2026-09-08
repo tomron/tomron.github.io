@@ -4,7 +4,6 @@ pubDate: 2021-08-15T08:58:03.000Z
 permalink: "/2021/08/15/pandas-read_csv-and-missing-values/"
 tags:
   - "missing values"
-  - "nan values"
   - "pandas"
   - "python"
 draft: false

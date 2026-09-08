@@ -4,10 +4,12 @@ pubDate: 2021-06-18T09:37:01.000Z
 permalink: "/2021/06/18/5-interesting-things-aws-edition-18-06-21/"
 tags:
   - "aws"
-  - "aws snowball"
+  - "snowball"
   - "chalice"
   - "cost control"
   - "dynamodb"
+  - "aws lambda"
+  - "api gateway"
 draft: false
 ---
 <!-- wp:paragraph -->

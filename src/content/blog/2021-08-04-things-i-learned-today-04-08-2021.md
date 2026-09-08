@@ -4,8 +4,14 @@ pubDate: 2021-08-04T12:39:01.000Z
 permalink: "/2021/08/04/things-i-learned-today-04-08-2021/"
 tags:
   - "aws"
-  - "aws efs"
+  - "efs"
   - "aws lambda"
+  - "s3"
+  - "ec2"
+  - "ecs"
+  - "eks"
+  - "fargate"
+  - "api gateway"
 draft: false
 ---
 <!-- wp:quote -->

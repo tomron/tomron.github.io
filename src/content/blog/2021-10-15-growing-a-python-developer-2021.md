@@ -5,6 +5,13 @@ permalink: "/2021/10/15/growing-a-python-developer-2021/"
 tags:
   - "personal growth"
   - "python"
+  - "pandas"
+  - "numpy"
+  - "plotly"
+  - "flask"
+  - "fastapi"
+  - "django"
+  - "pathlib"
 draft: false
 ---
 <!-- wp:paragraph -->

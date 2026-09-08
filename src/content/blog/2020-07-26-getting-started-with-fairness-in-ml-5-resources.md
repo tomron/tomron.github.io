@@ -4,7 +4,6 @@ pubDate: 2020-07-26T10:14:19.000Z
 permalink: "/2020/07/26/getting-started-with-fairness-in-ml-5-resources/"
 tags:
   - "fairness"
-  - "fairness in ml"
 draft: false
 ---
 <!-- wp:paragraph -->

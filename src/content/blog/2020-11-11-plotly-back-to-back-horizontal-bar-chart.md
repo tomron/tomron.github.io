@@ -6,7 +6,7 @@ tags:
   - "bar chart"
   - "plotly"
   - "python"
-  - "visualiz"
+  - "visualization"
 draft: false
 ---
 <!-- wp:paragraph -->

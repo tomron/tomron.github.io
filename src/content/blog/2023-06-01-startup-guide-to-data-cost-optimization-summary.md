@@ -6,6 +6,11 @@ tags:
   - "aws"
   - "data strategy"
   - "finops"
+  - "s3"
+  - "athena"
+  - "glue"
+  - "emr"
+  - "step functions"
 draft: false
 ---
 <!-- wp:paragraph -->

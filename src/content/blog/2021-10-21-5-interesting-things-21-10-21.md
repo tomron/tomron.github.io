@@ -10,6 +10,7 @@ tags:
   - "python 3.10"
   - "responsible tech"
   - "visualization"
+  - "jupyter"
 draft: false
 ---
 <!-- wp:paragraph -->

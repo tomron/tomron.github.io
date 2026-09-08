@@ -6,6 +6,7 @@ tags:
   - "aws"
   - "cloud"
   - "finops"
+  - "cloudfront"
 draft: false
 ---
 <!-- wp:paragraph -->

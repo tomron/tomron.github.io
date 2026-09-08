@@ -5,6 +5,7 @@ permalink: "/2026/01/20/learn-in-public-week-03/"
 tags:
   - "bookclub"
   - "LearnInPublic"
+  - "reading"
 draft: false
 ---
 <!-- wp:paragraph -->
