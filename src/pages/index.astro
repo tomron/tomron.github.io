@@ -43,6 +43,18 @@ const fmt = (d: Date) =>
           >LinkedIn</a
         >.
       </p>
+      <div class="booking-cta">
+        <a
+          class="booking-button"
+          href="https://calendar.app.google/bcCeRL2tGxSWktU68"
+          target="_blank"
+          rel="noopener">Book a 30-minute chat</a
+        >
+        <span class="booking-note"
+          >Happy to talk tech, AI, or side projects &mdash; grab a slot that
+          works for you.</span
+        >
+      </div>
     </div>
   </section>
 
@@ -96,6 +108,30 @@ const fmt = (d: Date) =>
     }
   }
 
+  .booking-cta {
+    margin-top: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .booking-button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+    padding: 0.55rem 1.1rem;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+  .booking-button:hover {
+    filter: brightness(1.1);
+    color: var(--bg);
+  }
+  .booking-note {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
   .latest-head {
     display: flex;
     align-items: baseline;

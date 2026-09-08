@@ -39,6 +39,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         href="https://www.linkedin.com/in/rontom/">LinkedIn</a
       >.
     </p>
+    <div class="booking-cta">
+      <a
+        class="booking-button"
+        href="https://calendar.app.google/bcCeRL2tGxSWktU68"
+        target="_blank"
+        rel="noopener">Book a 30-minute chat</a
+      >
+      <span class="booking-note"
+        >Want to talk tech, AI, or side projects? Grab a slot on my calendar.</span
+      >
+    </div>
   </div>
 </BaseLayout>
 
@@ -48,5 +59,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   .about-body p {
     margin: 0 0 1rem;
+  }
+  .booking-cta {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .booking-button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+    padding: 0.55rem 1.1rem;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+  .booking-button:hover {
+    filter: brightness(1.1);
+    color: var(--bg);
+  }
+  .booking-note {
+    color: var(--muted);
+    font-size: 0.95rem;
   }
 </style>
