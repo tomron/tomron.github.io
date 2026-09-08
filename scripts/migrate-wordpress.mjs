@@ -30,6 +30,9 @@ const doc = parser.parse(xml);
 const channel = doc.rss.channel;
 const items = Array.isArray(channel.item) ? channel.item : [channel.item];
 
+// attachment post_id -> attachment_url, for resolving featured images
+const attachmentUrls = new Map();
+
 // --- helpers ---------------------------------------------------------------
 const text = (v) => {
   if (v == null) return '';
@@ -130,6 +133,14 @@ const redirects = [
 let publishedCount = 0;
 let draftCount = 0;
 
+// First pass: index every attachment by its post id.
+for (const it of items) {
+  if (text(it['wp:post_type']) !== 'attachment') continue;
+  const id = text(it['wp:post_id']);
+  const url = text(it['wp:attachment_url']);
+  if (id && url) attachmentUrls.set(id, url);
+}
+
 for (const it of items) {
   const type = text(it['wp:post_type']);
   const status = text(it['wp:status']);
@@ -184,16 +195,33 @@ for (const it of items) {
 
   body = await localizeImages(body);
 
+  // Featured image: WP stores it as postmeta _thumbnail_id -> attachment id.
+  let heroImage = '';
+  for (const pm of asArray(it['wp:postmeta'])) {
+    if (text(pm['wp:meta_key']) === '_thumbnail_id') {
+      const attUrl = attachmentUrls.get(text(pm['wp:meta_value']));
+      if (attUrl && /\/wp-content\/uploads\//.test(attUrl)) {
+        const relPath = attUrl
+          .replace(/https?:\/\/tomron(?:dotnet\.wordpress\.com|\.net)\/wp-content\/uploads\//, '')
+          .split(/[?#]/)[0];
+        heroImage = await fetchImage(attUrl, relPath);
+      }
+    }
+  }
+
   const fm = [
     '---',
     `title: ${yamlEscape(title || 'Untitled')}`,
     `pubDate: ${dateISO}`,
     `permalink: ${yamlEscape('/' + y + '/' + mo + '/' + d + '/' + slug + '/')}`,
+    heroImage ? `heroImage: ${yamlEscape(heroImage)}` : null,
     tags.length ? `tags:\n${tags.map((t) => '  - ' + yamlEscape(t)).join('\n')}` : 'tags: []',
     `draft: ${isDraft}`,
     '---',
     '',
-  ].join('\n');
+  ]
+    .filter((l) => l !== null)
+    .join('\n');
 
   const fname = `${y}-${mo}-${d}-${slug}.md`.replace(/[\/]/g, '-');
   writeFileSync(join(BLOG_DIR, fname), fm + body.trim() + '\n', 'utf8');

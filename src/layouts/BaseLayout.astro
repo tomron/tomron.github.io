@@ -5,6 +5,8 @@ export interface Props {
   /** Canonical path, e.g. "/2014/05/12/foo/". Defaults to current URL path. */
   path?: string;
   ogType?: 'website' | 'article';
+  /** Site-absolute path or URL for the social preview image. */
+  ogImage?: string;
 }
 
 const SITE_TITLE = 'Tom Ron';
@@ -16,9 +18,11 @@ const {
   description = SITE_DESCRIPTION,
   path = Astro.url.pathname,
   ogType = 'website',
+  ogImage,
 } = Astro.props;
 
 const canonical = new URL(path, Astro.site).toString();
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).toString() : undefined;
 const fullTitle = title === SITE_TITLE ? title : `${title} — ${SITE_TITLE}`;
 const year = new Date().getFullYear();
 ---
@@ -37,7 +41,12 @@ const year = new Date().getFullYear();
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta
+      name="twitter:card"
+      content={ogImageUrl ? 'summary_large_image' : 'summary'}
+    />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
 
     <link
       rel="alternate"

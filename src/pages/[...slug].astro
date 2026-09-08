@@ -42,8 +42,14 @@ const description =
   description={description}
   path={post.data.permalink}
   ogType="article"
+  ogImage={post.data.heroImage}
 >
   <article>
+    {
+      post.data.heroImage && (
+        <img class="hero" src={post.data.heroImage} alt="" />
+      )
+    }
     <header class="post-header">
       <h1>{post.data.title}</h1>
       <p class="meta">
@@ -73,6 +79,13 @@ const description =
 </BaseLayout>
 
 <style>
+  .hero {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+  }
   .post-header h1 {
     margin-bottom: 0.4rem;
     line-height: 1.25;

@@ -2,6 +2,7 @@
 title: "Other pie chart"
 pubDate: 2021-10-22T09:56:56.000Z
 permalink: "/2021/10/22/other-pie-chart/"
+heroImage: "/wp-content/uploads/2021/10/other_pie.png"
 tags:
   - "pie chart"
   - "plotly"

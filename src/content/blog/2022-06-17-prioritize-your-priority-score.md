@@ -2,6 +2,7 @@
 title: "Prioritize your Priority Score"
 pubDate: 2022-06-17T09:23:45.000Z
 permalink: "/2022/06/17/prioritize-your-priority-score/"
+heroImage: "/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.35.png"
 tags:
   - "priority"
   - "scores"

@@ -2,6 +2,7 @@
 title: "The State of Coding Agents Using Local LLMs — February 2026"
 pubDate: 2026-02-01T14:41:46.000Z
 permalink: "/2026/02/01/the-state-of-coding-agents-using-local-llms-february-2026/"
+heroImage: "/wp-content/uploads/2026/01/create-a-highly-detailed-high-resolution-image-featuring-a-modern-workspace.png"
 tags:
   - "ai"
   - "aieconomy"

@@ -2,6 +2,7 @@
 title: "One Gateway to Route Them All"
 pubDate: 2026-08-29T20:03:23.000Z
 permalink: "/2026/08/29/one-gateway-to-route-them-all/"
+heroImage: "/wp-content/uploads/2026/08/chatgpt-image-aug-29-2026-08_27_15-pm.png"
 tags:
   - "ai gateway"
   - "bitfrost"

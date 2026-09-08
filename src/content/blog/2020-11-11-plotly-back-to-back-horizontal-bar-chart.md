@@ -2,6 +2,7 @@
 title: "Plotly back to back horizontal bar chart"
 pubDate: 2020-11-11T20:44:57.000Z
 permalink: "/2020/11/11/plotly-back-to-back-horizontal-bar-chart/"
+heroImage: "/wp-content/uploads/2020/11/newplot.png"
 tags:
   - "bar chart"
   - "plotly"

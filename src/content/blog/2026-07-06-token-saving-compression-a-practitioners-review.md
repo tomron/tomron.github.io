@@ -2,6 +2,7 @@
 title: "Token Saving & Compression: A Practitioner's Review"
 pubDate: 2026-07-06T20:34:15.000Z
 permalink: "/2026/07/06/token-saving-compression-a-practitioners-review/"
+heroImage: "/wp-content/uploads/2026/07/chatgpt-image-jul-6-2026-09_41_15-pm.png"
 tags:
   - "caveman"
   - "Graphify"

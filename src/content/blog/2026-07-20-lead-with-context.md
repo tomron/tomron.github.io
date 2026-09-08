@@ -2,6 +2,7 @@
 title: "Lead with Context"
 pubDate: 2026-07-20T14:18:41.000Z
 permalink: "/2026/07/20/lead-with-context/"
+heroImage: "/wp-content/uploads/2026/07/chatgpt-image-jul-20-2026-03_09_49-pm.png"
 tags:
   - "leadership"
   - "LearnInPublic"

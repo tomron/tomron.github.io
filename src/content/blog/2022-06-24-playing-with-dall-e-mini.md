@@ -2,6 +2,7 @@
 title: "Playing with DALL·E mini"
 pubDate: 2022-06-24T19:40:18.000Z
 permalink: "/2022/06/24/playing-with-dall-e-mini/"
+heroImage: "/wp-content/uploads/2022/06/dallemini_2022-6-24_19-34-13-1.png"
 tags:
   - "dall-e"
   - "imagen"

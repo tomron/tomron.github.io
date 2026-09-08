@@ -8,6 +8,8 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     // Original WordPress permalink, e.g. "/2014/05/12/coursera-r-programming-course/"
     permalink: z.string(),
+    // WordPress featured image, site-absolute path under /wp-content/uploads/
+    heroImage: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),

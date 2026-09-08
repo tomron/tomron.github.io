@@ -2,6 +2,7 @@
 title: "Kill Skill"
 pubDate: 2026-03-18T10:20:53.000Z
 permalink: "/2026/03/18/kill-skill/"
+heroImage: "/wp-content/uploads/2026/02/gemini_generated_image_b4a3knb4a3knb4a3.png"
 tags:
   - "coding agents"
   - "security"

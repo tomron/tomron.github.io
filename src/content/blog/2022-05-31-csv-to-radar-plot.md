@@ -2,6 +2,7 @@
 title: "CSV to radar plot"
 pubDate: 2022-05-31T19:58:26.000Z
 permalink: "/2022/05/31/csv-to-radar-plot/"
+heroImage: "/wp-content/uploads/2022/05/merger.jpeg"
 tags:
   - "plotly"
   - "radar plot"
