@@ -25,6 +25,10 @@ const canonical = new URL(path, Astro.site).toString();
 const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).toString() : undefined;
 const fullTitle = title === SITE_TITLE ? title : `${title} — ${SITE_TITLE}`;
 const year = new Date().getFullYear();
+
+// GoatCounter analytics: set PUBLIC_GOATCOUNTER to your endpoint, e.g.
+// "https://tomron.goatcounter.com/count". Left unset -> no script, no tracking.
+const goatcounter = import.meta.env.PUBLIC_GOATCOUNTER;
 ---
 
 <!doctype html>
@@ -55,6 +59,17 @@ const year = new Date().getFullYear();
       href={new URL('/rss.xml', Astro.site).toString()}
     />
     <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {
+      goatcounter && (
+        <script
+          is:inline
+          data-goatcounter={goatcounter}
+          async
+          src="//gc.zgo.at/count.js"
+        />
+      )
+    }
 
     <script is:inline>
       // Apply the saved theme before first paint to avoid a flash.

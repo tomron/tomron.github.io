@@ -56,3 +56,22 @@ node scripts/migrate-wordpress.mjs ~/Downloads/tomron.WordPress.2026-09-08.xml
 `.github/workflows/deploy.yml` builds and publishes to GitHub Pages on every push
 to `main`. The custom domain is set via `public/CNAME`. In the repo settings,
 **Pages → Build and deployment → Source** must be set to **GitHub Actions**.
+
+## Analytics
+
+Optional [GoatCounter](https://www.goatcounter.com/) tracking. It's off unless
+the `PUBLIC_GOATCOUNTER` env var is set to the counter endpoint, e.g.
+`https://tomron.goatcounter.com/count`. When set, `BaseLayout.astro` emits the
+GoatCounter script on every page.
+
+- Local: put it in a `.env` file (git-ignored) — `PUBLIC_GOATCOUNTER=...`
+- CI: add it as a repository **variable** (Settings → Secrets and variables →
+  Actions → Variables) and pass it through in `deploy.yml`'s build step
+  (`env: PUBLIC_GOATCOUNTER: ${{ vars.PUBLIC_GOATCOUNTER }}`).
+
+## Sharing
+
+Each post footer has X / LinkedIn / copy-link buttons (`src/pages/[...slug].astro`).
+They're plain `share-offsite` / `intent/tweet` links plus a small clipboard
+script — no third-party embeds. `og:image` / `twitter:image` are set from a
+post's `heroImage`, so link unfurls show the featured image.
