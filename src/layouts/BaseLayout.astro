@@ -31,7 +31,10 @@ const canonical = new URL(path, Astro.site).toString();
 const ogImageUrl = ogImage
   ? new URL(ogImage, Astro.site).toString()
   : undefined;
-const fullTitle = title === SITE_TITLE ? title : `${title} — ${SITE_TITLE}`;
+const fullTitle =
+  title === SITE_TITLE || title.startsWith(`${SITE_TITLE} —`)
+    ? title
+    : `${title} — ${SITE_TITLE}`;
 const year = new Date().getFullYear();
 
 // GoatCounter analytics: set PUBLIC_GOATCOUNTER to your endpoint, e.g.

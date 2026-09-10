@@ -5,19 +5,26 @@ const posts = await getPublishedPosts();
 
 // Key each image by the post's permalink with slashes flattened to dashes,
 // matching the `/og/<key>.png` URL built in [...slug].astro.
-const pages = Object.fromEntries(
-  posts.map((post) => [
-    post.data.permalink.replace(/^\/+|\/+$/g, '').replace(/\//g, '-'),
-    {
-      title: post.data.title,
-      description: post.data.pubDate.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }),
-    },
-  ]),
-);
+type OgPage = { title: string; description: string };
+const pages: Record<string, OgPage> = {
+  home: {
+    title: 'Tom Ron',
+    description: 'Engineering leadership & management, Python and ML notes',
+  },
+  ...Object.fromEntries(
+    posts.map((post) => [
+      post.data.permalink.replace(/^\/+|\/+$/g, '').replace(/\//g, '-'),
+      {
+        title: post.data.title,
+        description: post.data.pubDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }),
+      },
+    ]),
+  ),
+};
 
 export const { getStaticPaths, GET } = await OGImageRoute({
   pages,
