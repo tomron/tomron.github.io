@@ -11,9 +11,48 @@ const fmt = (d: Date) =>
     month: 'short',
     day: 'numeric',
   });
+
+const description =
+  'Tom Ron — engineering leader and Head of AI Solutions at Goodnotes. Notes on engineering leadership and management, AI, Python, and machine learning.';
+
+const siteUrl = Astro.site ?? new URL('https://tomron.net');
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      name: 'Tom Ron',
+      url: new URL('/', siteUrl).toString(),
+      image: new URL('/images/tom-ron.jpg', siteUrl).toString(),
+      jobTitle: 'Head of AI Solutions',
+      worksFor: { '@type': 'Organization', name: 'Goodnotes' },
+      sameAs: [
+        'https://www.linkedin.com/in/rontom/',
+        'https://github.com/tomron',
+        'https://x.com/tomron696',
+        'https://medium.com/@rontom',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      name: 'Tom Ron',
+      url: new URL('/', siteUrl).toString(),
+    },
+  ],
+};
 ---
 
-<BaseLayout title="Tom Ron">
+<BaseLayout
+  title="Tom Ron — Engineering Leadership & Management, Python and ML Notes"
+  description={description}
+  ogImage="/og/home.png"
+>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(jsonLd)}
+    slot="head"
+  />
   <section class="intro">
     <img
       class="portrait"
