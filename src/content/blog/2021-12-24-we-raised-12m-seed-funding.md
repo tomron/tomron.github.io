@@ -20,5 +20,5 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image -->
-<figure class="wp-block-image"><img alt="" /></figure>
+
 <!-- /wp:image -->

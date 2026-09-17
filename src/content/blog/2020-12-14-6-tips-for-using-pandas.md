@@ -37,7 +37,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"align":"center","id":1396,"sizeSlug":"large","linkDestination":"media"} -->
-<div class="wp-block-image"><figure class="aligncenter size-large"><a href="/wp-content/uploads/2020/12/screen-shot-2020-12-14-at-14.23.17.png"><img src="/wp-content/uploads/2020/12/screen-shot-2020-12-14-at-14.23.17.png" alt="" class="wp-image-1396" /></a></figure></div>
+<div class="wp-block-image"><figure class="aligncenter size-large"><a href="/wp-content/uploads/2020/12/screen-shot-2020-12-14-at-14.23.17.png"><img src="/wp-content/uploads/2020/12/screen-shot-2020-12-14-at-14.23.17.png" alt="pandas DataFrame with userId, purchaseId and discountCode columns containing NaN values" class="wp-image-1396" /></a></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -99,7 +99,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"align":"center","id":1399,"sizeSlug":"large","linkDestination":"media"} -->
-<div class="wp-block-image"><figure class="aligncenter size-large"><a href="/wp-content/uploads/2020/12/screen-shot-2020-12-14-at-14.40.11.png"><img src="/wp-content/uploads/2020/12/screen-shot-2020-12-14-at-14.40.11.png" alt="" class="wp-image-1399" /></a></figure></div>
+<div class="wp-block-image"><figure class="aligncenter size-large"><a href="/wp-content/uploads/2020/12/screen-shot-2020-12-14-at-14.40.11.png"><img src="/wp-content/uploads/2020/12/screen-shot-2020-12-14-at-14.40.11.png" alt="Cross-tabulation of userId by discountCode with counts" class="wp-image-1399" /></a></figure></div>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -3,6 +3,7 @@ title: "7 Lessons I Learned from Rugby Sevens About Engineering Leadership"
 pubDate: 2026-02-16T09:41:00.000Z
 permalink: "/2026/02/16/7-lessons-i-learned-from-rugby-sevens-about-engineering-leadership/"
 heroImage: "/wp-content/uploads/2026/02/create-a-highly-detailed-and-sharp-focused-image-that-shows-a.png"
+heroImageAlt: "Rugby sevens players sprinting across the field, the ball carrier leading the run"
 tags:
   - "leadership"
   - "LearnInPublic"

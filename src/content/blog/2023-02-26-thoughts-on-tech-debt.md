@@ -3,6 +3,7 @@ title: "Thoughts on Tech Debt"
 pubDate: 2023-02-26T13:18:40.000Z
 permalink: "/2023/02/26/thoughts-on-tech-debt/"
 heroImage: "/wp-content/uploads/2023/02/techdebtquadrant.png"
+heroImageAlt: "Martin Fowler's technical debt quadrant: reckless vs prudent, deliberate vs inadvertent, with example quotes"
 tags:
   - "management"
   - "tech debt"

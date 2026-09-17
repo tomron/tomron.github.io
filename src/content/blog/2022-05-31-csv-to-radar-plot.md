@@ -3,6 +3,7 @@ title: "CSV to radar plot"
 pubDate: 2022-05-31T19:58:26.000Z
 permalink: "/2022/05/31/csv-to-radar-plot/"
 heroImage: "/wp-content/uploads/2022/05/merger.jpeg"
+heroImageAlt: "Radar plot comparing mergers and acquisitions by Facebook, Twitter, Amazon, Google and Microsoft per year"
 tags:
   - "plotly"
   - "radar plot"

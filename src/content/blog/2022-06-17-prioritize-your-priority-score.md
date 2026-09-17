@@ -3,6 +3,7 @@ title: "Prioritize your Priority Score"
 pubDate: 2022-06-17T09:23:45.000Z
 permalink: "/2022/06/17/prioritize-your-priority-score/"
 heroImage: "/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.35.png"
+heroImageAlt: "Prioritization matrix mapping feature importance, client size, and time to fix on three axes"
 tags:
   - "priority"
   - "scores"
@@ -18,7 +19,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"align":"center","id":1659,"width":232,"height":226,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.24.png"><img src="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.24.png" alt="" class="wp-image-1659" width="232" height="226" /></a></figure>
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.24.png"><img src="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.24.png" alt="Feature importance scale from low to high" class="wp-image-1659" width="232" height="226" /></a></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -34,7 +35,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"align":"center","id":1658,"width":432,"height":302,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.30.png"><img src="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.30.png" alt="" class="wp-image-1658" width="432" height="302" /></a></figure>
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.30.png"><img src="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.30.png" alt="Priority matrix axes: feature importance against client size from S to XL" class="wp-image-1658" width="432" height="302" /></a></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -46,7 +47,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"align":"center","id":1660,"width":468,"height":398,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.35.png"><img src="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.35.png" alt="" class="wp-image-1660" width="468" height="398" /></a></figure>
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.35.png"><img src="/wp-content/uploads/2022/06/screen-shot-2022-06-17-at-10.20.35.png" alt="Prioritization matrix mapping feature importance, client size, and time to fix on three axes" class="wp-image-1660" width="468" height="398" /></a></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

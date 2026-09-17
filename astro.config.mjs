@@ -11,9 +11,9 @@ const redirectUrls = new Set(
   redirects.map((r) => new URL(r.from, 'https://tomron.net').toString()),
 );
 
-// Post permalink -> pubDate, so the sitemap can carry a real per-URL lastmod
-// instead of the build date. Frontmatter is parsed with regexes because the
-// content collection is not available at config load time.
+// Post permalink -> last content date, so the sitemap can carry a real
+// per-URL lastmod instead of the build date. Frontmatter is parsed with
+// regexes because the content collection is not available at config load time.
 const blogDir = fileURLToPath(new URL('./src/content/blog', import.meta.url));
 const postLastmod = new Map();
 for (const f of readdirSync(blogDir)) {
@@ -21,10 +21,12 @@ for (const f of readdirSync(blogDir)) {
   const src = readFileSync(join(blogDir, f), 'utf8');
   const permalink = src.match(/^permalink:\s*["']?([^"'\n]+?)["']?\s*$/m)?.[1];
   const pubDate = src.match(/^pubDate:\s*([^\n]+)$/m)?.[1]?.trim();
-  if (permalink && pubDate) {
+  const updatedDate = src.match(/^updatedDate:\s*([^\n]+)$/m)?.[1]?.trim();
+  const lastmod = updatedDate ?? pubDate;
+  if (permalink && lastmod) {
     postLastmod.set(
       new URL(permalink, 'https://tomron.net').toString(),
-      new Date(pubDate),
+      new Date(lastmod),
     );
   }
 }

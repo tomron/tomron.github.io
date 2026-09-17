@@ -33,7 +33,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1443,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2021/06/screen-shot-2021-06-23-at-13.50.55.png"><img src="/wp-content/uploads/2021/06/screen-shot-2021-06-23-at-13.50.55.png" alt="" class="wp-image-1443" /></a><figcaption>tag names example</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2021/06/screen-shot-2021-06-23-at-13.50.55.png"><img src="/wp-content/uploads/2021/06/screen-shot-2021-06-23-at-13.50.55.png" alt="AWS tagging whitepaper table: naming convention examples by resource type" class="wp-image-1443" /></a><figcaption>tag names example</figcaption></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -46,5 +46,5 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1623,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/04/ron.png"><img src="/wp-content/uploads/2022/04/ron.png" alt="" class="wp-image-1623" /></a></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/04/ron.png"><img src="/wp-content/uploads/2022/04/ron.png" alt="DevDays Europe speaker avatar of Tom Ron" class="wp-image-1623" /></a></figure>
 <!-- /wp:image -->
