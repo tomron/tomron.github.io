@@ -9,6 +9,8 @@ export interface Props {
   ogImage?: string;
   /** ISO date — emitted as article:published_time on post pages. */
   publishedTime?: string;
+  /** ISO date — emitted as article:modified_time on updated post pages. */
+  modifiedTime?: string;
   /** Decoded tag labels — emitted as article:tag on post pages. */
   tags?: string[];
 }
@@ -24,6 +26,7 @@ const {
   ogType = 'website',
   ogImage,
   publishedTime,
+  modifiedTime,
   tags = [],
 } = Astro.props;
 
@@ -66,10 +69,17 @@ const wmDomain = import.meta.env.PUBLIC_WEBMENTION_DOMAIN;
       name="twitter:card"
       content={ogImageUrl ? 'summary_large_image' : 'summary'}
     />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
     {
       ogType === 'article' && publishedTime && (
         <meta property="article:published_time" content={publishedTime} />
+      )
+    }
+    {
+      ogType === 'article' && modifiedTime && (
+        <meta property="article:modified_time" content={modifiedTime} />
       )
     }
     {
