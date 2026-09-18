@@ -25,7 +25,7 @@ draft: false
 <!-- /wp:list -->
 
 <!-- wp:image {"id":1953,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2024/11/barchart_stwd.png"><img src="/wp-content/uploads/2024/11/barchart_stwd.png" alt="" class="wp-image-1953" /></a></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2024/11/barchart_stwd.png"><img src="/wp-content/uploads/2024/11/barchart_stwd.png" alt="Bar chart styled after 'Storytelling with Data': the key category highlighted in orange, the rest in grey, no gridlines" class="wp-image-1953" /></a></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

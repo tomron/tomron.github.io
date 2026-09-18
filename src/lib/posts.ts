@@ -80,6 +80,7 @@ export function toPlainText(html: string): string {
 
 /** One-line meta description for <head> / OG tags. */
 export function postDescription(post: Post, max = 160): string {
+  if (post.data.description) return post.data.description;
   const text = toPlainText(post.body ?? '');
   if (text.length <= max) return text;
   return text.slice(0, max).replace(/\s+\S*$/, '') + '…';

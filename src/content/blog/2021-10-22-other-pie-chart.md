@@ -3,6 +3,7 @@ title: "Other pie chart"
 pubDate: 2021-10-22T09:56:56.000Z
 permalink: "/2021/10/22/other-pie-chart/"
 heroImage: "/wp-content/uploads/2021/10/other_pie.png"
+heroImageAlt: "Pie chart of European population with the long tail grouped into a single 'Others' slice"
 tags:
   - "pie chart"
   - "plotly"
@@ -39,7 +40,7 @@ otherpie_fig = px.other_pie(df, values='pop', names='country', title='Population
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1575,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2021/10/other_pie.png"><img src="/wp-content/uploads/2021/10/other_pie.png" alt="" class="wp-image-1575" /></a><figcaption>Other pie chart</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2021/10/other_pie.png"><img src="/wp-content/uploads/2021/10/other_pie.png" alt="Pie chart of European population with the long tail grouped into a single 'Others' slice" class="wp-image-1575" /></a><figcaption>Other pie chart</figcaption></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

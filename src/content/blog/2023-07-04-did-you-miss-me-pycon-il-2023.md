@@ -3,6 +3,7 @@ title: "Did you Miss me? PyCon IL 2023"
 pubDate: 2023-07-04T16:20:00.000Z
 permalink: "/2023/07/04/did-you-miss-me-pycon-il-2023/"
 heroImage: "/wp-content/uploads/2023/07/pycon_social.jpeg"
+heroImageAlt: "PyCon Israel 2023 speaker card for Tom Ron's talk 'Did you miss me?'"
 tags:
   - "missing values"
   - "missingno"

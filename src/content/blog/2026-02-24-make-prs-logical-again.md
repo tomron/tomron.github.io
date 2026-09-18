@@ -23,7 +23,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2144,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2026/02/screenshot-2026-02-16-at-22.01.16-1.png"><img src="/wp-content/uploads/2026/02/screenshot-2026-02-16-at-22.01.16-1.png" alt="" class="wp-image-2144" /></a></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2026/02/screenshot-2026-02-16-at-22.01.16-1.png"><img src="/wp-content/uploads/2026/02/screenshot-2026-02-16-at-22.01.16-1.png" alt="Reorder Files dialog of a Chrome extension that lets you drag GitHub PR files into a logical order" class="wp-image-2144" /></a></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

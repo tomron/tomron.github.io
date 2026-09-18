@@ -17,4 +17,4 @@ It was therefore surprising for me to see CSS very close to the line (btw could 
 
 Some of the languages are not really programming languages but rather a technology, e.g. Arduino, DOT, xml. It would be also interesting to see such a comparison to general technologies which are not programming languages - MongoDB, Elasticsearch, hadoop, etc. And to see it overtime - maybe documentation gets better, technology reaches to a stable state, etc.
 
-<img class="aligncenter" src="http://jgovernor-media.redmonk.com/jgovernor/files/2015/07/summer-2015-rankings.png" alt="" width="1020" height="723" />
+<img class="aligncenter" src="http://jgovernor-media.redmonk.com/jgovernor/files/2015/07/summer-2015-rankings.png" alt="RedMonk programming language rankings, summer 2015" width="1020" height="723" />

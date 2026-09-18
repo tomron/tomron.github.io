@@ -53,7 +53,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2159,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2026/05/1000179508.jpg"><img src="/wp-content/uploads/2026/05/1000179508.jpg" alt="" class="wp-image-2159" /></a></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2026/05/1000179508.jpg"><img src="/wp-content/uploads/2026/05/1000179508.jpg" alt="Book page from 'Spec-Driven Development': the 'Turning Feedback into Spec Updates' section" class="wp-image-2159" /></a></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

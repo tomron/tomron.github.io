@@ -3,6 +3,7 @@ title: "Playing with DALL·E mini"
 pubDate: 2022-06-24T19:40:18.000Z
 permalink: "/2022/06/24/playing-with-dall-e-mini/"
 heroImage: "/wp-content/uploads/2022/06/dallemini_2022-6-24_19-34-13-1.png"
+heroImageAlt: "DALL-E mini output for the prompt 'A room without an elephant' - nine generated rooms, most with an elephant in them"
 tags:
   - "dall-e"
   - "imagen"
@@ -24,13 +25,13 @@ draft: false
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1680,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-36-59.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-36-59.png" alt="" class="wp-image-1680" /></a><figcaption>A yellow book and a red vase</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-36-59.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-36-59.png" alt="DALL-E mini results for 'A yellow book and a red vase'" class="wp-image-1680" /></a><figcaption>A yellow book and a red vase</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1678,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-34-13-1.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-34-13-1.png" alt="" class="wp-image-1678" /></a><figcaption>A room without an elephant</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-34-13-1.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-34-13-1.png" alt="DALL-E mini results for 'A room without an elephant' - rooms with elephants" class="wp-image-1678" /></a><figcaption>A room without an elephant</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -44,13 +45,13 @@ draft: false
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1688,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-47-29-2.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-47-29-2.png" alt="" class="wp-image-1688" /></a><figcaption>software developer writing code</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-47-29-2.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-47-29-2.png" alt="DALL-E mini results for 'software developer writing code' - all men" class="wp-image-1688" /></a><figcaption>software developer writing code</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1714,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-25-23.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-25-23.png" alt="" class="wp-image-1714" /></a><figcaption>A CTO giving a talk</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-25-23.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-25-23.png" alt="DALL-E mini results for 'A CTO giving a talk'" class="wp-image-1714" /></a><figcaption>A CTO giving a talk</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -62,19 +63,19 @@ draft: false
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1693,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-56-9.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-56-9.png" alt="" class="wp-image-1693" /></a><figcaption>Object Oriented Programming</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-56-9.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-56-9.png" alt="DALL-E mini results for 'Object Oriented Programming'" class="wp-image-1693" /></a><figcaption>Object Oriented Programming</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1694,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-56-14.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-56-14.png" alt="" class="wp-image-1694" /></a><figcaption>OOP</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-56-14.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-56-14.png" alt="DALL-E mini results for 'OOP'" class="wp-image-1694" /></a><figcaption>OOP</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1692,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-54-57-1.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-54-57-1.png" alt="" class="wp-image-1692" /></a><figcaption>Object Disoriented Programming</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-54-57-1.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-54-57-1.png" alt="DALL-E mini results for 'Object Disoriented Programming'" class="wp-image-1692" /></a><figcaption>Object Disoriented Programming</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -82,13 +83,13 @@ draft: false
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1698,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-57-58.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-57-58.png" alt="" class="wp-image-1698" /></a><figcaption>Exploratory Data Analysis</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-57-58.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-57-58.png" alt="DALL-E mini results for 'Exploratory Data Analysis'" class="wp-image-1698" /></a><figcaption>Exploratory Data Analysis</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1699,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-57-39.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-57-39.png" alt="" class="wp-image-1699" /></a><figcaption>EDA</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-57-39.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_19-57-39.png" alt="DALL-E mini results for 'EDA'" class="wp-image-1699" /></a><figcaption>EDA</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
@@ -110,19 +111,19 @@ draft: false
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1702,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-40.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-40.png" alt="" class="wp-image-1702" /></a><figcaption>SQL</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-40.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-40.png" alt="DALL-E mini results for 'SQL'" class="wp-image-1702" /></a><figcaption>SQL</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1703,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-44.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-44.png" alt="" class="wp-image-1703" /></a><figcaption>NoSQL</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-44.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-44.png" alt="DALL-E mini results for 'NoSQL'" class="wp-image-1703" /></a><figcaption>NoSQL</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1705,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-57.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-57.png" alt="" class="wp-image-1705" /></a><figcaption>Structured Query Language</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-57.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-6-57.png" alt="DALL-E mini results for 'Structured Query Language'" class="wp-image-1705" /></a><figcaption>Structured Query Language</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -132,7 +133,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"align":"center","width":417,"height":506,"sizeSlug":"large"} -->
-<figure class="wp-block-image aligncenter size-large is-resized"><img src="https://img.ifunny.co/images/59bc1310f1032f32e1675cfed70b9d89aa34395fa15214a960f4448169d05d49_1.webp" alt="" width="417" height="506" /></figure>
+<figure class="wp-block-image aligncenter size-large is-resized"><img src="https://img.ifunny.co/images/59bc1310f1032f32e1675cfed70b9d89aa34395fa15214a960f4448169d05d49_1.webp" alt="Classic meme about SQL and NoSQL databases" width="417" height="506" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -142,19 +143,19 @@ draft: false
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1709,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-12-31.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-12-31.png" alt="" class="wp-image-1709" /></a><figcaption>SOLID principles</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-12-31.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-12-31.png" alt="DALL-E mini results for 'SOLID principles'" class="wp-image-1709" /></a><figcaption>SOLID principles</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1710,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-12-21.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-12-21.png" alt="" class="wp-image-1710" /></a><figcaption>Clean Code</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-12-21.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-12-21.png" alt="DALL-E mini results for 'Clean Code'" class="wp-image-1710" /></a><figcaption>Clean Code</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":1712,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-14-54.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-14-54.png" alt="" class="wp-image-1712" /></a><figcaption>Computer Vision</figcaption></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-14-54.png"><img src="/wp-content/uploads/2022/06/dallemini_2022-6-24_20-14-54.png" alt="DALL-E mini results for 'Computer Vision'" class="wp-image-1712" /></a><figcaption>Computer Vision</figcaption></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->

@@ -3,6 +3,7 @@ title: "One Gateway to Route Them All"
 pubDate: 2026-08-29T20:03:23.000Z
 permalink: "/2026/08/29/one-gateway-to-route-them-all/"
 heroImage: "/wp-content/uploads/2026/08/chatgpt-image-aug-29-2026-08_27_15-pm.png"
+heroImageAlt: "Warhol-style pop-art grid of OpenAI and Anthropic logos in bright colors"
 tags:
   - "ai gateway"
   - "bitfrost"
@@ -40,7 +41,7 @@ draft: false
 <!-- /wp:list -->
 
 <!-- wp:image {"id":2190,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2026/08/untitled-diagram-2026-08-29-173307.png"><img src="/wp-content/uploads/2026/08/untitled-diagram-2026-08-29-173307.png" alt="" class="wp-image-2190" /></a></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2026/08/untitled-diagram-2026-08-29-173307.png"><img src="/wp-content/uploads/2026/08/untitled-diagram-2026-08-29-173307.png" alt="Architecture diagram: the app calls an AI gateway that fans out to cache, observability and guardrails, and model providers with fallback routing" class="wp-image-2190" /></a></figure>
 <!-- /wp:image -->
 
 <!-- wp:separator -->

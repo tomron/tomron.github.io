@@ -39,7 +39,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:coblocks/gallery-offset {"captions":true} -->
-<div aria-label="Offset Gallery" class="wp-block-coblocks-gallery-offset"><ul class="coblocks-gallery has-no-alignment has-caption-style-dark has-small-images has-small-gutter"><li class="coblocks-gallery--item"><figure class="wp-block-coblocks-gallery-offset__figure"><img src="/wp-content/uploads/2026/05/rag_made_simple.jpeg" alt="" data-id="2155" class="wp-image-2155" /><figcaption class="coblocks-gallery--caption">RAG made Simple cover</figcaption></figure></li></ul></div>
+<div aria-label="Offset Gallery" class="wp-block-coblocks-gallery-offset"><ul class="coblocks-gallery has-no-alignment has-caption-style-dark has-small-images has-small-gutter"><li class="coblocks-gallery--item"><figure class="wp-block-coblocks-gallery-offset__figure"><img src="/wp-content/uploads/2026/05/rag_made_simple.jpeg" alt="Cover of 'RAG Made Simple' by Nir Diamant" data-id="2155" class="wp-image-2155" /><figcaption class="coblocks-gallery--caption">RAG made Simple cover</figcaption></figure></li></ul></div>
 <!-- /wp:coblocks/gallery-offset -->
 
 <!-- wp:paragraph -->

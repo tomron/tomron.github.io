@@ -46,5 +46,5 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2179,"sizeSlug":"large","linkDestination":"media","align":"center"} -->
-<figure class="wp-block-image aligncenter size-large"><a href="/wp-content/uploads/2026/07/images.jpeg"><img src="/wp-content/uploads/2026/07/images.jpeg" alt="" class="wp-image-2179" /></a></figure>
+<figure class="wp-block-image aligncenter size-large"><a href="/wp-content/uploads/2026/07/images.jpeg"><img src="/wp-content/uploads/2026/07/images.jpeg" alt="Cover of 'Leadership Lessons from a UPS Driver' by Ron Wallace" class="wp-image-2179" /></a></figure>
 <!-- /wp:image -->

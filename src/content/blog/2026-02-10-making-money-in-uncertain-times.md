@@ -25,5 +25,5 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2099,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2026/02/screenshot-2026-02-10-at-8.03.34.png"><img src="/wp-content/uploads/2026/02/screenshot-2026-02-10-at-8.03.34.png" alt="" class="wp-image-2099" /></a></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2026/02/screenshot-2026-02-10-at-8.03.34.png"><img src="/wp-content/uploads/2026/02/screenshot-2026-02-10-at-8.03.34.png" alt="Slide titled 'The core unit of a pricing model': pricing metric plus pricing modality" class="wp-image-2099" /></a></figure>
 <!-- /wp:image -->

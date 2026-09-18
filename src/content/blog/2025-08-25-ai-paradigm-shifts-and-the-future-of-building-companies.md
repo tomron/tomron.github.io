@@ -28,7 +28,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2008,"sizeSlug":"large","linkDestination":"media","align":"right"} -->
-<figure class="wp-block-image alignright size-large"><a href="/wp-content/uploads/2025/08/kuhncycle_basiccycle.png"><img src="/wp-content/uploads/2025/08/kuhncycle_basiccycle.png" alt="" class="wp-image-2008" /></a></figure>
+<figure class="wp-block-image alignright size-large"><a href="/wp-content/uploads/2025/08/kuhncycle_basiccycle.png"><img src="/wp-content/uploads/2025/08/kuhncycle_basiccycle.png" alt="Diagram of the Kuhn cycle: pre-science, normal science, model drift, model crisis, model revolution, paradigm change" class="wp-image-2008" /></a></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true} -->

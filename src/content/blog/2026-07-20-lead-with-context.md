@@ -3,6 +3,7 @@ title: "Lead with Context"
 pubDate: 2026-07-20T14:18:41.000Z
 permalink: "/2026/07/20/lead-with-context/"
 heroImage: "/wp-content/uploads/2026/07/chatgpt-image-jul-20-2026-03_09_49-pm.png"
+heroImageAlt: "Pop-art illustration of the same message landing differently with different listeners - plan, anticipate, perspective"
 tags:
   - "leadership"
   - "LearnInPublic"
@@ -37,5 +38,5 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2184,"sizeSlug":"large","linkDestination":"media"} -->
-<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2026/07/chatgpt-image-jul-20-2026-03_09_49-pm.png"><img src="/wp-content/uploads/2026/07/chatgpt-image-jul-20-2026-03_09_49-pm.png" alt="" class="wp-image-2184" /></a></figure>
+<figure class="wp-block-image size-large"><a href="/wp-content/uploads/2026/07/chatgpt-image-jul-20-2026-03_09_49-pm.png"><img src="/wp-content/uploads/2026/07/chatgpt-image-jul-20-2026-03_09_49-pm.png" alt="Pop-art illustration of the same message landing differently with different listeners - plan, anticipate, perspective" class="wp-image-2184" /></a></figure>
 <!-- /wp:image -->

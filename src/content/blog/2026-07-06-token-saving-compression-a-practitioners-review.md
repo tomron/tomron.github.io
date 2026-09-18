@@ -1,39 +1,49 @@
 ---
-title: "Token Saving & Compression: A Practitioner's Review"
+title: "AI Coding Agent Token Compression: 5 Tools Compared"
+description: "Compare five tools for reducing AI coding agent token usage: rtk, Caveman, Ponytail, Headroom, and Graphify, including trade-offs and stacking advice."
 pubDate: 2026-07-06T20:34:15.000Z
+updatedDate: 2026-09-17T00:00:00.000Z
 permalink: "/2026/07/06/token-saving-compression-a-practitioners-review/"
 heroImage: "/wp-content/uploads/2026/07/chatgpt-image-jul-6-2026-09_41_15-pm.png"
+heroImageAlt: "Multiple paths leading toward a token, representing ways to reduce AI agent token usage"
 tags:
   - "caveman"
   - "Graphify"
   - "headroom"
   - "llm"
+  - "ai coding agents"
+  - "context compression"
   - "ponytail"
   - "tokens"
 draft: false
 ---
 <!-- wp:paragraph -->
-<p>AI coding agents burn tokens on things they don't need to see in full - verbose logs, entire files read for one function, repeated context across turns. A wave of tools now attacks this from different angles: some rewrite noisy output before it reaches the model, some compress what's already in context, some change what the agent generates or reads in the first place. Here is a short survey about the different tools.<br></p>
+<p>As I wrote in <a href="/2026/01/26/tokens-as-currency/">Tokens as Currency</a>, token usage is becoming a real operating constraint. AI coding agents burn tokens on things they don't need to see in full - verbose logs, entire files read for one function, repeated context across turns. A wave of tools now attacks this from different angles: some rewrite noisy output before it reaches the model, some compress what's already in context, some change what the agent generates or reads in the first place. This comparison looks at five tools for reducing AI coding agent token usage, where each one saves context, and which approaches can be combined.<br></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>rtk</strong> — <a href="https://github.com/rtk-ai/rtk">github.com/rtk-ai/rtk</a><br>A CLI proxy that hooks into Bash tool calls and rewrites common commands (<code>git status</code>, <code>cargo test</code>, <code>kubectl</code>, etc.) into compact equivalents before output hits context - a noisy <code>git push</code> becomes <code>ok main</code>. Claims 60–90% savings on covered operations, plausible since the approach is narrow and mechanical.<br><em>Watch for:</em> only intercepts Bash calls - native <code>Read</code>/<code>Grep</code> tool usage bypasses it entirely, so real-world savings depend heavily on how your agent works. <em>Best for:</em> teams whose agents lean on shell commands for everything (git, test runners, infra CLIs); less useful if the agent mostly reads files directly.</p>
+<h2>rtk: compress noisy CLI output</h2>
+<p><a href="https://github.com/rtk-ai/rtk">github.com/rtk-ai/rtk</a><br>A CLI proxy that hooks into Bash tool calls and rewrites common commands (<code>git status</code>, <code>cargo test</code>, <code>kubectl</code>, etc.) into compact equivalents before output hits context - a noisy <code>git push</code> becomes <code>ok main</code>. Claims 60–90% savings on covered operations, plausible since the approach is narrow and mechanical.<br><em>Watch for:</em> only intercepts Bash calls - native <code>Read</code>/<code>Grep</code> tool usage bypasses it entirely, so real-world savings depend heavily on how your agent works. <em>Best for:</em> teams whose agents lean on shell commands for everything (git, test runners, infra CLIs); less useful if the agent mostly reads files directly.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Caveman</strong> — <a href="https://getcaveman.dev/">getcaveman.dev</a><br>A family of products: a compression skill, a standalone token-budgeted coding agent, a persistent memory layer, and a compression proxy (beta). Claims ~65% token reduction.<br><em>Watch for:</em> thin evidence - the site leans on stars and HN placement rather than a reproducible benchmark; the four products make it unclear which piece drives the number. Best for: teams wanting a single umbrella tool across several angles at once, and willing to validate the number themselves before committing.</p>
+<h2>Caveman: compress prompts and cross-turn context</h2>
+<p><a href="https://getcaveman.dev/">getcaveman.dev</a><br>A family of products: a compression skill, a standalone token-budgeted coding agent, a persistent memory layer, and a compression proxy (beta). Claims ~65% token reduction.<br><em>Watch for:</em> thin evidence - the site leans on stars and HN placement rather than a reproducible benchmark; the four products make it unclear which piece drives the number. Best for: teams wanting a single umbrella tool across several angles at once, and willing to validate the number themselves before committing.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Ponytail</strong> — alphamatch.ai/blog/ponytail-ai-coding-skill-2026<br>Attacks generation, not context: forces the model through a "does this need to exist" ladder before writing code, preferring stdlib/native/existing-dependency solutions. Own benchmark shows LOC cut to ~46% of baseline and cost down by 47–77%, but token usage itself drops only by ~16%.<br><em>Watch for</em>: it's solving a different problem than the others — don't expect it to shrink context windows; the win is fewer lines and less rework, not less reading. Best for: codebases with a lot of unnecessary custom code; less relevant if your token spend is mostly context/tool output, not generation.</p>
+<h2>Ponytail: reduce unnecessary code generation</h2>
+<p><a href="https://alphamatch.ai/blog/ponytail-ai-coding-skill-2026">alphamatch.ai/blog/ponytail-ai-coding-skill-2026</a><br>Attacks generation, not context: forces the model through a "does this need to exist" ladder before writing code, preferring stdlib/native/existing-dependency solutions. Own benchmark shows LOC cut to ~46% of baseline and cost down by 47–77%, but token usage itself drops only by ~16%.<br><em>Watch for</em>: it's solving a different problem than the others — don't expect it to shrink context windows; the win is fewer lines and less rework, not less reading. Best for: codebases with a lot of unnecessary custom code; less relevant if your token spend is mostly context/tool output, not generation.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Headroom</strong> — <a href="https://headroom-docs.vercel.app/docs">headroom-docs.vercel.app/docs</a><br>Compresses everything an agent reads — tool output, file reads, API/DB responses — via type-specific compressors, with a reversible retrieve path back to full detail. Vendor case study: 87.6% fewer input tokens in a log-heavy scenario.<br><em>Watch for</em>: numbers are vendor case studies on scenarios they chose; the retrieval mechanism adds a round trip when the model needs detail back. <em>Best for</em>: agents that use tools heavily against verbose sources (logs, API responses, DB queries); less relevant for short, code-only sessions.</p>
+<h2>Headroom: compress tool and file input</h2>
+<p><a href="https://headroom-docs.vercel.app/docs">headroom-docs.vercel.app/docs</a><br>Compresses everything an agent reads — tool output, file reads, API/DB responses — via type-specific compressors, with a reversible retrieve path back to full detail. Vendor case study: 87.6% fewer input tokens in a log-heavy scenario.<br><em>Watch for</em>: numbers are vendor case studies on scenarios they chose; the retrieval mechanism adds a round trip when the model needs detail back. <em>Best for</em>: agents that use tools heavily against verbose sources (logs, API responses, DB queries); less relevant for short, code-only sessions.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Graphify</strong> — <a href="https://github.com/Graphify-Labs/graphify">github.com/Graphify-Labs/graphify</a><br>Avoids re-reading altogether: builds a local knowledge graph of the codebase, then the agent queries it instead of repeatedly grepping files.<br>Watch for: it's not compression — savings materialize only over a session with repeated lookups in a large, stable codebase; non-code content (docs, PDFs) still requires API calls to extract. Best for: large, mature repos with frequent navigation; little benefit for small projects or one-off tasks.</p>
+<h2>Graphify: avoid repeated file reads</h2>
+<p><a href="https://github.com/Graphify-Labs/graphify">github.com/Graphify-Labs/graphify</a><br>Avoids re-reading altogether: builds a local knowledge graph of the codebase, then the agent queries it instead of repeatedly grepping files.<br>Watch for: it's not compression — savings materialize only over a session with repeated lookups in a large, stable codebase; non-code content (docs, PDFs) still requires API calls to extract. Best for: large, mature repos with frequent navigation; little benefit for small projects or one-off tasks.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -41,6 +51,7 @@ draft: false
 <!-- /wp:paragraph -->
 
 <!-- wp:table -->
+<h2>AI coding agent token compression tools compared</h2>
 <figure class="wp-block-table"><table class="has-fixed-layout"><thead><tr><th>Tool</th><th>Mechanism</th><th>What it targets</th><th>Claimed savings</th><th>Evidence</th></tr></thead><tbody><tr><td>rtk</td><td>Rewrites known-noisy CLI output</td><td>Bash tool output only</td><td>60–90% on covered ops</td><td>Vendor, narrow scope</td></tr><tr><td>Caveman</td><td>Compression skill + memory layer + proxy</td><td>Prompts, outputs, cross-turn context</td><td>~65% tokens</td><td>Vendor, thin (stars/HN)</td></tr><tr><td>Ponytail</td><td>Decision ladder before writing code</td><td>Code generation, not context</td><td>~16% tokens; 47–77% cost; 3–6x speed</td><td>Vendor benchmark (5 tasks × 3 models)</td></tr><tr><td>Headroom</td><td>Type-aware compression + reversible cache</td><td>All tool/context input</td><td>87.6% input tokens (case study)</td><td>Vendor case study</td></tr><tr><td>Graphify</td><td>Knowledge graph instead of re-reading files</td><td>Repeated file reads/greps</td><td>Not quantified</td><td>Vendor, mechanism differs from compression</td></tr></tbody></table></figure>
 <!-- /wp:table -->
 
@@ -49,7 +60,7 @@ draft: false
 <!-- /wp:separator -->
 
 <!-- wp:paragraph -->
-<p><strong>I want more. Can we stack them on one another?</strong></p>
+<h2>Can you stack AI token-saving tools?</h2>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -73,5 +84,6 @@ draft: false
 <!-- /wp:separator -->
 
 <!-- wp:paragraph -->
-<p>Reducing token cost is an issue every firm currently deals with, and it isn't one problem - it's at least three: noisy tool output, unnecessary code generation, and repeated re-reading of the same content. rtk, Caveman, and Headroom all attack the first at different points in the pipeline, with real but overlapping coverage. Ponytail attacks the second, upstream of everything else. Graphify sidesteps the third by building a queryable map instead of re-fetching files. None of these are competing solutions to the same problem so much as partial answers to different pieces of it - which means the right setup is probably a small combination, not a single winner, and probably depends more on where your own token spend actually goes (shell noise vs. generated code vs. repeat lookups) than on any vendor's headline number. All of the figures cited here are self-reported, and the stacking behavior is reasoned from mechanism rather than measured - so treat this as a map of what to test, not a verdict on what to use.<br><br></p>
+<h2>What I would test first</h2>
+<p>Reducing token cost is an issue every firm currently deals with, and it isn't one problem - it's at least three: noisy tool output, unnecessary code generation, and repeated re-reading of the same content. rtk, Caveman, and Headroom all attack the first at different points in the pipeline, with real but overlapping coverage. Ponytail attacks the second, upstream of everything else. Graphify sidesteps the third by building a queryable map instead of re-fetching files. None of these are competing solutions to the same problem so much as partial answers to different pieces of it - which means the right setup is probably a small combination, not a single winner, and probably depends more on where your own token spend actually goes (shell noise vs. generated code vs. repeat lookups) than on any vendor's headline number. The cost and context limits are especially relevant when <a href="/2026/02/01/the-state-of-coding-agents-using-local-llms-february-2026/">running coding agents with local LLMs</a>. All of the figures cited here are self-reported, and the stacking behavior is reasoned from mechanism rather than measured - so treat this as a map of what to test, not a verdict on what to use.<br><br></p>
 <!-- /wp:paragraph -->

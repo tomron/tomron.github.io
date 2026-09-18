@@ -9,8 +9,12 @@ export interface Props {
   ogImage?: string;
   /** ISO date — emitted as article:published_time on post pages. */
   publishedTime?: string;
+  /** ISO date — emitted as article:modified_time on updated post pages. */
+  modifiedTime?: string;
   /** Decoded tag labels — emitted as article:tag on post pages. */
   tags?: string[];
+  /** Keep the page out of search indexes (404, search, utility pages). */
+  noindex?: boolean;
 }
 
 const SITE_TITLE = 'Tom Ron';
@@ -24,13 +28,17 @@ const {
   ogType = 'website',
   ogImage,
   publishedTime,
+  modifiedTime,
   tags = [],
+  noindex = false,
 } = Astro.props;
 
+const TWITTER_HANDLE = '@tomron696';
+// Site-wide social preview fallback (generated at build time).
+const DEFAULT_OG_IMAGE = '/og/home.png';
+
 const canonical = new URL(path, Astro.site).toString();
-const ogImageUrl = ogImage
-  ? new URL(ogImage, Astro.site).toString()
-  : undefined;
+const ogImageUrl = new URL(ogImage ?? DEFAULT_OG_IMAGE, Astro.site).toString();
 const fullTitle =
   title === SITE_TITLE || title.startsWith(`${SITE_TITLE} —`)
     ? title
@@ -55,6 +63,7 @@ const wmDomain = import.meta.env.PUBLIC_WEBMENTION_DOMAIN;
     <meta name="description" content={description} />
     <meta name="author" content={SITE_TITLE} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
 
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={fullTitle} />
@@ -66,10 +75,19 @@ const wmDomain = import.meta.env.PUBLIC_WEBMENTION_DOMAIN;
       name="twitter:card"
       content={ogImageUrl ? 'summary_large_image' : 'summary'}
     />
+    <meta name="twitter:site" content={TWITTER_HANDLE} />
+    <meta name="twitter:creator" content={TWITTER_HANDLE} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
     {
       ogType === 'article' && publishedTime && (
         <meta property="article:published_time" content={publishedTime} />
+      )
+    }
+    {
+      ogType === 'article' && modifiedTime && (
+        <meta property="article:modified_time" content={modifiedTime} />
       )
     }
     {
