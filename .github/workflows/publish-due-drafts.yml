@@ -1,0 +1,43 @@
+name: Publish due drafts
+
+on:
+  schedule:
+    # 09:00 UTC daily.
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  publish-due-drafts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Flip due drafts to published
+        run: node scripts/publish-due-drafts.mjs
+
+      - name: Create pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: 'Publish due drafts'
+          title: 'Publish due drafts'
+          body: |
+            Automated run of `scripts/publish-due-drafts.mjs`: flips `draft: true` to
+            `draft: false` for posts whose `pubDate` has arrived.
+          branch: automation/publish-due-drafts
+          delete-branch: true
+
+      - name: Summary
+        if: steps.cpr.outputs.pull-request-number
+        run: echo "Opened PR #${{ steps.cpr.outputs.pull-request-number }}"
