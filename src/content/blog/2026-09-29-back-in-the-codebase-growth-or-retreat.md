@@ -2,7 +2,7 @@
 title: "Back in the codebase — growth or retreat?"
 pubDate: 2026-09-29T09:00:00.000Z
 permalink: "/2026/09/29/back-in-the-codebase-growth-or-retreat/"
-description: "Five 2026 voices tracked the same shift - managers writing more code - and reached incompatible verdicts. A framework for figuring out which one applies to you, and which one you can't opt out of."
+description: "Engineering managers are writing more code again, but is that a sign of growth or retreat? A look at coding, delegation, and the technical judgment AI makes more important."
 tags:
   - "leadership"
   - "engineering management"
@@ -10,112 +10,95 @@ tags:
 draft: true
 ---
 <!-- wp:paragraph -->
-<p>A cluster of pieces came out this year, all reacting to the same shift: engineering managers are writing more code than they did in 2025. None of them agree on what that means.</p>
+<p>Engineering managers are writing more code again. But what does that actually mean for the role - and is it something to celebrate or worry about?</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><a href="https://leaddev.com/management/engineering-managers-are-back-in-the-codebase">LeadDev's Engineering Leadership Report 2026</a> calls it a comeback - hands-on coding among engineering managers jumped from 20% to 35% in a year, and the framing is that AI finally made good on the "player-coach" model <a href="https://newsletter.pragmaticengineer.com/p/zirp-engineering-managers">Gergely Orosz predicted back in 2024</a>. <a href="https://newsletter.eng-leadership.com/p/should-you-go-from-engineering-manager">Gregor Ojstersek</a>, tracking the same underlying trend, calls it dangerous by default - the same delegation instincts that make a good manager make them good at AI-assisted engineering, but doing the work yourself instead of delegating it is a bottleneck he says to avoid "at all costs." <a href="https://jellyfish.co/blog/2026-engineering-leaders-shifting-from-ai-adoption-to-ai-accountability/">Jellyfish's 2026 State of Engineering Management report</a> barely mentions personal coding time at all - it's about whether anyone can prove the AI spend is working, with rising token cost now the top adoption concern, ahead of security and quality. And <a href="https://leaddev.com/career-development/the-end-of-the-non-technical-engineering-manager">James Stanier</a> says the whole question of "should" is moot: "people management is necessary, but no longer sufficient on its own" - architectural literacy is becoming a baseline job requirement, not a matter of taste.</p>
+<p>A cluster of articles published this year approaches the same shift from very different angles.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Same shift, four readings so far: growth, risk, irrelevant, and non-negotiable - and a fifth piece below complicates all of them. That's not four groups of people looking at different companies - LeadDev's own article contains a contradiction inside itself. Emma Bostian is quoted in the piece celebrating the shift, and she says the opposite of what the headline argues: a manager's impact "comes from empowering their teams rather than increasing output through their own coding." The article disagrees with itself in its own body copy.</p>
+<p><a href="https://leaddev.com/management/engineering-managers-are-back-in-the-codebase">LeadDev's Engineering Leadership Report 2026</a> reports that hands-on coding among engineering managers rose from 20% to 35% in a year. Its framing is a comeback for the <em>player-coach</em> model, one that <a href="https://newsletter.pragmaticengineer.com/p/zirp-engineering-managers">Gergely Orosz anticipated in 2024</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><a href="https://newsletter.eng-leadership.com/p/should-you-go-from-engineering-manager">Gregor Ojstersek</a> sees a risk: the instincts that make someone a good manager - delegation, prioritization, and enabling others - can be undermined when they take on too much of the work themselves. <a href="https://leaddev.com/career-development/the-end-of-the-non-technical-engineering-manager">James Stanier</a> argues that the question may be shifting altogether: people management is necessary, but technical literacy is increasingly part of the job.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><a href="https://jellyfish.co/blog/2026-engineering-leaders-shifting-from-ai-adoption-to-ai-accountability/">Jellyfish's 2026 State of Engineering Management report</a> focuses on another part of the same change. As organizations adopt AI, the challenge is no longer simply encouraging usage; it is demonstrating that the investment delivers value.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>These perspectives do not necessarily contradict one another. They highlight different questions: What does hands-on work enable? What does it displace? And what technical understanding does a manager need, whether or not they write code?</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Why four good analysts land in four different places</h3>
+<h3 class="wp-block-heading">The real question isn't "should?" - it's "what works?"</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>None of these are wrong about their own data. LeadDev and Ojstersek are measuring the same behavior - a manager's hands-on hours - and disagree because "should managers code more" has no single answer: it depends on two things that vary independently, how the individual manager is wired and what the organization actually rewards. Lay those out as two axes and their disagreement stops looking like a disagreement - it's four different situations, and each is describing the loudest one from its own vantage point.</p>
+<p>Coding can help a manager stay close to the system, explore an unfamiliar area, test an idea, or have a more grounded technical conversation. AI tools can make these activities easier to fit into a busy week.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Personal style: some leaders think better with their hands in the code - reviewing PRs, catching architectural drift, staying credible with the team - and are worse at everything else if you take that away from them. Others were never going to be strong reviewers-of-taste and are better used entirely on the people and roadmap side; for them, coding hours are time subtracted from the job, not added to it.</p>
+<p>But the same activity can also become a way to avoid the less immediate work of management: coaching, delegating, aligning priorities, and creating the conditions for a team to succeed. A manager's commits may be visible; the opportunities lost when they take on the work themselves are harder to see.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Org culture: some companies still equate "credible leader" with "ships code," and will reward the exact hours LeadDev is measuring regardless of outcome. Others have built real AI-accountability muscle and will notice fast if a manager's hands-on hours aren't showing up anywhere in the metrics that matter - but Jellyfish's own numbers say that second group is still the minority: only 46% of orgs are tracking AI-specific metrics at all, even though 84% call productivity a board-level priority. So Jellyfish isn't describing a manager's position on this grid - it's describing which bottom-row org you're actually in: the ones that can prove outcomes, and the ones that just say they care about them.</p>
+<p>That is the tension behind the player-coach model. Hands-on contribution can be valuable when it strengthens the team's work. It becomes a problem when the manager turns into a dependency - or when individual output quietly replaces the work only the manager can do.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Put a manager in one quadrant of that grid and LeadDev's framing is correct for them. Put the same manager in the opposite quadrant and Ojstersek's warning is the one that applies. Neither report is describing all managers - they're each describing one quadrant and generalizing from it.</p>
+<p>The answer will vary by person and context. Some managers think more clearly when they can inspect and experiment with the code. Others create more value by focusing on people, strategy, and the roadmap. Many move between those modes depending on the team's needs.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:html -->
-<figure class="wp-block-image size-large quadrant-figure">
-<svg viewBox="0 0 640 515" role="img" aria-labelledby="quadrant-title quadrant-desc" style="width:100%;height:auto;font-family:inherit;">
-<title id="quadrant-title">Two axes that explain why LeadDev, Ojstersek, and Jellyfish disagree</title>
-<desc id="quadrant-desc">A 2 by 2 grid. Horizontal axis: personal style, from "thinks better on the roadmap side" to "thinks better in the code". Vertical axis: org culture, from "rewards hands-on hours" at the top to "rewards proven outcomes, Jellyfish's world" at the bottom - Jellyfish's report describes what it takes for an org to actually sit in that bottom row rather than just claim to. Top-left quadrant, roadmap style with a culture that rewards hands-on hours: labeled Coding as costume, coding time is a credibility performance rather than genuine impact. Top-right quadrant, hands-in-code style with a culture that rewards hands-on hours: labeled LeadDev's comeback, coding fits the person and the company applauds it, matching the report's framing. Bottom-left quadrant, roadmap style with a culture that rewards proven outcomes: labeled Correctly delegating, the manager stays out of the code and the org can see the team's output prove it works. Bottom-right quadrant, hands-in-code style with a culture that rewards proven outcomes: labeled Ojstersek's bottleneck risk, coding time has to keep earning its place against measurable outcomes, or it becomes exactly the trap he warns about.</desc>
-
-<!-- axis labels -->
-<text x="320" y="24" text-anchor="middle" font-size="15" font-weight="600" fill="var(--fg,#1a1a1a)">Org culture rewards hands-on hours</text>
-<text x="320" y="479" text-anchor="middle" font-size="15" font-weight="600" fill="var(--fg,#1a1a1a)">Org culture rewards proven outcomes</text>
-<text x="320" y="497" text-anchor="middle" font-size="12" font-style="italic" fill="var(--muted,#5c5c5c)">(Jellyfish's world - only 46% of orgs can actually prove this)</text>
-<text x="18" y="255" text-anchor="middle" font-size="15" font-weight="600" fill="var(--fg,#1a1a1a)" transform="rotate(-90 18 255)">Manager thinks better on roadmap side</text>
-<text x="622" y="255" text-anchor="middle" font-size="15" font-weight="600" fill="var(--fg,#1a1a1a)" transform="rotate(90 622 255)">Manager thinks better in the code</text>
-
-<!-- grid -->
-<g stroke="var(--border,#e5e5e5)" stroke-width="1.5">
-<line x1="60" y1="50" x2="580" y2="50" />
-<line x1="60" y1="460" x2="580" y2="460" />
-<line x1="60" y1="50" x2="60" y2="460" />
-<line x1="580" y1="50" x2="580" y2="460" />
-<line x1="320" y1="50" x2="320" y2="460" />
-<line x1="60" y1="255" x2="580" y2="255" />
-</g>
-
-<!-- quadrant fills -->
-<rect x="61" y="51" width="258" height="203" fill="var(--code-bg,#f4f4f5)" />
-<rect x="321" y="51" width="258" height="203" fill="var(--code-bg,#f4f4f5)" opacity="0.4" />
-<rect x="61" y="256" width="258" height="203" fill="var(--code-bg,#f4f4f5)" opacity="0.4" />
-<rect x="321" y="256" width="258" height="203" fill="var(--code-bg,#f4f4f5)" />
-
-<!-- top-left: coding as costume -->
-<text x="190" y="95" text-anchor="middle" font-size="15" font-weight="700" fill="var(--fg,#1a1a1a)">Coding as costume</text>
-<text x="190" y="120" text-anchor="middle" font-size="12.5" fill="var(--muted,#5c5c5c)">
-<tspan x="190" dy="0">Credibility performance,</tspan>
-<tspan x="190" dy="16">not real impact</tspan>
-</text>
-
-<!-- top-right: LeadDev's comeback -->
-<text x="450" y="95" text-anchor="middle" font-size="15" font-weight="700" fill="var(--accent,#1d4ed8)">LeadDev's comeback</text>
-<text x="450" y="120" text-anchor="middle" font-size="12.5" fill="var(--muted,#5c5c5c)">
-<tspan x="450" dy="0">Fits the person,</tspan>
-<tspan x="450" dy="16">company applauds it</tspan>
-</text>
-
-<!-- bottom-left: correctly delegating -->
-<text x="190" y="330" text-anchor="middle" font-size="15" font-weight="700" fill="var(--fg,#1a1a1a)">Correctly delegating</text>
-<text x="190" y="355" text-anchor="middle" font-size="12.5" fill="var(--muted,#5c5c5c)">
-<tspan x="190" dy="0">Stays out of the code,</tspan>
-<tspan x="190" dy="16">outcomes prove it works</tspan>
-</text>
-
-<!-- bottom-right: Ojstersek's bottleneck risk -->
-<text x="450" y="330" text-anchor="middle" font-size="15" font-weight="700" fill="var(--accent,#1d4ed8)">Ojstersek's bottleneck risk</text>
-<text x="450" y="355" text-anchor="middle" font-size="12.5" fill="var(--muted,#5c5c5c)">
-<tspan x="450" dy="0">Has to keep earning its place</tspan>
-<tspan x="450" dy="16">against measurable outcomes</tspan>
-</text>
-</svg>
-<figcaption>Two axes - personal style and org culture - that explain why LeadDev, Ojstersek, and Jellyfish reach different verdicts from the same underlying shift. Jellyfish isn't a quadrant here - it's the evidence for whether an org is actually in the bottom row or just claims to be.</figcaption>
-</figure>
-<!-- /wp:html -->
+<!-- wp:paragraph -->
+<p>The important question is not whether coding is inherently good or bad for managers. It is whether the time spent in the codebase improves the team's outcomes enough to justify what it takes away from the rest of the role.</p>
+<!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">One floor under all four quadrants, and why it's load-bearing</h3>
+<h3 class="wp-block-heading">Coding and technical judgment aren't the same</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>The grid above describes how much a manager codes and whether that fits them and their org. James Stanier's argument is about something underneath all four quadrants: whether coding is optional at all. His piece on <a href="https://leaddev.com/career-development/the-end-of-the-non-technical-engineering-manager">the end of the non-technical engineering manager</a> isn't about reward systems or personal style - it's about a market-wide floor rising under the whole role. "People management is necessary, but no longer sufficient on its own," he writes; as orgs flatten and AI collapses the cost of turning a spec into code, "the manager who is an excellent leader, coach, and technical contributor" is what's growing in value, not what's merely preferred.</p>
+<p>There is a distinction worth making: <strong>writing code and being able to evaluate code are different capabilities.</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>That doesn't collapse the grid - it caps it. Even in the bottom-left quadrant, correctly delegating and getting judged on outcomes, Stanier's claim is that a manager with zero architectural literacy is no longer viable there either, regardless of how well they delegate. The two axes still decide how much you code and why. Stanier is arguing about the floor under the whole picture, not a fifth quadrant - and if he's right, "should I go back to being purely non-technical" isn't one of the live options anymore, on any square of this grid.</p>
+<p>A manager may not need to implement features personally. But they still need enough technical understanding to discuss architecture and trade-offs, recognize meaningful risks, and know when to bring in deeper expertise.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Itamar Gilad's <a href="https://itamargilad.com/artificial-competence/">Artificial Competence</a> explains why that floor is load-bearing rather than symbolic. His argument isn't about managers specifically - it's that AI lets anyone produce work in a domain they can't actually judge, and people are bad at noticing when they've crossed into that danger zone. His own example is a manager's nightmare: "a PM may generate bad production code and a developer may choose bad ideas, and neither can tell the difference." That's the "correctly delegating" quadrant's hidden assumption, made explicit and broken - delegation only works if someone in the loop can tell good output from confident-sounding bad output, and Gilad's point is that AI is very good at producing the second kind. Architectural literacy isn't a credential in this framing; it's the thing that lets a manager actually judge what they're approving, whether it came from a report, a tool, or a junior engineer with an AI assistant.</p>
+<p>This is where Stanier's argument about the changing expectations of engineering management becomes relevant. His point is not simply that managers should spend more hours coding; it is that technical engagement may be becoming a baseline expectation as organizations flatten and AI changes how software is produced.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Itamar Gilad's essay on <a href="https://itamargilad.com/artificial-competence/">Artificial Competence</a> adds a related caution. AI can help people produce work in domains they cannot adequately judge. In software, that means a plausible-looking implementation is not necessarily a sound one. Delegation remains essential, but it does not remove the need to ensure that competent technical judgment is present.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>That judgment does not have to live entirely in the manager. It can be distributed across a team and supported by review, testing, and clear ownership. The manager's responsibility is to make sure the right expertise is involved and that important risks are not mistaken for details someone else will catch.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">The accountability question</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The discussion about managers returning to the codebase is happening alongside a broader shift in how organizations think about AI.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Jellyfish's report emphasizes the growing pressure to demonstrate that AI adoption is improving engineering outcomes. That raises a useful question for managers: are we measuring activity because it is easy to count, or are we measuring whether the work makes the team more effective?</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Coding hours and commit counts can tell us that activity happened. They cannot, on their own, tell us whether the manager made the right trade-off. Nor can a broad productivity metric explain whether a manager's technical contribution helped the team learn, reduced risk, or created a new bottleneck.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The challenge is to connect individual activity to outcomes without pretending that every valuable part of engineering leadership can be captured in a single metric.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -123,21 +106,39 @@ draft: true
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Three questions, honestly answered, place you on that grid and under that floor:</p>
+<p>Rather than adopting a universal rule, it may be more useful to ask yourself three questions:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol>
+<li><strong>Does coding make you better at the rest of your job - or substitute for it?</strong> Look at a typical week. Does time in the codebase lead to sharper technical conversations, better decisions, or a clearer understanding of the system? Or does it mean that coaching, delegation, and planning keep slipping?</li>
+
+<li><strong>What does your organization actually reward?</strong> Are you evaluated on personal technical contributions, team outcomes, or some combination? If visible coding is treated as proof of credibility, is that expectation aligned with what the team needs from you?</li>
+
+<li><strong>Can you evaluate the work you are accountable for?</strong> Could you discuss your system's architecture and trade-offs, recognize when a proposal needs deeper review, and question output that looks polished but may be wrong? If not, what expertise or review practices would close that gap?</li>
+</ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>These questions point to different decisions. One manager may benefit from regular hands-on exploration; another may need to protect more time for the team. Both may need to strengthen their technical judgment, even if they do so in different ways.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Coding may be optional. Technical judgment may not be.</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The question isn't simply whether engineering managers should code more.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Does coding make you better at the rest of your job, or does it substitute for it?</strong> Track a week. If the hours you spend in the codebase are turning into sharper reviews, better-scoped tickets, and roadmap calls informed by what you actually saw break - that's signal, not vanity. If they're hours where delegation, coaching, or planning quietly didn't happen, that's Ojstersek's bottleneck, no matter how good the commits look.</p>
+<p>It's whether coding helps them lead more effectively, whether their organization rewards the right outcomes, and whether they can ensure that the technical work they are accountable for is sound.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>If you stopped writing code entirely for a quarter, would anyone with a scorecard notice - and would they notice the right thing?</strong> If your org tracks outcomes the way Jellyfish describes, the answer is either "yes, output dropped" or "no, and that's fine because the team's output didn't move." If your org still equates hands-on time with credibility, the honest answer is "yes, but only because I'd look like I stopped leading" - which is a culture problem dressed up as a performance one, and worth naming as such before you let it set your calendar.</p>
+<p>Writing code may be a choice. Understanding the system, recognizing risks, and knowing when to trust or challenge AI-generated work may be becoming part of the job regardless.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Separately from either: could you hold a real architecture conversation about your own system right now, without pulling someone else into the room - and would you actually catch it if a report handed you confident, well-formatted, wrong output?</strong> That's Stanier's floor and Gilad's danger zone in one question, and it doesn't move no matter which quadrant you're in. It's the one place none of these pieces actually disagree: delegating well and coding a lot are both worthless if you can't tell good output from good-looking output.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>The question worth asking isn't "should managers code more." It's whether your answer to that is coming from what actually makes you effective, what your org happens to reward, or a floor that's rising under all of it regardless - and whether you'd make the same call on any of the three if nobody was counting the commits.</p>
+<p>The challenge for engineering managers is to find the right balance between hands-on contribution and enabling their teams to do their best work.</p>
 <!-- /wp:paragraph -->
