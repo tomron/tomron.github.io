@@ -2,7 +2,7 @@
 title: "Back in the codebase — growth or retreat?"
 pubDate: 2026-09-29T09:00:00.000Z
 permalink: "/2026/09/29/back-in-the-codebase-growth-or-retreat/"
-description: "Four 2026 voices tracked the same shift - managers writing more code - and reached four incompatible verdicts. A framework for figuring out which one applies to you, and which one you can't opt out of."
+description: "Five 2026 voices tracked the same shift - managers writing more code - and reached incompatible verdicts. A framework for figuring out which one applies to you, and which one you can't opt out of."
 tags:
   - "leadership"
   - "engineering management"
@@ -10,7 +10,7 @@ tags:
 draft: true
 ---
 <!-- wp:paragraph -->
-<p>Four pieces came out this year, all reacting to the same shift: engineering managers are writing more code than they did in 2025. None of them agree on what that means.</p>
+<p>A cluster of pieces came out this year, all reacting to the same shift: engineering managers are writing more code than they did in 2025. None of them agree on what that means.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -18,7 +18,7 @@ draft: true
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Same shift, four readings: growth, risk, irrelevant, and non-negotiable. That's not four groups of people looking at different companies - LeadDev's own article contains a contradiction inside itself. Emma Bostian is quoted in the piece celebrating the shift, and she says the opposite of what the headline argues: a manager's impact "comes from empowering their teams rather than increasing output through their own coding." The article disagrees with itself in its own body copy.</p>
+<p>Same shift, four readings so far: growth, risk, irrelevant, and non-negotiable - and a fifth piece below complicates all of them. That's not four groups of people looking at different companies - LeadDev's own article contains a contradiction inside itself. Emma Bostian is quoted in the piece celebrating the shift, and she says the opposite of what the headline argues: a manager's impact "comes from empowering their teams rather than increasing output through their own coding." The article disagrees with itself in its own body copy.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -103,7 +103,7 @@ draft: true
 <!-- /wp:html -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">One floor under all four quadrants</h3>
+<h3 class="wp-block-heading">One floor under all four quadrants, and why it's load-bearing</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -112,6 +112,10 @@ draft: true
 
 <!-- wp:paragraph -->
 <p>That doesn't collapse the grid - it caps it. Even in the bottom-left quadrant, correctly delegating and getting judged on outcomes, Stanier's claim is that a manager with zero architectural literacy is no longer viable there either, regardless of how well they delegate. The two axes still decide how much you code and why. Stanier is arguing about the floor under the whole picture, not a fifth quadrant - and if he's right, "should I go back to being purely non-technical" isn't one of the live options anymore, on any square of this grid.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Itamar Gilad's <a href="https://itamargilad.com/artificial-competence/">Artificial Competence</a> explains why that floor is load-bearing rather than symbolic. His argument isn't about managers specifically - it's that AI lets anyone produce work in a domain they can't actually judge, and people are bad at noticing when they've crossed into that danger zone. His own example is a manager's nightmare: "a PM may generate bad production code and a developer may choose bad ideas, and neither can tell the difference." That's the "correctly delegating" quadrant's hidden assumption, made explicit and broken - delegation only works if someone in the loop can tell good output from confident-sounding bad output, and Gilad's point is that AI is very good at producing the second kind. Architectural literacy isn't a credential in this framing; it's the thing that lets a manager actually judge what they're approving, whether it came from a report, a tool, or a junior engineer with an AI assistant.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -131,7 +135,7 @@ draft: true
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Separately from either: could you hold a real architecture conversation about your own system right now, without pulling someone else into the room?</strong> That's Stanier's floor, and it's a yes/no question that doesn't move no matter which quadrant you're in - it's the one place none of these reports actually disagree.</p>
+<p><strong>Separately from either: could you hold a real architecture conversation about your own system right now, without pulling someone else into the room - and would you actually catch it if a report handed you confident, well-formatted, wrong output?</strong> That's Stanier's floor and Gilad's danger zone in one question, and it doesn't move no matter which quadrant you're in. It's the one place none of these pieces actually disagree: delegating well and coding a lot are both worthless if you can't tell good output from good-looking output.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
