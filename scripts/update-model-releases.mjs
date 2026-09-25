@@ -12,9 +12,12 @@
  *   - Google:    https://ai.google.dev/gemini-api/docs/changelog (HTML)
  *   - Anthropic: https://docs.claude.com/en/release-notes/overview.md (markdown)
  *                + models overview page for pricing fill
- *   - DeepSeek, Moonshot (Kimi), Zhipu (GLM), Meta (Llama):
- *                Hugging Face API, createdAt of the lab's own org repos
- *                (for open-weight labs the weights upload IS the release).
+ *   - DeepSeek, Moonshot (Kimi), Zhipu (GLM), Meta (Llama + open Muse
+ *                weights): Hugging Face API, createdAt of the lab's own org
+ *                repos (for open-weight labs the weights upload IS the release).
+ *   - Meta (Muse family): https://research.meta.ai/blog (HTML index;
+ *                proprietary Muse models are announced there, not on HF)
+ *                + https://dev.meta.ai/models/muse-spark (pricing fill)
  *   - TypeSafe AI (Jev): NO machine-readable source exists (typesafe.ai is
  *                client-rendered, no RSS). Not monitored automatically;
  *                add entries by hand. This is a known limitation.
@@ -119,6 +122,7 @@ const PRICING_URLS = {
   anthropic: 'https://docs.anthropic.com/en/docs/about-claude/pricing.md',
   google: 'https://ai.google.dev/gemini-api/docs/pricing',
   deepseek: 'https://api-docs.deepseek.com/quick_start/pricing',
+  meta: 'https://dev.meta.ai/models/muse-spark',
 };
 
 function htmlText(s) {
@@ -220,11 +224,34 @@ function deepseekPrices(html) {
   return map;
 }
 
+// The Meta Model API page is Next.js Flight JSON embedded in the HTML: each
+// standard-tier row starts at its model id and prices appear in row order
+// (input, cached input, output) as children:["$$1.25"] cells. Contributor
+// rows are a cheaper data-sharing tier, not standard - skip them.
+function musePrices(html) {
+  const map = {};
+  const rows = [
+    ...html.matchAll(/children\\":\[\\"(muse-spark-(\d+\.\d+)(-contributor)?)\\"\]/g),
+  ];
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i][3]) continue;
+    const end = i + 1 < rows.length ? rows[i + 1].index : rows[i].index + 12000;
+    const seg = html.slice(rows[i].index, Math.min(end, rows[i].index + 12000));
+    const cells = [
+      ...seg.matchAll(/children\\":\[\\"\$\$(\d+(?:\.\d+)?)\\"\]/g),
+    ].map((m) => m[1]);
+    const value = price(cells[0], cells[2], cells[1], 'Cached input');
+    if (value.pricing) map[normalize(`muse-spark-${rows[i][2]}`)] = value;
+  }
+  return map;
+}
+
 const PRICE_PARSERS = {
   openai: openaiPrices,
   anthropic: anthropicPrices,
   google: geminiPrices,
   deepseek: deepseekPrices,
+  meta: musePrices,
 };
 
 async function loadPrices(labs, errors) {
@@ -361,6 +388,7 @@ const HF_LABS = [
   { org: 'moonshotai', lab: 'moonshot', keep: /^Kimi/ },
   { org: 'zai-org', lab: 'zhipu', keep: /^GLM/ },
   { org: 'meta-llama', lab: 'meta', keep: /^(Meta-)?Llama-\d/ },
+  { org: 'meta-models', lab: 'meta', keep: /^Muse-/ },
 ];
 const HF_EXCLUDE = /-(BF16|GGUF|FP8|AWQ|GPTQ|MLX|ONNX|INT4|INT8|8BIT|4BIT|Base)$/i;
 async function scanHF() {
@@ -387,6 +415,38 @@ async function scanHF() {
   return out;
 }
 
+// ---------- source: Meta AI Research blog (proprietary Muse family) ----------
+// The index is a list of cards, newest first; within a card the link and
+// title appear before its dateTime, so each post's date is the first
+// dateTime between its link and the next card's link.
+async function scanMetaMuse() {
+  const html = await fetchText('https://research.meta.ai/blog');
+  const links = [...html.matchAll(/href="(\/blog\/[^"]+)"/g)];
+  const out = [];
+  for (let i = 0; i < links.length; i++) {
+    const start = links[i].index;
+    const end = i + 1 < links.length ? links[i + 1].index : html.length;
+    const seg = html.slice(start, Math.min(end, start + 8000));
+    const date = seg.match(/dateTime="(20\d\d-\d\d-\d\d)"/)?.[1];
+    const titleRaw = seg.match(/__title[^>]*>([^<]+)</)?.[1];
+    if (!date || !titleRaw) continue;
+    const title = titleRaw
+      .replace(/&(?:nbsp|amp|lt|gt|quot|#39);/g, ' ')
+      .replace(/\u00a0/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!/^Introducing Muse\b/i.test(title)) continue;
+    const spark = title.match(/Muse Spark (\d+(?:\.\d+)?)/i);
+    let model;
+    if (spark) model = `Muse Spark ${spark[1]}`;
+    else if (/Muse Glimmer/i.test(title)) model = 'Muse Glimmer';
+    else if (/^Introducing Muse Spark\b/i.test(title)) model = 'Muse Spark';
+    else continue;
+    out.push({ date, lab: 'meta', model, url: `https://research.meta.ai${links[i][1]}` });
+  }
+  return out;
+}
+
 // ---------- merge ----------
 function normalize(s) {
   return s
@@ -407,6 +467,10 @@ function covers(short, long) {
   const b = long.split(' ');
   if (a.length >= b.length) return false;
   for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+  // A base family name never covers a versioned model:
+  // "muse spark" must not cover "muse spark 1.4".
+  if (!a.some(isVersionToken) && b.slice(a.length).some(isVersionToken))
+    return false;
   // Boundary check: a version distinction at the boundary means no cover.
   if (isVersionToken(a[a.length - 1]) && isVersionToken(b[a.length]))
     return false;
@@ -434,6 +498,7 @@ async function main() {
     scanGemini(),
     scanAnthropic(),
     scanHF(),
+    scanMetaMuse(),
   ]);
   const candidates = [];
   const errors = [];
@@ -468,7 +533,7 @@ async function main() {
   const prices = pricedLabs.size ? await loadPrices(pricedLabs, errors) : {};
   const unmatched = [];
   for (const a of [...added, ...backfill]) {
-    if (a.lab === 'meta') {
+    if (a.lab === 'meta' && a.url.includes('huggingface.co')) {
       if (added.includes(a)) a.pricing = 'Open weights';
       continue;
     }

@@ -516,6 +516,13 @@
       "url": "https://huggingface.co/zai-org/GLM-5.1"
     },
     {
+      "date": "2026-04-08",
+      "lab": "meta",
+      "model": "Muse Spark",
+      "note": "First of Meta Superintelligence Labs' Muse family; proprietary, 1M context.",
+      "url": "https://ai.meta.com/blog/introducing-muse-spark-msl/"
+    },
+    {
       "date": "2026-04-14",
       "lab": "moonshot",
       "model": "Kimi K2.6",
@@ -595,6 +602,13 @@
       "cache_pricing": "GPT-5.6 Sol: Cached input: $0.4 / MTok; GPT-5.6 Terra: Cached input: $0.2 / MTok; GPT-5.6 Luna: Cached input: $0.02 / MTok"
     },
     {
+      "date": "2026-07-09",
+      "lab": "meta",
+      "model": "Muse Spark 1.1",
+      "note": "Meta Model API launch.",
+      "url": "https://research.meta.ai/blog/introducing-muse-spark-meta-model-api"
+    },
+    {
       "date": "2026-07-21",
       "lab": "google",
       "model": "Gemini 3.6 Flash + 3.5 Flash-Lite",
@@ -616,6 +630,23 @@
       "model": "DeepSeek-V4-Flash-0731",
       "note": "V4 Flash refresh.",
       "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731"
+    },
+    {
+      "date": "2026-08-05",
+      "lab": "meta",
+      "model": "Muse Spark 1.2 + Muse Code",
+      "note": "Coding-focused update, with the Muse Code terminal agent.",
+      "url": "https://research.meta.ai/blog/introducing-muse-code-and-muse-spark-1-2",
+      "pricing": "$1.25 / $4.25 per MTok",
+      "cache_pricing": "Cached input: $0.15 / MTok"
+    },
+    {
+      "date": "2026-08-10",
+      "lab": "meta",
+      "model": "Muse Glimmer",
+      "note": "Open-weight 30B dense agentic model.",
+      "url": "https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model",
+      "pricing": "Open weights"
     },
     {
       "date": "2026-08-13",
@@ -653,6 +684,15 @@
       "model": "Gemini 3.8 Flash",
       "note": "GA.",
       "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "date": "2026-09-02",
+      "lab": "meta",
+      "model": "Muse Spark 1.3",
+      "note": "Max reasoning for agentic and coding tasks; max tier rolled out after extra safety testing.",
+      "url": "https://research.meta.ai/blog/introducing-muse-spark-1-3",
+      "pricing": "$1.25 / $4.25 per MTok",
+      "cache_pricing": "Cached input: $0.15 / MTok"
     },
     {
       "date": "2026-09-03",
