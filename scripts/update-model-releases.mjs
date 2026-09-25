@@ -22,7 +22,7 @@
  * The monitor is incremental: per lab it only considers candidates newer
  * than the newest entry already in the data file (same-day candidates are
  * name-deduped). It never edits or deletes existing entries; it only adds
- * provisional ones and fills missing pricing where a parser exists.
+ * provisional ones and fills standard-tier pricing and cache-hit prices where matched.
  *
  * Usage:
  *   node scripts/update-model-releases.mjs            # dry run, print diff
@@ -112,37 +112,149 @@ async function scanAnthropic() {
   return out;
 }
 
-/** Pricing from the models overview table: "Claude Opus 5.5" -> "$4 / $20 per MTok". */
-async function anthropicPricing() {
-  try {
-    const md = await fetchText(
-      'https://docs.claude.com/en/docs/about-claude/models/overview.md',
-    );
-    const map = {};
-    const table = md.match(/\| Feature[\s\S]*?\n\n/);
-    if (!table) return map;
-    const rows = table[0].split('\n').filter((l) => l.startsWith('|'));
-    const header = rows[0]
-      .split('|')
-      .slice(1, -1)
-      .map((c) => c.trim());
-    const priceRow = rows.find((r) => /Pricing/.test(r));
-    if (!priceRow) return map;
-    const prices = priceRow
-      .split('|')
-      .slice(1, -1)
-      .map((c) => c.trim());
-    header.forEach((h, i) => {
-      const name = h.match(/Claude [A-Za-z0-9. ]+/);
-      const p = prices[i]?.match(
-        /\$([\d.]+) \/ input MTok, \$([\d.]+) \/ output MTok/,
-      );
-      if (name && p) map[name[0].trim()] = `$${p[1]} / $${p[2]} per MTok`;
-    });
-    return map;
-  } catch {
-    return {};
+// Prices are parsed from the labs' own pricing pages at scan time. Never infer
+// one version's price from another, or use batch/priority prices for standard.
+const PRICING_URLS = {
+  openai: 'https://platform.openai.com/docs/pricing',
+  anthropic: 'https://docs.anthropic.com/en/docs/about-claude/pricing.md',
+  google: 'https://ai.google.dev/gemini-api/docs/pricing',
+  deepseek: 'https://api-docs.deepseek.com/quick_start/pricing',
+};
+
+function htmlText(s) {
+  return s.replace(/<[^>]*>/g, ' ').replace(/&(?:nbsp|amp|lt|gt|quot|#39);/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function htmlCells(row) {
+  return [...row.matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)].map((m) => htmlText(m[1]));
+}
+
+function money(s) {
+  const m = s?.match(/^\$?([\d]+(?:\.[\d]+)?)$/);
+  return m ? `$${m[1]}` : null;
+}
+
+function price(input, output, cache, label = 'Cached input') {
+  const p = {};
+  if (money(input) && money(output)) p.pricing = `${money(input)} / ${money(output)} per MTok`;
+  if (money(cache)) p.cache_pricing = `${label}: ${money(cache)} / MTok`;
+  return p;
+}
+
+function anthropicPrices(md) {
+  const map = {};
+  const section = md.split('## Model pricing')[1]?.split('## ')[0] || '';
+  for (const line of section.split('\n')) {
+    if (!line.startsWith('| Claude ')) continue;
+    const cells = line.split('|').slice(1, -1).map((v) => v.trim());
+    const name = cells[0].replace(/\s*\(.*$/, '');
+    const value = price(cells[1]?.split(' ')[0], cells[5]?.split(' ')[0], cells[4]?.split(' ')[0], 'Cache hit');
+    if (value.pricing) map[normalize(name)] = value;
   }
+  return map;
+}
+
+function openaiPrices(html) {
+  const map = {};
+  // The first table is the Standard tier. Its first price group is short context;
+  // later groups and tables are long context, Batch, Priority, etc.
+  const tables = [...html.matchAll(/<table\b[^>]*>[\s\S]*?<\/table>/gi)];
+  for (const [, row] of (tables[0]?.[0] || '').matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)) {
+    const cells = htmlCells(row);
+    const id = cells[0]?.replace(/\s*\(.*$/, '');
+    if (!/^(?:gpt-[a-z0-9.\-]+|o\d[a-z0-9.\-]*)$/i.test(id || '')) continue;
+    const value = price(cells[1], cells[4], cells[2]);
+    if (value.pricing) map[normalize(id)] = value;
+  }
+  // GPT-5.6 flagship rows are server-embedded for client hydration, not in
+  // the first rendered table. The first occurrence is the Standard tier;
+  // later occurrences are Batch, Flex, and Priority. Require all three
+  // adjacent variants in the same rows payload before accepting it.
+  const embedded = html.match(
+    /gpt-5\.6-sol&quot;\]\s*,\s*\[0,([\d.]+)\]\s*,\s*\[0,([\d.]+)\]\s*,\s*\[0,[\d.]+\]\s*,\s*\[0,([\d.]+)\][\s\S]{0,200}gpt-5\.6-terra&quot;\]\s*,\s*\[0,([\d.]+)\]\s*,\s*\[0,([\d.]+)\]\s*,\s*\[0,[\d.]+\]\s*,\s*\[0,([\d.]+)\][\s\S]{0,200}gpt-5\.6-luna&quot;\]\s*,\s*\[0,([\d.]+)\]\s*,\s*\[0,([\d.]+)\]\s*,\s*\[0,[\d.]+\]\s*,\s*\[0,([\d.]+)\]/i,
+  );
+  if (embedded) {
+    ['sol', 'terra', 'luna'].forEach((name, i) => {
+      const cells = embedded.slice(1 + i * 3, 4 + i * 3);
+      map[normalize(`gpt-5.6-${name}`)] = price(cells[0], cells[2], cells[1]);
+    });
+  }
+  return map;
+}
+
+function geminiPrices(html) {
+  const map = {};
+  // Each Gemini model has its own h2 section with Standard first, then Batch,
+  // Flex, etc. Read only the first table after Standard and the paid column.
+  const sections = html.split(/<h2\b/);
+  for (const section of sections) {
+    const id = section.match(/<code\b[^>]*>(gemini-[a-z0-9.\-]+)<\/code>/i)?.[1];
+    if (!id) continue;
+    const standard = section.split(/<h3\b[^>]*id="standard(?:_\d+)?"/i)[1];
+    const table = standard?.match(/<table\b[^>]*>[\s\S]*?<\/table>/i)?.[0];
+    if (!table) continue;
+    const rows = [...table.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)].map((r) => htmlCells(r[1]));
+    const paid = (name) => rows.find((r) => r[0]?.toLowerCase().startsWith(name))?.at(-1)?.match(/\$[\d.]+/)?.[0];
+    const value = price(paid('input price'), paid('output price'), paid('context caching price'), 'Context caching');
+    if (value.pricing) map[normalize(id)] = value;
+  }
+  return map;
+}
+
+function deepseekPrices(html) {
+  const map = {};
+  const table = html.match(/<table\b[^>]*>[\s\S]*?<\/table>/i)?.[0] || '';
+  const rows = [...table.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)].map((r) => htmlCells(r[1]));
+  const versions = rows.find((r) => r[0] === 'MODEL VERSION')?.slice(-2) || [];
+  const peak = (kind) => {
+    const at = rows.findIndex((r) => r.some((c) => c.includes(kind)));
+    return at < 0 ? [] : rows[at + 1]?.slice(-2) || [];
+  };
+  const input = peak('CACHE MISS');
+  const output = peak('1M OUTPUT TOKENS');
+  const cache = peak('CACHE HIT');
+  versions.forEach((v, i) => {
+    const value = price(input[i], output[i], cache[i], 'Cache hit (peak)');
+    if (value.pricing) map[normalize(v)] = value;
+  });
+  return map;
+}
+
+const PRICE_PARSERS = {
+  openai: openaiPrices,
+  anthropic: anthropicPrices,
+  google: geminiPrices,
+  deepseek: deepseekPrices,
+};
+
+async function loadPrices(labs, errors) {
+  const prices = {};
+  await Promise.all([...labs].filter((lab) => PRICING_URLS[lab]).map(async (lab) => {
+    try {
+      prices[lab] = PRICE_PARSERS[lab](await fetchText(PRICING_URLS[lab]));
+      if (!Object.keys(prices[lab]).length) errors.push(`No usable ${lab} pricing rows at ${PRICING_URLS[lab]}`);
+    } catch (e) {
+      errors.push(`Pricing ${lab}: ${e.message}`);
+    }
+  }));
+  return prices;
+}
+
+function quotedPrices(labPrices, names) {
+  const values = names.map((name) => labPrices?.[normalize(name)]);
+  // Composite entry: only publish if every named model matches independently.
+  if (values.some((v) => !v?.pricing)) return {};
+  if (values.length === 1) return values[0];
+  const result = { pricing: names.map((n, i) => `${n}: ${values[i].pricing}`).join('; ') };
+  if (values.every((v) => v.cache_pricing)) {
+    result.cache_pricing = names.map((n, i) => `${n}: ${values[i].cache_pricing}`).join('; ');
+  }
+  return result;
+}
+
+function modelNames(model) {
+  if (model === 'GPT-5.6 family') return ['GPT-5.6 Sol', 'GPT-5.6 Terra', 'GPT-5.6 Luna'];
+  return model.split(/\s+\+\s+/);
 }
 
 // ---------- source: OpenAI changelog (HTML) ----------
@@ -202,36 +314,6 @@ async function scanOpenAI() {
     }
   }
   return out;
-}
-
-/** Pricing from the OpenAI pricing page: "GPT-6 Sol" -> "$2 / $10 per MTok" (standard tier). */
-async function openaiPricing() {
-  try {
-    const html = await fetchText('https://platform.openai.com/docs/pricing');
-    const text = html
-      .replace(/<script[\s\S]*?<\/script>/g, ' ')
-      .replace(/<style[\s\S]*?<\/style>/g, ' ')
-      .replace(/<[^>]+>/g, '|')
-      .replace(/\|+/g, '|');
-    const map = {};
-    const ids = [...text.matchAll(/gpt-[a-z0-9.\-]+(?=\|)/g)];
-    for (let i = 0; i < ids.length; i++) {
-      const id = ids[i][0];
-      const seg = text.slice(
-        ids[i].index,
-        i + 1 < ids.length ? ids[i + 1].index : ids[i].index + 500,
-      );
-      const prices = [...seg.matchAll(/\$([\d.]+)/g)].map((m) => m[1]);
-      // Standard tier columns: input, cached input, cache write, output.
-      if (prices.length >= 4) {
-        const key = prettify(id, 'GPT-');
-        if (!map[key]) map[key] = `$${prices[0]} / $${prices[3]} per MTok (standard tier)`;
-      }
-    }
-    return map;
-  } catch {
-    return {};
-  }
 }
 
 // ---------- source: Gemini changelog (HTML) ----------
@@ -376,18 +458,27 @@ async function main() {
     added.push({ ...c, provisional: true });
   }
 
-  // Best-effort pricing fill for newly added entries.
-  if (added.length) {
-    const [oaPrices, clPrices] = await Promise.all([
-      openaiPricing(),
-      anthropicPricing(),
-    ]);
-    for (const a of added) {
-      if (a.lab === 'openai' && oaPrices[a.model]) a.pricing = oaPrices[a.model];
-      if (a.lab === 'anthropic' && clPrices[a.model])
-        a.pricing = clPrices[a.model];
-      if (a.lab === 'meta') a.pricing = 'Open weights';
+  // Existing grouped OpenAI entries predate the cache field. Fill only these
+  // known gaps; leave all other historical, curated entries untouched.
+  const backfill = data.releases.filter(
+    (r) => r.lab === 'openai' && !r.cache_pricing &&
+      ['GPT-5.6 family', 'GPT-6 Sol + GPT-6 Luna'].includes(r.model),
+  );
+  const pricedLabs = new Set([...added, ...backfill].map((r) => r.lab));
+  const prices = pricedLabs.size ? await loadPrices(pricedLabs, errors) : {};
+  const unmatched = [];
+  for (const a of [...added, ...backfill]) {
+    if (a.lab === 'meta') {
+      if (added.includes(a)) a.pricing = 'Open weights';
+      continue;
     }
+    if (!PRICING_URLS[a.lab]) continue; // open-weight labs without API prices, TypeSafe
+    const match = quotedPrices(prices[a.lab], modelNames(a.model));
+    if (added.includes(a) && match.pricing) a.pricing = match.pricing;
+    if (match.cache_pricing) a.cache_pricing = match.cache_pricing;
+    if (!match.pricing || !match.cache_pricing) unmatched.push(`${a.lab}: ${a.model}`);
+  }
+  if (added.length || backfill.some((r) => r.cache_pricing)) {
     data.releases.push(...added);
     data.releases.sort((a, b) => a.date.localeCompare(b.date));
     data.updated = new Date().toISOString().slice(0, 10);
@@ -406,6 +497,13 @@ async function main() {
   } else {
     lines.push('No new releases found.');
   }
+  if (unmatched.length) {
+    lines.push('', '**Pricing unmatched or incomplete (review manually):**');
+    for (const name of unmatched) lines.push(`- ${name}`);
+  }
+  if (backfill.some((r) => r.cache_pricing)) {
+    lines.push('', `Filled cache pricing on ${backfill.filter((r) => r.cache_pricing).length} existing OpenAI group entries.`);
+  }
   if (errors.length) {
     lines.push('');
     lines.push('**Source errors (treated as non-fatal):**');
@@ -419,7 +517,7 @@ async function main() {
       flag: 'a',
     });
   }
-  if (added.length) {
+  if (added.length || backfill.some((r) => r.cache_pricing)) {
     writeFileSync('/tmp/model-releases-pr-body.md', summary + '\n');
     if (UPDATE) {
       writeFileSync(DATA_FILE, JSON.stringify(data, null, 2) + '\n');
