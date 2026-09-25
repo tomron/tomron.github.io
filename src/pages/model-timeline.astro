@@ -40,37 +40,104 @@ const xOf = (iso: string) => {
   );
 };
 
-// ---- swimlanes: one lane per lab, entries greedily stacked in sub-rows so
-// labels don't overlap ----
+// ---- swimlanes: one lane per lab, one row per model family inside the lane,
+// so every member of a family sits at the same height. When a family gets
+// dense, labels that would overlap are dropped (the dot stays and still
+// opens the details on hover/tap). ----
 const ROW_H = 26;
 const LANE_PAD = 10;
-const LABEL_MIN_GAP = 12;
 
 interface Placed {
   r: Release;
   x: number;
   row: number;
+  showLabel: boolean;
 }
+
+const familyKey = (labId: string, model: string): string => {
+  const m = model.toLowerCase();
+  switch (labId) {
+    case 'anthropic': {
+      const line = m.match(/claude\b.*?\b(opus|sonnet|haiku|fable)/);
+      return line ? `claude ${line[1]}` : 'claude';
+    }
+    case 'openai': {
+      const gpt = m.match(/gpt-(\d)/);
+      if (gpt) return `gpt-${gpt[1]}`;
+      if (/^o\d/.test(m)) return 'o-series';
+      return m.split(/\s+/)[0];
+    }
+    case 'google': {
+      const line = m.match(/gemini.*?(pro|flash|omni|live)/);
+      return line ? `gemini ${line[1]}` : 'gemini';
+    }
+    case 'meta': {
+      const v = m.match(/llama\s+(\d)/);
+      return v ? `llama-${v[1]}` : 'llama';
+    }
+    case 'deepseek': {
+      const line = m.match(/deepseek-(v|r)/);
+      return line ? `deepseek-${line[1]}` : 'deepseek';
+    }
+    case 'moonshot': {
+      const k = m.match(/kimi\s+k(\d)/);
+      return k ? `kimi-k${k[1]}` : 'kimi';
+    }
+    case 'zhipu': {
+      const g = m.match(/glm-(\d)/);
+      return g ? `glm-${g[1]}` : 'glm';
+    }
+    default:
+      return labId;
+  }
+};
+
+// Rough text-width estimate for a 0.75rem proportional font: wide for
+// capitals/digits, narrow for spaces and punctuation. Used to decide whether
+// a label fits without measuring in the DOM at build time.
+const textWidth = (t: string) => {
+  let w = 0;
+  for (const c of t) {
+    if (c === ' ') w += 3.5;
+    else if ("iljtf.,:;()+-'".includes(c)) w += 3.8;
+    else if (/[A-Z0-9]/.test(c)) w += 7.6;
+    else w += 6.2;
+  }
+  return w;
+};
+const DOT_TO_LABEL = 17; // dot width + gap before the label starts
+const LABEL_END_GAP = 8; // breathing room before the next dot
 
 const lanes = labs.map((lab) => {
   const items = releases.filter((r) => r.lab === lab.id);
-  const rows: number[] = []; // per sub-row: right edge (px) currently occupied
-  const placed: Placed[] = [];
+  const famRow = new Map<string, number>(); // family -> its row in the lane
+  const famItems = new Map<string, Release[]>(); // family -> its releases
   for (const r of items) {
-    const x = xOf(r.date);
-    const need = Math.max(54, r.model.length * 6.4 + LABEL_MIN_GAP);
-    let row = rows.findIndex((edge) => x - edge >= 0);
-    if (row === -1) {
-      row = rows.length;
-      rows.push(0);
+    const key = familyKey(lab.id, r.model);
+    if (!famRow.has(key)) {
+      famRow.set(key, famRow.size);
+      famItems.set(key, []);
     }
-    rows[row] = x + need;
-    placed.push({ r, x, row });
+    famItems.get(key)!.push(r);
   }
+  const labelEdge: number[] = Array.from(famRow.keys(), () => -Infinity);
+  const placed: Placed[] = [];
+  for (const [key, fam] of famItems) {
+    const row = famRow.get(key)!;
+    fam.forEach((r, i) => {
+      const x = xOf(r.date);
+      const labelEnd = x + DOT_TO_LABEL + textWidth(r.model) + LABEL_END_GAP;
+      const nextX = i + 1 < fam.length ? xOf(fam[i + 1].date) : Infinity;
+      const showLabel = x >= labelEdge[row] && labelEnd <= nextX;
+      if (showLabel) labelEdge[row] = labelEnd;
+      placed.push({ r, x, row, showLabel });
+    });
+  }
+  placed.sort((a, b) => a.x - b.x);
   return {
     lab,
     placed,
-    height: LANE_PAD * 2 + Math.max(1, rows.length) * ROW_H,
+    height: LANE_PAD * 2 + Math.max(1, famRow.size) * ROW_H,
   };
 });
 
@@ -123,10 +190,11 @@ const updated = fmtDate(data.updated);
   <h1>AI Model Release Timeline</h1>
   <p>
     Release dates of notable models from {labs.length} labs on one horizontal axis,
-    one lane per lab. Hover or tap a dot for details, pricing and benchmarks. Dates
-    and links point at official sources: API changelogs and announcements for the
-    closed labs, Hugging Face uploads for the open-weight labs (the upload date is
-    the public release date there).
+    one lane per lab, one row per model family. Hover or tap a dot for details, pricing
+    and benchmarks - when a family gets dense some labels drop off, but every dot
+    still opens the details. Dates and links point at official sources: API changelogs
+    and announcements for the closed labs, Hugging Face uploads for the open-weight
+    labs (the upload date is the public release date there).
   </p>
   <p class="meta-line">
     Last updated {updated} · {releases.length} entries · data refreshed daily by a{
@@ -183,7 +251,7 @@ const updated = fmtDate(data.updated);
             <span class="lane-label" style={`--lab-color: ${lane.lab.color}`}>
               {lane.lab.name}
             </span>
-            {lane.placed.map(({ r, x, row }) => (
+            {lane.placed.map(({ r, x, row, showLabel }) => (
               <button
                 type="button"
                 class="tick"
@@ -194,9 +262,11 @@ const updated = fmtDate(data.updated);
                 title={`${r.model} — ${fmtDate(r.date)}`}
               >
                 <span class="cdot" />
-                <span class:list={['clabel', { prov: r.provisional }]}>
-                  {r.model}
-                </span>
+                {showLabel && (
+                  <span class:list={['clabel', { prov: r.provisional }]}>
+                    {r.model}
+                  </span>
+                )}
               </button>
             ))}
           </div>
