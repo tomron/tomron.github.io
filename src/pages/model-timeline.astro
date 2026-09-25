@@ -9,6 +9,7 @@ interface Release {
   note?: string;
   url: string;
   pricing?: string;
+  cache_pricing?: string;
   benchmarks?: string;
   provisional?: boolean;
 }
@@ -173,6 +174,7 @@ const clientData = releases.map((r) => {
     c: lab.color,
     n: r.note ?? '',
     p: r.pricing ?? '',
+    cp: r.cache_pricing ?? '',
     b: r.benchmarks ?? '',
     u: r.url,
     prov: !!r.provisional,
@@ -190,11 +192,12 @@ const updated = fmtDate(data.updated);
   <h1>AI Model Release Timeline</h1>
   <p>
     Release dates of notable models from {labs.length} labs on one horizontal axis,
-    one lane per lab, one row per model family. Hover or tap a dot for details, pricing
-    and benchmarks - when a family gets dense some labels drop off, but every dot
-    still opens the details. Dates and links point at official sources: API changelogs
-    and announcements for the closed labs, Hugging Face uploads for the open-weight
-    labs (the upload date is the public release date there).
+    one lane per lab, one row per model family. Hover or tap a dot for the source
+    announcement, pricing (including cache pricing where published) and benchmarks
+    - when a family gets dense some labels drop off, but every dot still opens the
+    details. Dates and links point at official sources: API changelogs and announcements
+    for the closed labs, Hugging Face uploads for the open-weight labs (the upload
+    date is the public release date there).
   </p>
   <p class="meta-line">
     Last updated {updated} · {releases.length} entries · data refreshed daily by a{
@@ -315,7 +318,12 @@ const updated = fmtDate(data.updated);
           t.classList.toggle('active', +t.getAttribute('data-i') === i);
         });
         var facts = '';
+        facts +=
+          '<a class="d-src" href="' +
+          esc(r.u) +
+          '" target="_blank" rel="noopener">Announcement \u2197</a>';
         if (r.p) facts += '<span>' + esc(r.p) + '</span>';
+        if (r.cp) facts += '<span>' + esc(r.cp) + '</span>';
         if (r.b) facts += '<span>' + esc(r.b) + '</span>';
         detail.innerHTML =
           '<div class="d-head"><span class="d-dot" style="background:' +
@@ -583,6 +591,11 @@ const updated = fmtDate(data.updated);
       font-size: 0.8rem;
       color: var(--muted);
       font-family: var(--mono);
+    }
+    .d-facts .d-src {
+      color: var(--fg);
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
   </style>
 </BaseLayout>
