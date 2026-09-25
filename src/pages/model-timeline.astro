@@ -1,0 +1,601 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import data from '../data/model-releases.json';
+
+interface Release {
+  date: string;
+  lab: string;
+  model: string;
+  note?: string;
+  url: string;
+  pricing?: string;
+  cache_pricing?: string;
+  benchmarks?: string;
+  provisional?: boolean;
+}
+
+const labs = data.labs as { id: string; name: string; color: string }[];
+const labById = new Map(labs.map((l) => [l.id, l]));
+const releases = [...(data.releases as Release[])].sort((a, b) =>
+  a.date.localeCompare(b.date),
+);
+
+// ---- time scale ----
+const PX_PER_MONTH = 56;
+const first = releases[0].date;
+const last = releases[releases.length - 1].date;
+const startY = +first.slice(0, 4);
+const startM = +first.slice(5, 7);
+const endY = +last.slice(0, 4);
+const endM = +last.slice(5, 7);
+const monthsTotal = (endY - startY) * 12 + (endM - startM) + 2; // + current month tail
+const WIDTH = monthsTotal * PX_PER_MONTH + 200; // right padding for last labels
+
+const xOf = (iso: string) => {
+  const y = +iso.slice(0, 4);
+  const m = +iso.slice(5, 7);
+  const d = +iso.slice(8, 10);
+  return (
+    ((y - startY) * 12 + (m - startM)) * PX_PER_MONTH +
+    ((d - 1) / 31) * PX_PER_MONTH
+  );
+};
+
+// ---- swimlanes: one lane per lab, one row per model family inside the lane,
+// so every member of a family sits at the same height. When a family gets
+// dense, labels that would overlap are dropped (the dot stays and still
+// opens the details on hover/tap). ----
+const ROW_H = 26;
+const LANE_PAD = 10;
+
+interface Placed {
+  r: Release;
+  x: number;
+  row: number;
+  showLabel: boolean;
+}
+
+const familyKey = (labId: string, model: string): string => {
+  const m = model.toLowerCase();
+  switch (labId) {
+    case 'anthropic': {
+      const line = m.match(/claude\b.*?\b(opus|sonnet|haiku|fable)/);
+      return line ? `claude ${line[1]}` : 'claude';
+    }
+    case 'openai': {
+      const gpt = m.match(/gpt-(\d)/);
+      if (gpt) return `gpt-${gpt[1]}`;
+      if (/^o\d/.test(m)) return 'o-series';
+      return m.split(/\s+/)[0];
+    }
+    case 'google': {
+      const line = m.match(/gemini.*?(pro|flash|omni|live)/);
+      return line ? `gemini ${line[1]}` : 'gemini';
+    }
+    case 'meta': {
+      const v = m.match(/llama\s+(\d)/);
+      return v ? `llama-${v[1]}` : 'llama';
+    }
+    case 'deepseek': {
+      const line = m.match(/deepseek-(v|r)/);
+      return line ? `deepseek-${line[1]}` : 'deepseek';
+    }
+    case 'moonshot': {
+      const k = m.match(/kimi\s+k(\d)/);
+      return k ? `kimi-k${k[1]}` : 'kimi';
+    }
+    case 'zhipu': {
+      const g = m.match(/glm-(\d)/);
+      return g ? `glm-${g[1]}` : 'glm';
+    }
+    default:
+      return labId;
+  }
+};
+
+// Rough text-width estimate for a 0.75rem proportional font: wide for
+// capitals/digits, narrow for spaces and punctuation. Used to decide whether
+// a label fits without measuring in the DOM at build time.
+const textWidth = (t: string) => {
+  let w = 0;
+  for (const c of t) {
+    if (c === ' ') w += 3.5;
+    else if ("iljtf.,:;()+-'".includes(c)) w += 3.8;
+    else if (/[A-Z0-9]/.test(c)) w += 7.6;
+    else w += 6.2;
+  }
+  return w;
+};
+const DOT_TO_LABEL = 17; // dot width + gap before the label starts
+const LABEL_END_GAP = 8; // breathing room before the next dot
+
+const lanes = labs.map((lab) => {
+  const items = releases.filter((r) => r.lab === lab.id);
+  const famRow = new Map<string, number>(); // family -> its row in the lane
+  const famItems = new Map<string, Release[]>(); // family -> its releases
+  for (const r of items) {
+    const key = familyKey(lab.id, r.model);
+    if (!famRow.has(key)) {
+      famRow.set(key, famRow.size);
+      famItems.set(key, []);
+    }
+    famItems.get(key)!.push(r);
+  }
+  const labelEdge: number[] = Array.from(famRow.keys(), () => -Infinity);
+  const placed: Placed[] = [];
+  for (const [key, fam] of famItems) {
+    const row = famRow.get(key)!;
+    fam.forEach((r, i) => {
+      const x = xOf(r.date);
+      const labelEnd = x + DOT_TO_LABEL + textWidth(r.model) + LABEL_END_GAP;
+      const nextX = i + 1 < fam.length ? xOf(fam[i + 1].date) : Infinity;
+      const showLabel = x >= labelEdge[row] && labelEnd <= nextX;
+      if (showLabel) labelEdge[row] = labelEnd;
+      placed.push({ r, x, row, showLabel });
+    });
+  }
+  placed.sort((a, b) => a.x - b.x);
+  return {
+    lab,
+    placed,
+    height: LANE_PAD * 2 + Math.max(1, famRow.size) * ROW_H,
+  };
+});
+
+let acc = 40; // room for the year header
+const laneTops = lanes.map((l) => {
+  const t = acc;
+  acc += l.height;
+  return t;
+});
+const HEIGHT = acc + 8;
+
+// ---- year gridlines ----
+const years: { label: string; x: number }[] = [];
+for (let y = startY; y <= endY; y++) {
+  years.push({ label: String(y), x: (y - startY) * 12 * PX_PER_MONTH });
+}
+
+const fmtDate = (iso: string) =>
+  new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+
+// data for the client-side detail card
+const clientData = releases.map((r) => {
+  const lab = labById.get(r.lab)!;
+  return {
+    d: fmtDate(r.date),
+    m: r.model,
+    l: lab.name,
+    c: lab.color,
+    n: r.note ?? '',
+    p: r.pricing ?? '',
+    cp: r.cache_pricing ?? '',
+    b: r.benchmarks ?? '',
+    u: r.url,
+    prov: !!r.provisional,
+  };
+});
+
+const updated = fmtDate(data.updated);
+---
+
+<BaseLayout
+  title="AI Model Release Timeline"
+  description="Release dates, pricing and benchmarks of notable AI models from OpenAI, Google, Anthropic, Moonshot, Zhipu, DeepSeek, TypeSafe and Meta — on one timeline."
+  path="/model-timeline/"
+>
+  <h1>AI Model Release Timeline</h1>
+  <p>
+    Release dates of notable models from {labs.length} labs on one horizontal axis,
+    one lane per lab, one row per model family. Hover or tap a dot for the source
+    announcement, pricing (including cache pricing where published) and benchmarks
+    - when a family gets dense some labels drop off, but every dot still opens the
+    details. Dates and links point at official sources: API changelogs and announcements
+    for the closed labs, Hugging Face uploads for the open-weight labs (the upload
+    date is the public release date there).
+  </p>
+  <p class="meta-line">
+    Last updated {updated} · {releases.length} entries · data refreshed daily by a{
+      ' '
+    }
+    <a
+      href="https://github.com/tomron/tomron.github.io/blob/main/.github/workflows/model-releases.yml"
+      >GitHub Action</a
+    > from official sources.
+  </p>
+
+  <div class="controls">
+    <input
+      id="q"
+      type="search"
+      placeholder="Search models…"
+      autocomplete="off"
+      aria-label="Search models"
+    />
+    <div class="chips" role="group" aria-label="Filter by lab">
+      {
+        labs.map((lab) => (
+          <button
+            type="button"
+            class="chip"
+            data-lab={lab.id}
+            aria-pressed="true"
+            style={`--lab-color: ${lab.color}`}
+          >
+            {lab.name}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+  <p id="status" class="status" aria-live="polite"></p>
+
+  <div class="tl-scroll" id="tlscroll">
+    <div class="tl-track" style={`width: ${WIDTH}px; height: ${HEIGHT}px`}>
+      {
+        years.map((y) => (
+          <div class="yr" style={`left: ${y.x}px`}>
+            <span>{y.label}</span>
+          </div>
+        ))
+      }
+      {
+        lanes.map((lane, li) => (
+          <div
+            class="lane"
+            data-lab={lane.lab.id}
+            style={`top: ${laneTops[li]}px; height: ${lane.height}px`}
+          >
+            <span class="lane-label" style={`--lab-color: ${lane.lab.color}`}>
+              {lane.lab.name}
+            </span>
+            {lane.placed.map(({ r, x, row, showLabel }) => (
+              <button
+                type="button"
+                class="tick"
+                data-i={releases.indexOf(r)}
+                data-lab={r.lab}
+                data-search={`${r.model} ${lane.lab.name}`.toLowerCase()}
+                style={`left: ${x}px; top: ${LANE_PAD + row * ROW_H}px; --lab-color: ${lane.lab.color}`}
+                title={`${r.model} — ${fmtDate(r.date)}`}
+              >
+                <span class="cdot" />
+                {showLabel && (
+                  <span class:list={['clabel', { prov: r.provisional }]}>
+                    {r.model}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div id="detail" class="detail" aria-live="polite"></div>
+
+  <script
+    type="application/json"
+    id="tl-data"
+    set:html={JSON.stringify(clientData)}
+  />
+
+  <script is:inline>
+    (function () {
+      var data = JSON.parse(
+        document.getElementById('tl-data').textContent || '[]',
+      );
+      var scroller = document.getElementById('tlscroll');
+      var detail = document.getElementById('detail');
+      var input = document.getElementById('q');
+      var status = document.getElementById('status');
+      var chips = Array.prototype.slice.call(
+        document.querySelectorAll('.chip'),
+      );
+      var lanes = Array.prototype.slice.call(
+        document.querySelectorAll('.lane'),
+      );
+      var ticks = Array.prototype.slice.call(
+        document.querySelectorAll('.tick'),
+      );
+
+      function esc(s) {
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      function show(i) {
+        var r = data[i];
+        if (!r) return;
+        ticks.forEach(function (t) {
+          t.classList.toggle('active', +t.getAttribute('data-i') === i);
+        });
+        var facts = '';
+        facts +=
+          '<a class="d-src" href="' +
+          esc(r.u) +
+          '" target="_blank" rel="noopener">Announcement \u2197</a>';
+        if (r.p) facts += '<span>' + esc(r.p) + '</span>';
+        if (r.cp) facts += '<span>' + esc(r.cp) + '</span>';
+        if (r.b) facts += '<span>' + esc(r.b) + '</span>';
+        detail.innerHTML =
+          '<div class="d-head"><span class="d-dot" style="background:' +
+          r.c +
+          '"></span><a href="' +
+          esc(r.u) +
+          '"><strong>' +
+          esc(r.m) +
+          '</strong></a><span class="d-lab">' +
+          esc(r.l) +
+          '</span>' +
+          (r.prov ? '<span class="d-prov">provisional</span>' : '') +
+          '<span class="d-date">' +
+          esc(r.d) +
+          '</span></div>' +
+          (r.n ? '<p class="d-note">' + esc(r.n) + '</p>' : '') +
+          (facts ? '<div class="d-facts">' + facts + '</div>' : '');
+      }
+
+      ticks.forEach(function (t) {
+        var i = +t.getAttribute('data-i');
+        t.addEventListener('click', function () {
+          show(i);
+        });
+        t.addEventListener('mouseover', function () {
+          show(i);
+        });
+        t.addEventListener('focus', function () {
+          show(i);
+        });
+      });
+
+      function applyFilter() {
+        var query = input.value.trim().toLowerCase();
+        var active = {};
+        chips.forEach(function (c) {
+          if (c.getAttribute('aria-pressed') === 'true')
+            active[c.getAttribute('data-lab')] = true;
+        });
+        lanes.forEach(function (l) {
+          l.style.display = active[l.getAttribute('data-lab')] ? '' : 'none';
+        });
+        var shown = 0;
+        ticks.forEach(function (t) {
+          var match =
+            !query || t.getAttribute('data-search').indexOf(query) !== -1;
+          t.classList.toggle('dim', !!query && !match);
+          if (match) shown++;
+        });
+        status.textContent = query
+          ? shown
+            ? shown + ' of ' + ticks.length + ' releases match'
+            : 'No releases match'
+          : '';
+      }
+
+      chips.forEach(function (c) {
+        c.addEventListener('click', function () {
+          var on = c.getAttribute('aria-pressed') === 'true';
+          c.setAttribute('aria-pressed', on ? 'false' : 'true');
+          applyFilter();
+        });
+      });
+      input.addEventListener('input', applyFilter);
+
+      // Start at the newest end; select the latest release.
+      scroller.scrollLeft = scroller.scrollWidth;
+      show(data.length - 1);
+    })();
+  </script>
+
+  <style>
+    .meta-line {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .controls {
+      margin: 1.5rem 0 0.5rem;
+    }
+    #q {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      font-size: 1rem;
+      font-family: var(--font);
+      color: var(--fg);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .chip {
+      font-family: var(--font);
+      font-size: 0.8rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--lab-color);
+      background: var(--lab-color);
+      color: #fff;
+      cursor: pointer;
+      opacity: 0.45;
+      transition: opacity 0.15s;
+    }
+    .chip[aria-pressed='true'] {
+      opacity: 1;
+    }
+    .status {
+      color: var(--muted);
+      font-size: 0.85rem;
+      min-height: 1.4em;
+      margin: 0.25rem 0 0;
+    }
+
+    /* --- horizontal timeline --- */
+    .tl-scroll {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin: 0.5rem 0 1rem;
+      background: var(--bg);
+    }
+    .tl-track {
+      position: relative;
+    }
+    .yr {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-left: 1px solid var(--border);
+    }
+    .yr span {
+      position: sticky;
+      left: 0;
+      display: inline-block;
+      padding: 0.35rem 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .lane {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-top: 1px dashed var(--border);
+    }
+    .lane-label {
+      position: sticky;
+      left: 0;
+      float: left;
+      z-index: 2;
+      height: 100%;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--fg);
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+      border-left: 4px solid var(--lab-color);
+      max-width: 9.5rem;
+    }
+    .tick {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: none;
+      border: none;
+      padding: 0.2rem 0;
+      font-family: var(--font);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .cdot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--lab-color);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 1px var(--lab-color);
+      flex: none;
+    }
+    .clabel {
+      font-size: 0.75rem;
+      color: var(--fg);
+    }
+    .clabel.prov {
+      text-decoration: underline dashed;
+      text-underline-offset: 3px;
+    }
+    .tick.dim {
+      opacity: 0.18;
+    }
+    @media (max-width: 640px) {
+      .lane-label {
+        max-width: 5.2rem;
+        font-size: 0.66rem;
+        padding: 0 0.35rem;
+      }
+    }
+    .tick.active .cdot {
+      transform: scale(1.35);
+    }
+    .tick.active .clabel,
+    .tick:hover .clabel {
+      font-weight: 700;
+    }
+  </style>
+
+  <!-- Detail-card styles are global: its content is injected by JS at runtime,
+       so Astro-scoped selectors would not match it. -->
+  <style is:global>
+    .detail {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1.1rem;
+      min-height: 5.5rem;
+    }
+    .d-head {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.3rem 0.6rem;
+    }
+    .d-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      align-self: center;
+      flex: none;
+    }
+    .d-lab {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .d-prov {
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px dashed var(--muted);
+      border-radius: 4px;
+      padding: 0 0.35rem;
+    }
+    .d-date {
+      margin-left: auto;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .d-note {
+      margin: 0.4rem 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .d-facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.2rem 1.2rem;
+      margin-top: 0.45rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+    .d-facts .d-src {
+      color: var(--fg);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  </style>
+</BaseLayout>
