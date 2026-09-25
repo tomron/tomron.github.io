@@ -1,0 +1,71 @@
+name: Model release monitor
+
+# Daily scan of official model-release sources. When new models appear, the
+# scan script adds them to src/data/model-releases.json as provisional entries
+# and this workflow opens a PR for review. Merging redeploys the site.
+#
+# Notes:
+# - The scan validates its own changes with a full build before opening a PR,
+#   because PRs opened with GITHUB_TOKEN do not trigger other workflows
+#   (GitHub's recursion guard), so deploy.yml would not check the bot's PR.
+# - TypeSafe AI has no machine-readable release source; see the header comment
+#   in scripts/update-model-releases.mjs for that and other limitations.
+
+on:
+  schedule:
+    - cron: '41 3 * * *' # daily, 03:41 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: model-releases
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Scan official sources for new releases
+        id: scan
+        run: |
+          node scripts/update-model-releases.mjs --update
+          changed=$(git status --porcelain src/data/model-releases.json | wc -l)
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+
+      - name: Validate data with a full build
+        if: steps.scan.outputs.changed != '0'
+        run: |
+          npm ci
+          npm run check
+          npm run build
+
+      - name: Open a PR with the new entries
+        if: steps.scan.outputs.changed != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch="model-releases/$(date +%Y-%m-%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add src/data/model-releases.json
+          git commit -m "model-releases: scan $(date +%Y-%m-%d)"
+          git push -u origin "$branch"
+          if [ -z "$(gh pr list --head "$branch" --json number --jq '.[].number')" ]; then
+            gh pr create \
+              --title "Model releases: $(date +%b %-d, %Y) scan" \
+              --body-file /tmp/model-releases-pr-body.md \
+              --label "model-releases" 2>/dev/null || gh pr create \
+              --title "Model releases: $(date +%b %-d, %Y) scan" \
+              --body-file /tmp/model-releases-pr-body.md
+          fi

@@ -1,0 +1,680 @@
+{
+  "updated": "2026-09-25",
+  "labs": [
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "color": "#0d9478"
+    },
+    {
+      "id": "google",
+      "name": "Google (Gemini)",
+      "color": "#1a73e8"
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "color": "#d97757"
+    },
+    {
+      "id": "moonshot",
+      "name": "Moonshot AI (Kimi)",
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "zhipu",
+      "name": "Zhipu AI (GLM)",
+      "color": "#0891b2"
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "color": "#4d6bfe"
+    },
+    {
+      "id": "typesafe",
+      "name": "TypeSafe AI",
+      "color": "#e11d48"
+    },
+    {
+      "id": "meta",
+      "name": "Meta (Llama)",
+      "color": "#0668e1"
+    }
+  ],
+  "releases": [
+    {
+      "date": "2023-07-18",
+      "lab": "meta",
+      "model": "Llama 2",
+      "note": "Open weights, commercially usable; 7B-70B.",
+      "url": "https://huggingface.co/meta-llama/Llama-2-70b-chat-hf",
+      "pricing": "Open weights"
+    },
+    {
+      "date": "2023-11-06",
+      "lab": "openai",
+      "model": "GPT-4 Turbo",
+      "note": "DevDay announcement; 128K context.",
+      "url": "https://developers.openai.com/changelog/"
+    },
+    {
+      "date": "2024-02-15",
+      "lab": "google",
+      "model": "Gemini 1.5 Pro",
+      "note": "First 1M-token context window.",
+      "url": "https://ai.google.dev/gemini-api/docs/models/gemini"
+    },
+    {
+      "date": "2024-03-04",
+      "lab": "anthropic",
+      "model": "Claude 3 family",
+      "note": "Opus and Sonnet at launch; Haiku followed days later.",
+      "url": "https://www.anthropic.com/news/claude-3-family",
+      "pricing": "Opus: $15 / $75 per MTok"
+    },
+    {
+      "date": "2024-04-18",
+      "lab": "meta",
+      "model": "Llama 3 (8B, 70B)",
+      "note": "Step change for open models.",
+      "url": "https://huggingface.co/meta-llama/Meta-Llama-3-70B-Instruct",
+      "pricing": "Open weights"
+    },
+    {
+      "date": "2024-05-13",
+      "lab": "openai",
+      "model": "GPT-4o",
+      "note": "First natively omni-modal flagship.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "$5 / $15 per MTok at launch"
+    },
+    {
+      "date": "2024-06-20",
+      "lab": "anthropic",
+      "model": "Claude 3.5 Sonnet",
+      "note": "Set a new bar for coding and reasoning mid-2024.",
+      "url": "https://www.anthropic.com/news/claude-3-5-sonnet",
+      "pricing": "$3 / $15 per MTok",
+      "benchmarks": "GPQA: 59.4%"
+    },
+    {
+      "date": "2024-07-18",
+      "lab": "openai",
+      "model": "GPT-4o mini",
+      "note": "Cheap small model that killed GPT-3.5.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "$0.15 / $0.60 per MTok"
+    },
+    {
+      "date": "2024-07-23",
+      "lab": "meta",
+      "model": "Llama 3.1 405B",
+      "note": "First open 405B frontier-class model.",
+      "url": "https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct",
+      "pricing": "Open weights",
+      "benchmarks": "MMLU: 88.6%"
+    },
+    {
+      "date": "2024-09-12",
+      "lab": "openai",
+      "model": "o1-preview + o1-mini",
+      "note": "First RL-trained reasoning models.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "o1-preview: $15 / $60 per MTok",
+      "benchmarks": "AIME 2024: 74.4% (o1 preview)"
+    },
+    {
+      "date": "2024-09-25",
+      "lab": "meta",
+      "model": "Llama 3.2",
+      "note": "Small (1B/3B) and vision (11B/90B) tiers.",
+      "url": "https://huggingface.co/meta-llama/Llama-3.2-11B-Vision-Instruct",
+      "pricing": "Open weights"
+    },
+    {
+      "date": "2024-10-22",
+      "lab": "anthropic",
+      "model": "Claude 3.5 Sonnet (upgrade) + 3.5 Haiku",
+      "note": "Refreshed Sonnet with computer use in beta.",
+      "url": "https://docs.claude.com/en/docs/about-claude/models/overview",
+      "pricing": "Sonnet: $3 / $15; Haiku: $0.80 / $4 per MTok",
+      "benchmarks": "SWE-bench Verified: 49.0% (Sonnet)"
+    },
+    {
+      "date": "2024-12-06",
+      "lab": "meta",
+      "model": "Llama 3.3 70B",
+      "note": "405B-class quality at 70B cost.",
+      "url": "https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct",
+      "pricing": "Open weights"
+    },
+    {
+      "date": "2024-12-17",
+      "lab": "openai",
+      "model": "o1",
+      "note": "Full o1 reasoning model in the API.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "$15 / $60 per MTok"
+    },
+    {
+      "date": "2024-12-25",
+      "lab": "deepseek",
+      "model": "DeepSeek-V3",
+      "note": "Open weights; 671B MoE trained for a reported ~$5.5M.",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3",
+      "benchmarks": "MMLU: 88.5%"
+    },
+    {
+      "date": "2025-01-20",
+      "lab": "deepseek",
+      "model": "DeepSeek-R1",
+      "note": "Open reasoning model that reset cost expectations.",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+      "pricing": "$0.55 / $2.19 per MTok at launch",
+      "benchmarks": "AIME 2024: 79.8%"
+    },
+    {
+      "date": "2025-01-31",
+      "lab": "openai",
+      "model": "o3-mini",
+      "note": "Small reasoning model for STEM.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "$1.10 / $4.40 per MTok"
+    },
+    {
+      "date": "2025-02-05",
+      "lab": "google",
+      "model": "Gemini 2.0 Flash",
+      "note": "2.0 generation generally available.",
+      "url": "https://ai.google.dev/gemini-api/docs/models/gemini"
+    },
+    {
+      "date": "2025-02-24",
+      "lab": "anthropic",
+      "model": "Claude 3.7 Sonnet",
+      "note": "First hybrid reasoning Claude.",
+      "url": "https://www.anthropic.com/news/claude-3-7-sonnet",
+      "pricing": "$3 / $15 per MTok",
+      "benchmarks": "SWE-bench Verified: 62.3%"
+    },
+    {
+      "date": "2025-02-27",
+      "lab": "openai",
+      "model": "GPT-4.5",
+      "note": "Research preview; last non-reasoning flagship.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "$75 / $150 per MTok"
+    },
+    {
+      "date": "2025-03-24",
+      "lab": "deepseek",
+      "model": "DeepSeek-V3-0324",
+      "note": "Major V3 refresh.",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3-0324"
+    },
+    {
+      "date": "2025-04-05",
+      "lab": "meta",
+      "model": "Llama 4 Scout + Maverick",
+      "note": "MoE redesign; Scout touts 10M context. Latest Llama as of Sep 2026.",
+      "url": "https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct",
+      "pricing": "Open weights"
+    },
+    {
+      "date": "2025-04-14",
+      "lab": "openai",
+      "model": "GPT-4.1 family",
+      "note": "4.1, mini and nano; 1M context.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "GPT-4.1: $2 / $8 per MTok"
+    },
+    {
+      "date": "2025-04-16",
+      "lab": "openai",
+      "model": "o3 + o4-mini",
+      "note": "o-series reasoning GA in the API.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "o3: $10 / $40 per MTok at launch (cut ~80% in Jun 2025)"
+    },
+    {
+      "date": "2025-05-22",
+      "lab": "anthropic",
+      "model": "Claude Opus 4 + Sonnet 4",
+      "note": "Claude 4 generation.",
+      "url": "https://www.anthropic.com/news/claude-4",
+      "pricing": "Opus: $15 / $75; Sonnet: $3 / $15 per MTok",
+      "benchmarks": "SWE-bench Verified: 72.5% / 72.7%"
+    },
+    {
+      "date": "2025-05-28",
+      "lab": "deepseek",
+      "model": "DeepSeek-R1-0528",
+      "note": "R1 refresh.",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-0528"
+    },
+    {
+      "date": "2025-06-10",
+      "lab": "openai",
+      "model": "o3-pro",
+      "note": "More compute per answer.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "$20 / $80 per MTok"
+    },
+    {
+      "date": "2025-06-17",
+      "lab": "google",
+      "model": "Gemini 2.5 Pro + Flash",
+      "note": "2.5 family generally available.",
+      "url": "https://developers.googleblog.com/gemini-2-5-thinking-model-updates/",
+      "pricing": "2.5 Pro: $1.25 / $10 per MTok (prompts up to 200K)",
+      "benchmarks": "GPQA Diamond: 84.0% (2.5 Pro)"
+    },
+    {
+      "date": "2025-07-11",
+      "lab": "moonshot",
+      "model": "Kimi K2",
+      "note": "Open 1T-param MoE; agentic strengths.",
+      "url": "https://huggingface.co/moonshotai/Kimi-K2-Instruct",
+      "benchmarks": "SWE-bench Verified: 65.8%"
+    },
+    {
+      "date": "2025-07-20",
+      "lab": "zhipu",
+      "model": "GLM-4.5 + 4.5-Air",
+      "note": "Open weights; agentic-focused 4.5 series.",
+      "url": "https://huggingface.co/zai-org/GLM-4.5"
+    },
+    {
+      "date": "2025-08-05",
+      "lab": "anthropic",
+      "model": "Claude Opus 4.1",
+      "note": "Incremental Opus upgrade.",
+      "url": "https://www.anthropic.com/news/claude-opus-4-1",
+      "pricing": "$15 / $75 per MTok",
+      "benchmarks": "SWE-bench Verified: 74.5%"
+    },
+    {
+      "date": "2025-08-07",
+      "lab": "openai",
+      "model": "GPT-5 family",
+      "note": "gpt-5, mini and nano in the API.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "GPT-5: $1.25 / $10 per MTok",
+      "benchmarks": "SWE-bench Verified: 74.9%"
+    },
+    {
+      "date": "2025-08-21",
+      "lab": "deepseek",
+      "model": "DeepSeek-V3.1",
+      "note": "Hybrid reasoning toggle.",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3.1"
+    },
+    {
+      "date": "2025-09-03",
+      "lab": "moonshot",
+      "model": "Kimi K2 (0905)",
+      "note": "K2 update; 256K context.",
+      "url": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905"
+    },
+    {
+      "date": "2025-09-23",
+      "lab": "openai",
+      "model": "GPT-5-Codex",
+      "note": "Coding-specialized GPT-5 for Codex CLI.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "Same as GPT-5"
+    },
+    {
+      "date": "2025-09-29",
+      "lab": "anthropic",
+      "model": "Claude Sonnet 4.5",
+      "note": "\"Best coding model\" claim at launch.",
+      "url": "https://www.anthropic.com/news/claude-sonnet-4-5",
+      "pricing": "$3 / $15 per MTok",
+      "benchmarks": "SWE-bench Verified: 77.2%"
+    },
+    {
+      "date": "2025-09-29",
+      "lab": "deepseek",
+      "model": "DeepSeek-V3.2-Exp",
+      "note": "Sparse-attention experiment; API price cut.",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp"
+    },
+    {
+      "date": "2025-09-29",
+      "lab": "zhipu",
+      "model": "GLM-4.6",
+      "note": "Longer context, better coding.",
+      "url": "https://huggingface.co/zai-org/GLM-4.6"
+    },
+    {
+      "date": "2025-10-06",
+      "lab": "openai",
+      "model": "GPT-5 Pro",
+      "note": "DevDay; highest-compute GPT-5 tier.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "$15 / $120 per MTok"
+    },
+    {
+      "date": "2025-10-15",
+      "lab": "anthropic",
+      "model": "Claude Haiku 4.5",
+      "note": "Near-frontier small model.",
+      "url": "https://www.anthropic.com/news/claude-haiku-4-5",
+      "pricing": "$1 / $5 per MTok"
+    },
+    {
+      "date": "2025-11-04",
+      "lab": "moonshot",
+      "model": "Kimi K2 Thinking",
+      "note": "Reasoning variant of K2.",
+      "url": "https://huggingface.co/moonshotai/Kimi-K2-Thinking"
+    },
+    {
+      "date": "2025-11-13",
+      "lab": "openai",
+      "model": "GPT-5.1",
+      "note": "Steerability and agentic improvements.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "$1.25 / $10 per MTok"
+    },
+    {
+      "date": "2025-11-18",
+      "lab": "google",
+      "model": "Gemini 3 Pro (Preview)",
+      "note": "First Gemini 3 series model.",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "date": "2025-11-20",
+      "lab": "google",
+      "model": "Gemini 3 Pro Image (Preview)",
+      "note": "Image generation flagship.",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "date": "2025-11-24",
+      "lab": "anthropic",
+      "model": "Claude Opus 4.5",
+      "note": "Top Opus of the 4.x line.",
+      "url": "https://www.anthropic.com/news/claude-opus-4-5",
+      "pricing": "$5 / $25 per MTok",
+      "benchmarks": "SWE-bench Verified: 80.9%"
+    },
+    {
+      "date": "2025-12-01",
+      "lab": "deepseek",
+      "model": "DeepSeek-V3.2",
+      "note": "GA of the V3.2 line.",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2",
+      "pricing": "$0.28 / $0.42 per MTok at launch"
+    },
+    {
+      "date": "2025-12-11",
+      "lab": "openai",
+      "model": "GPT-5.2",
+      "note": "Flagship bump over GPT-5.1.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "$1.75 / $14 per MTok"
+    },
+    {
+      "date": "2025-12-17",
+      "lab": "google",
+      "model": "Gemini 3 Flash (Preview)",
+      "note": "Fast tier of the 3 series.",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "date": "2025-12-22",
+      "lab": "zhipu",
+      "model": "GLM-4.7",
+      "note": "Better agentic coding.",
+      "url": "https://huggingface.co/zai-org/GLM-4.7"
+    },
+    {
+      "date": "2026-01-01",
+      "lab": "moonshot",
+      "model": "Kimi K2.5",
+      "note": "Vision-capable K2 refresh.",
+      "url": "https://huggingface.co/moonshotai/Kimi-K2.5"
+    },
+    {
+      "date": "2026-02-05",
+      "lab": "anthropic",
+      "model": "Claude Opus 4.6",
+      "note": "Agentic coding focus.",
+      "url": "https://www.anthropic.com/news/claude-opus-4-6"
+    },
+    {
+      "date": "2026-02-11",
+      "lab": "zhipu",
+      "model": "GLM-5",
+      "note": "Fifth-generation flagship.",
+      "url": "https://huggingface.co/zai-org/GLM-5"
+    },
+    {
+      "date": "2026-02-17",
+      "lab": "anthropic",
+      "model": "Claude Sonnet 4.6",
+      "note": "Date inferred from Anthropic's one-year lifecycle guarantee.",
+      "url": "https://docs.claude.com/en/docs/about-claude/model-deprecations",
+      "provisional": true
+    },
+    {
+      "date": "2026-02-19",
+      "lab": "google",
+      "model": "Gemini 3.1 Pro (Preview)",
+      "note": "Second Gemini 3 series Pro.",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/"
+    },
+    {
+      "date": "2026-03-03",
+      "lab": "google",
+      "model": "Gemini 3.1 Flash-Lite (Preview)",
+      "note": "First Flash-Lite in the 3 series.",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "date": "2026-03-05",
+      "lab": "openai",
+      "model": "GPT-5.4 + GPT-5.4 Pro",
+      "note": "Frontier model for professional work.",
+      "url": "https://developers.openai.com/changelog/"
+    },
+    {
+      "date": "2026-03-17",
+      "lab": "openai",
+      "model": "GPT-5.4 mini + nano",
+      "note": "High-volume tiers of 5.4.",
+      "url": "https://developers.openai.com/changelog/"
+    },
+    {
+      "date": "2026-04-03",
+      "lab": "zhipu",
+      "model": "GLM-5.1",
+      "note": "Incremental 5-series update.",
+      "url": "https://huggingface.co/zai-org/GLM-5.1"
+    },
+    {
+      "date": "2026-04-14",
+      "lab": "moonshot",
+      "model": "Kimi K2.6",
+      "note": "Stronger long-horizon coding.",
+      "url": "https://huggingface.co/moonshotai/Kimi-K2.6"
+    },
+    {
+      "date": "2026-04-16",
+      "lab": "anthropic",
+      "model": "Claude Opus 4.7",
+      "note": "Introduced the new tokenizer.",
+      "url": "https://www.anthropic.com/news/claude-opus-4-7"
+    },
+    {
+      "date": "2026-04-22",
+      "lab": "deepseek",
+      "model": "DeepSeek-V4 Pro + Flash",
+      "note": "V4 generation, open weights.",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro"
+    },
+    {
+      "date": "2026-04-24",
+      "lab": "openai",
+      "model": "GPT-5.5 + GPT-5.5 Pro",
+      "note": "Complex professional work; 1M context.",
+      "url": "https://developers.openai.com/changelog/"
+    },
+    {
+      "date": "2026-05-28",
+      "lab": "anthropic",
+      "model": "Claude Opus 4.8",
+      "note": "1M context by default.",
+      "url": "https://docs.claude.com/en/release-notes/overview",
+      "pricing": "$5 / $25 per MTok"
+    },
+    {
+      "date": "2026-06-09",
+      "lab": "anthropic",
+      "model": "Claude Fable 5",
+      "note": "New top tier above Opus.",
+      "url": "https://docs.claude.com/en/release-notes/overview",
+      "pricing": "$10 / $50 per MTok"
+    },
+    {
+      "date": "2026-06-13",
+      "lab": "moonshot",
+      "model": "Kimi K3",
+      "note": "K3 generation, open weights.",
+      "url": "https://huggingface.co/moonshotai/Kimi-K3"
+    },
+    {
+      "date": "2026-06-16",
+      "lab": "zhipu",
+      "model": "GLM-5.2",
+      "note": "5-series mid-year update.",
+      "url": "https://huggingface.co/zai-org/GLM-5.2"
+    },
+    {
+      "date": "2026-06-30",
+      "lab": "anthropic",
+      "model": "Claude Sonnet 5",
+      "note": "Adaptive thinking on by default.",
+      "url": "https://docs.claude.com/en/release-notes/overview",
+      "pricing": "$2 / $10 per MTok"
+    },
+    {
+      "date": "2026-07-09",
+      "lab": "openai",
+      "model": "GPT-5.6 family",
+      "note": "Sol, Terra and Luna tiers.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "Sol: $4 / $20 per MTok"
+    },
+    {
+      "date": "2026-07-21",
+      "lab": "google",
+      "model": "Gemini 3.6 Flash + 3.5 Flash-Lite",
+      "note": "GA fast tiers.",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "date": "2026-07-24",
+      "lab": "anthropic",
+      "model": "Claude Opus 5",
+      "note": "Opus joins the 5 generation.",
+      "url": "https://docs.claude.com/en/release-notes/overview",
+      "pricing": "$5 / $25 per MTok"
+    },
+    {
+      "date": "2026-07-31",
+      "lab": "deepseek",
+      "model": "DeepSeek-V4-Flash-0731",
+      "note": "V4 Flash refresh.",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731"
+    },
+    {
+      "date": "2026-08-13",
+      "lab": "google",
+      "model": "Gemini 3.7 Flash",
+      "note": "GA.",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "date": "2026-08-25",
+      "lab": "zhipu",
+      "model": "GLM-5.3 + 5.3-Flash",
+      "note": "Latest 5-series pair.",
+      "url": "https://huggingface.co/zai-org/GLM-5.3"
+    },
+    {
+      "date": "2026-08-27",
+      "lab": "google",
+      "model": "Gemini Omni Flash",
+      "note": "Omni-modal Flash, GA.",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "date": "2026-09-01",
+      "lab": "anthropic",
+      "model": "Claude Fable 5.1",
+      "note": "Successor to Fable 5.",
+      "url": "https://docs.claude.com/en/release-notes/overview",
+      "pricing": "$10 / $50 per MTok"
+    },
+    {
+      "date": "2026-09-02",
+      "lab": "google",
+      "model": "Gemini 3.8 Flash",
+      "note": "GA.",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "date": "2026-09-03",
+      "lab": "openai",
+      "model": "GPT-6 Astra",
+      "note": "Most capable OpenAI model; end-to-end agentic work.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "$10 / $50 per MTok (prompts up to 272K)"
+    },
+    {
+      "date": "2026-09-10",
+      "lab": "deepseek",
+      "model": "DeepSeek-V4.1-Flash",
+      "note": "Latest V4 line release.",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+      "pricing": "$0.30 / $1.20 per MTok (peak)"
+    },
+    {
+      "date": "2026-09-14",
+      "lab": "typesafe",
+      "model": "Jev",
+      "note": "First \"System One\" model: typed probabilistic decisions instead of text, 70-500ms end-to-end; early access.",
+      "url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "pricing": "$0.042 / MTok input; output free",
+      "benchmarks": "Vendor workflow evals: 193.6x faster and 444.6x cheaper than a GPT-6 Astra / Claude Fable 5.1 reference"
+    },
+    {
+      "date": "2026-09-15",
+      "lab": "google",
+      "model": "Gemini 3.8 Live",
+      "note": "Real-time audio-to-audio, GA.",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "date": "2026-09-22",
+      "lab": "anthropic",
+      "model": "Claude Opus 5.5",
+      "note": "Long-running agentic coding.",
+      "url": "https://docs.claude.com/en/release-notes/overview",
+      "pricing": "$4 / $20 per MTok"
+    },
+    {
+      "date": "2026-09-22",
+      "lab": "openai",
+      "model": "GPT-6 Sol + GPT-6 Luna",
+      "note": "GPT-6 reasoning pair, three days after Astra.",
+      "url": "https://developers.openai.com/changelog/",
+      "pricing": "Sol: $2 / $10; Luna: $0.10 / $0.50 per MTok"
+    }
+  ]
+}
