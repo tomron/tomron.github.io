@@ -57,6 +57,10 @@ export default defineConfig({
         } else if (/\/blog\/?/.test(item.url)) {
           item.changefreq = EnumChangefreq.WEEKLY;
           item.priority = 0.7;
+        } else if (item.url.includes('/model-timeline')) {
+          // Updated by the daily model-release monitor.
+          item.changefreq = EnumChangefreq.DAILY;
+          item.priority = 0.6;
         } else {
           item.changefreq = EnumChangefreq.YEARLY;
           item.priority = 0.6;
