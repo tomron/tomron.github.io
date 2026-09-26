@@ -362,6 +362,12 @@ const wmDomain = import.meta.env.PUBLIC_WEBMENTION_DOMAIN;
             aria-current={path === '/about/' ? 'page' : undefined}>About</a
           >
           <a
+            href="/model-timeline/"
+            aria-current={path.startsWith('/model-timeline')
+              ? 'page'
+              : undefined}>Models Timeline</a
+          >
+          <a
             href="/search/"
             aria-current={path === '/search/' ? 'page' : undefined}>Search</a
           >
