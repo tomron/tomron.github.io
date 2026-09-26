@@ -1,7 +1,7 @@
 ---
 title: "A Timeline of AI Model Releases"
-pubDate: 2026-09-25T07:30:00.000Z
-permalink: "/2026/09/25/ai-model-release-timeline/"
+pubDate: 2026-09-26T07:30:00.000Z
+permalink: "/2026/09/26/ai-model-release-timeline/"
 tags:
   - "ai"
   - "llm"
