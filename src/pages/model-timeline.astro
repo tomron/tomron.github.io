@@ -270,6 +270,7 @@ const updated = fmtDate(data.updated);
                     {r.model}
                   </span>
                 )}
+                {!showLabel && <span class="ctip">{r.model}</span>}
               </button>
             ))}
           </div>
@@ -396,6 +397,9 @@ const updated = fmtDate(data.updated);
   </script>
 
   <style>
+    :global(main.wrap:has(#tlscroll)) {
+      max-width: min(96vw, 90rem);
+    }
     .meta-line {
       color: var(--muted);
       font-size: 0.9rem;
@@ -521,6 +525,33 @@ const updated = fmtDate(data.updated);
     }
     .tick.dim {
       opacity: 0.18;
+    }
+    .ctip {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 6px);
+      transform: translateX(-50%) translateY(2px);
+      background: var(--fg);
+      color: var(--bg);
+      font-size: 0.72rem;
+      font-family: var(--font);
+      white-space: nowrap;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 0.12s,
+        transform 0.12s;
+      z-index: 3;
+    }
+    .tick:hover .ctip,
+    .tick:focus .ctip,
+    .tick.active .ctip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
     }
     @media (max-width: 640px) {
       .lane-label {
