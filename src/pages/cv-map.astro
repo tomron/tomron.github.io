@@ -6,21 +6,41 @@ const stations = [...map.stations].sort((a, b) => a.x - b.x);
 const liveLines = map.lines.filter(
   (line) => !('planned' in line && line.planned),
 );
-const segments = liveLines.map((line) => {
-  const stops = stations.filter((station) => station.lines.includes(line.id));
-  const offset =
-    line.id === 'leadership' ? -18 : line.id === 'engineering' ? 18 : 0;
-  // Each route bends out of a shared interchange before reaching the next one.
-  // Separate parallel runs stay legible rather than painting over each other.
-  const path = stops
-    .map((stop, index) => {
-      if (!index) return `M ${stop.x} ${stop.y}`;
-      const prev = stops[index - 1];
-      const gap = Math.min(38, (stop.x - prev.x) / 4);
-      return `L ${prev.x + gap} ${prev.y + offset} L ${stop.x - gap} ${stop.y + offset} L ${stop.x} ${stop.y}`;
+const byId = Object.fromEntries(
+  stations.map((station) => [station.id, station]),
+);
+// The rails take different corridors between stations. At an interchange they
+// actually meet at one point, rather than running as parallel offsets nearby.
+const routes = [
+  {
+    id: 'leadership',
+    stops: ['magic', 'lynx', 'beteende', 'goodnotes'],
+    lanes: [145, 132, 148],
+  },
+  {
+    id: 'ai',
+    stops: ['taykey', 'magic', 'sharecare', 'lynx', 'beteende', 'goodnotes'],
+    lanes: [206, 240, 238, 211, 208],
+  },
+  {
+    id: 'engineering',
+    stops: ['taykey', 'magic', 'sharecare', 'lynx', 'beteende', 'goodnotes'],
+    lanes: [316, 316, 316, 313, 312],
+  },
+];
+const segments = routes.map((route) => {
+  const color = liveLines.find((line) => line.id === route.id)?.color;
+  const path = route.stops
+    .slice(1)
+    .map((id, index) => {
+      const from = byId[route.stops[index]];
+      const to = byId[id];
+      const lane = route.lanes[index];
+      const bend = Math.min(72, (to.x - from.x) / 3);
+      return `M ${from.x} ${from.y} C ${from.x + bend} ${lane}, ${to.x - bend} ${lane}, ${to.x} ${to.y}`;
     })
     .join(' ');
-  return { ...line, path };
+  return { color, path };
 });
 ---
 
@@ -33,9 +53,9 @@ const segments = liveLines.map((line) => {
     <p class="eyebrow">THE CAREER NETWORK / 2012 - TODAY</p>
     <h1>Career, by connection.</h1>
     <p>
-      Three lines through the work I've done. Each stop is a role; interchanges
-      are where leadership, AI and engineering meet. Hover, focus or tap a
-      station for the details.
+      Three paths start apart. At each interchange, more of my work connects.
+      They converge in AI engineering leadership. Hover, focus or tap a station
+      for the details.
     </p>
   </header>
 
@@ -56,6 +76,37 @@ const segments = liveLines.map((line) => {
     }
   </nav>
 
+  <div class="mobile-overview" aria-hidden="true">
+    <span>FROM BUILDING TO AI ENGINEERING LEADERSHIP</span>
+    <svg viewBox="0 0 1360 500" preserveAspectRatio="xMidYMid meet">
+      {
+        segments.map((line) => (
+          <path
+            d={line.path}
+            fill="none"
+            stroke={line.color}
+            stroke-width="17"
+            stroke-linecap="round"
+          />
+        ))
+      }
+      {
+        stations.map((station) => (
+          <circle
+            cx={station.x}
+            cy={station.y}
+            r="23"
+            fill="#f9f8f4"
+            stroke="#27313b"
+            stroke-width="8"
+          />
+        ))
+      }
+    </svg>
+    <small>Full route overview · swipe the map below to explore each stop</small
+    >
+  </div>
+
   <section class="map-section" aria-label="Interactive career map">
     <div
       class="map-scroll"
@@ -65,7 +116,7 @@ const segments = liveLines.map((line) => {
       <div class="map-canvas">
         <div class="map-grid" aria-hidden="true"></div>
         <svg
-          viewBox="0 0 1360 420"
+          viewBox="0 0 1360 500"
           preserveAspectRatio="xMidYMid meet"
           aria-hidden="true"
           class="routes"
@@ -76,7 +127,7 @@ const segments = liveLines.map((line) => {
                 d={line.path}
                 fill="none"
                 stroke={line.color}
-                stroke-width="9"
+                stroke-width="8"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 opacity="0.94"
@@ -84,7 +135,7 @@ const segments = liveLines.map((line) => {
             ))
           }
           <path
-            d="M 72 358 H 650"
+            d="M 72 425 H 650"
             fill="none"
             stroke="#a378bc"
             stroke-width="5"
@@ -92,7 +143,7 @@ const segments = liveLines.map((line) => {
             stroke-linecap="round"
             opacity="0.6"></path>
           <path
-            d="M 715 358 H 1286"
+            d="M 715 425 H 1286"
             fill="none"
             stroke="#bc9650"
             stroke-width="5"
@@ -105,7 +156,7 @@ const segments = liveLines.map((line) => {
                 <circle
                   cx={s.x}
                   cy={s.y}
-                  r="16"
+                  r={s.lines.length === 3 ? '18' : '14'}
                   fill="var(--map-paper)"
                   stroke="var(--map-ink)"
                   stroke-width="2.5"
@@ -113,17 +164,23 @@ const segments = liveLines.map((line) => {
                 <circle
                   cx={s.x}
                   cy={s.y}
-                  r="9"
+                  r={s.lines.length === 3 ? '11' : '7'}
                   fill="var(--map-paper)"
-                  stroke="var(--map-ink)"
+                  stroke={s.lines.length === 3 ? 'var(--map-ink)' : '#4d79a5'}
                   stroke-width="1.5"
                 />
               </g>
             ))
           }
-          <circle cx="72" cy="358" r="7" fill="#a378bc"></circle>
-          <circle cx="715" cy="358" r="7" fill="#bc9650"></circle>
+          <circle cx="72" cy="425" r="7" fill="#a378bc"></circle>
+          <circle cx="715" cy="425" r="7" fill="#bc9650"></circle>
         </svg>
+        <div class="phase early" aria-hidden="true">01 / BUILDING</div>
+        <div class="phase middle" aria-hidden="true">02 / LEADING</div>
+        <div class="phase final" aria-hidden="true">03 / CONVERGENCE</div>
+        <div class="destination" aria-hidden="true">
+          AI engineering<br />leadership
+        </div>
         {
           stations.map((station, index) => (
             <button
@@ -275,7 +332,7 @@ const segments = liveLines.map((line) => {
   .map-section,
   .details,
   .map-note {
-    width: min(91vw, 1320px);
+    width: min(95vw, 1360px);
     margin-left: 50%;
     transform: translateX(-50%);
   }
@@ -330,6 +387,9 @@ const segments = liveLines.map((line) => {
   .planned .legend-mark {
     border-top-style: dashed;
   }
+  .mobile-overview {
+    display: none;
+  }
   .map-section {
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -345,7 +405,7 @@ const segments = liveLines.map((line) => {
   }
   .map-canvas {
     width: 1360px;
-    height: 420px;
+    height: 500px;
     position: relative;
     color: #27313b;
   }
@@ -393,7 +453,7 @@ const segments = liveLines.map((line) => {
   }
   .station-label {
     position: absolute;
-    bottom: 25px;
+    bottom: 39px;
     left: 0;
     transform: translateX(-50%);
     display: grid;
@@ -406,7 +466,7 @@ const segments = liveLines.map((line) => {
   }
   .station.below .station-label {
     bottom: auto;
-    top: 23px;
+    top: 32px;
   }
   .station-label strong {
     font-size: 0.89rem;
@@ -418,7 +478,7 @@ const segments = liveLines.map((line) => {
   }
   .planned-label {
     position: absolute;
-    top: 366px;
+    top: 436px;
     font: 700 0.76rem var(--mono);
     letter-spacing: 0.03em;
   }
@@ -434,9 +494,39 @@ const segments = liveLines.map((line) => {
     left: 731px;
     color: #876621;
   }
+  .phase {
+    position: absolute;
+    top: 30px;
+    color: #59636d;
+    font: 700 0.74rem var(--mono);
+    letter-spacing: 0.12em;
+    border-bottom: 1px solid #bcbfb9;
+    padding-bottom: 7px;
+  }
+  .phase.early {
+    left: 98px;
+    width: 390px;
+  }
+  .phase.middle {
+    left: 580px;
+    width: 400px;
+  }
+  .phase.final {
+    left: 1080px;
+    width: 200px;
+  }
+  .destination {
+    position: absolute;
+    top: 283px;
+    right: 40px;
+    font-weight: 750;
+    line-height: 1.2;
+    text-align: right;
+    color: #27313b;
+  }
   .map-compass {
     position: absolute;
-    top: 19px;
+    top: 467px;
     right: 24px;
     font: 700 0.7rem var(--mono);
     letter-spacing: 0.12em;
@@ -540,6 +630,28 @@ const segments = liveLines.map((line) => {
     --map-paper: #e9e7df;
   }
   @media (max-width: 700px) {
+    .mobile-overview {
+      display: grid;
+      width: calc(100vw - 28px);
+      margin: 0 auto 12px;
+      padding: 13px 12px 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #f9f8f4;
+      color: #27313b;
+    }
+    .mobile-overview span {
+      font: 700 0.63rem var(--mono);
+      letter-spacing: 0.08em;
+    }
+    .mobile-overview svg {
+      width: 100%;
+      height: 94px;
+    }
+    .mobile-overview small {
+      font: 0.68rem var(--mono);
+      text-align: center;
+    }
     .map-head,
     .legend,
     .map-section,

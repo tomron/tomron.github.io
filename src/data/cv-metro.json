@@ -25,7 +25,7 @@
       "location": "Israel / Germany",
       "lines": ["ai", "engineering"],
       "x": 142,
-      "y": 282,
+      "y": 260,
       "description": "Worked across research, proof of concept, architecture, implementation and evaluation.",
       "highlights": [
         "End-to-end product development",
@@ -40,7 +40,7 @@
       "location": "Germany",
       "lines": ["leadership", "ai", "engineering"],
       "x": 355,
-      "y": 225,
+      "y": 230,
       "description": "Led a cross-functional team building backend systems and large-scale data pipelines.",
       "highlights": ["Team of 7", "Technical leadership and mentoring"]
     },
@@ -52,7 +52,7 @@
       "location": "Germany",
       "lines": ["ai", "engineering"],
       "x": 568,
-      "y": 290,
+      "y": 280,
       "description": "Built health products for feedback, recommendations and risk analysis, from research through production.",
       "highlights": [
         "Cross-functional feature team",
@@ -67,7 +67,7 @@
       "location": "Israel",
       "lines": ["leadership", "ai", "engineering"],
       "x": 781,
-      "y": 211,
+      "y": 206,
       "description": "Scaled engineering and helped move a healthcare data platform from an internal MVP to an externally used product.",
       "highlights": [
         "8 engineers and DevOps; professional leadership for 3 data scientists and analysts",
@@ -82,7 +82,7 @@
       "location": "Israel",
       "lines": ["leadership", "ai", "engineering"],
       "x": 994,
-      "y": 251,
+      "y": 241,
       "description": "Led product and technology for a self-serve analytics platform for teams deploying AI companions.",
       "highlights": [
         "Led 8 multidisciplinary engineers and 2 data analysts",
@@ -97,7 +97,7 @@
       "location": "Israel",
       "lines": ["leadership", "ai", "engineering"],
       "x": 1207,
-      "y": 182,
+      "y": 206,
       "description": "Leads a globally distributed engineering team driving AI adoption and production rollout of internal AI-native tools.",
       "highlights": [
         "AI tooling roadmap and vendor decisions",
