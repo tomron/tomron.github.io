@@ -3,7 +3,7 @@ title: "Things I learned today (08/08/2021)"
 pubDate: 2021-08-08T15:06:39.000Z
 permalink: "/2021/08/08/things-i-learned-today-08-08-2021/"
 tags: []
-draft: true
+draft: false
 ---
 <!-- wp:paragraph -->
 <p>S3 Object Lock provides two retention modes:</p>

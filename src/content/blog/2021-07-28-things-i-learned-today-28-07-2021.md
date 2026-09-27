@@ -3,7 +3,7 @@ title: "Things I learned today (28/07/2021)"
 pubDate: 2021-07-28T10:32:28.000Z
 permalink: "/2021/07/28/things-i-learned-today-28-07-2021/"
 tags: []
-draft: true
+draft: false
 ---
 <!-- wp:paragraph -->
 <p>When replicating object, either same region or cross region, versioning should be enabled on both source bucket and destination bucket.</p>

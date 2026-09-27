@@ -3,7 +3,7 @@ title: "Getting started with Spark and Scala - 3 questions"
 pubDate: 2015-06-18T18:17:47.000Z
 permalink: "/2015/06/18/getting-started-with-spark-and-scala-3-questions/"
 tags: []
-draft: true
+draft: false
 ---
 <div>I recently started to dive into Spark and Scala as this is an important tool for data scientist. Few questions crossed my mind while learning and I dug a bit around them -</div>
 <div></div>

@@ -7,7 +7,7 @@ tags:
   - "auto-scaling"
   - "aws"
   - "ec2"
-draft: true
+draft: false
 ---
 <!-- wp:paragraph -->
 <p>Instances in auto-scaling groups can be replaced based on a maximum instance lifetime parameter. I.e. "As an instance approaches its maximum duration, it is terminated and replaced, and cannot be used again" (<a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-max-instance-lifetime.html">here</a>)</p>

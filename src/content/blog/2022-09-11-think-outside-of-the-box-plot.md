@@ -3,7 +3,7 @@ title: "Think Outside Of The Box Plot"
 pubDate: 2022-09-11T12:48:20.000Z
 permalink: "/2022/09/11/think-outside-of-the-box-plot/"
 tags: []
-draft: true
+draft: false
 ---
 <!-- wp:list -->
 <ul><!-- wp:list-item -->
