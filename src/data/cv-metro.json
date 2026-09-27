@@ -1,8 +1,20 @@
 {
   "lines": [
-    { "id": "leadership", "name": "Leadership", "color": "#c95c46" },
-    { "id": "ai", "name": "AI / Data Science", "color": "#4d79a5" },
-    { "id": "engineering", "name": "Engineering", "color": "#449376" },
+    {
+      "id": "leadership",
+      "name": "Leadership",
+      "color": "#c95c46"
+    },
+    {
+      "id": "ai",
+      "name": "AI / Data Science",
+      "color": "#4d79a5"
+    },
+    {
+      "id": "engineering",
+      "name": "Engineering",
+      "color": "#449376"
+    },
     {
       "id": "education",
       "name": "Education",
@@ -105,5 +117,31 @@
       ]
     }
   ],
-  "plannedTracksNote": "Education and volunteering are reserved tracks. Details will be added later."
+  "plannedTracksNote": "Volunteering details have not been provided.",
+  "education": [
+    {
+      "institution": "Technion",
+      "degree": "Ph.D. research (not completed)",
+      "period": "Apr 2019 - Sep 2020",
+      "detail": "Research and doctoral candidacy"
+    },
+    {
+      "institution": "Hebrew University of Jerusalem",
+      "degree": "M.Sc. Computer Science",
+      "period": "2009 - 2012",
+      "detail": "Magna cum laude \u00b7 Thesis: Capacitated Network Design Games"
+    },
+    {
+      "institution": "Hebrew University of Jerusalem",
+      "degree": "MBA",
+      "period": "2009 - 2012",
+      "detail": "Cum laude \u00b7 Finance and operations research"
+    },
+    {
+      "institution": "Hebrew University of Jerusalem",
+      "degree": "B.Sc. Computer Science",
+      "period": "2006 - 2009",
+      "detail": "Amirim Humanities Program (excellence program)"
+    }
+  ]
 }
