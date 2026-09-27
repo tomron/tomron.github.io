@@ -1,4 +1,6 @@
-// Flip draft: true -> draft: false for posts whose pubDate has arrived.
+// Flip draft: true -> draft: false only for posts explicitly opted in with
+// scheduledPublish: true and whose pubDate has arrived. Existing drafts without
+// the opt-in flag stay private, regardless of their original publication date.
 // Run daily by .github/workflows/publish-due-drafts.yml, which opens a PR
 // with whatever this script changes.
 //   node scripts/publish-due-drafts.mjs
@@ -10,8 +12,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BLOG_DIR = join(ROOT, 'src/content/blog');
 
-const today = new Date();
-today.setUTCHours(0, 0, 0, 0);
+const now = new Date();
 
 const published = [];
 
@@ -26,6 +27,7 @@ for (const file of readdirSync(BLOG_DIR)) {
   const frontmatter = frontmatterMatch[1];
 
   if (!/^draft:\s*true\s*$/m.test(frontmatter)) continue;
+  if (!/^scheduledPublish:\s*true\s*$/m.test(frontmatter)) continue;
 
   const pubDateMatch = frontmatter.match(/^pubDate:\s*(.+)$/m);
   if (!pubDateMatch) continue;
@@ -33,7 +35,7 @@ for (const file of readdirSync(BLOG_DIR)) {
   const pubDate = new Date(pubDateMatch[1].trim());
   if (Number.isNaN(pubDate.getTime())) continue;
 
-  if (pubDate.getTime() > today.getTime()) continue;
+  if (pubDate.getTime() > now.getTime()) continue;
 
   const updated = content.replace(/^draft:\s*true\s*$/m, 'draft: false');
   writeFileSync(path, updated);
