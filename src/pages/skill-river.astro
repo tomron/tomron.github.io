@@ -1,0 +1,461 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import river from '../data/skill-river.json';
+
+const left = 105;
+const right = 1145;
+const x = (year: number) =>
+  left + ((year - river.start) / (river.end - river.start)) * (right - left);
+const interpolate = (points: number[][], year: number) => {
+  const i = points.findIndex(([at]) => at >= year);
+  if (i <= 0) return points[0][1];
+  const [a, av] = points[i - 1];
+  const [b, bv] = points[i];
+  const t = (year - a) / (b - a);
+  const eased = t * t * (3 - 2 * t);
+  return av + (bv - av) * eased;
+};
+const years = Array.from(
+  { length: 89 },
+  (_, i) => river.start + (i * (river.end - river.start)) / 88,
+);
+const bandPath = (domain: (typeof river.domains)[number]) => {
+  const thickness = (year: number) => 7 + interpolate(domain.points, year) * 55;
+  const upper = years.map(
+    (year) =>
+      `${x(year).toFixed(1)},${(domain.baseline - thickness(year) / 2).toFixed(1)}`,
+  );
+  const lower = [...years]
+    .reverse()
+    .map(
+      (year) =>
+        `${x(year).toFixed(1)},${(domain.baseline + thickness(year) / 2).toFixed(1)}`,
+    );
+  return `M${upper.join(' L')} L${lower.join(' L')} Z`;
+};
+const ticks = [2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026];
+---
+
+<BaseLayout
+  title="Skill river"
+  description="Tom Ron's career as a river of leadership, AI and data science, and engineering across time."
+  path="/skill-river/"
+>
+  <div class="river-page">
+    <p class="eyebrow">An interactive career sketch · 2012-2026</p>
+    <h1>Skill river</h1>
+    <p class="intro">
+      Three currents through the work: leadership, AI & data science, and
+      engineering. Select a milestone to see what was happening at that point.
+    </p>
+    <div class="legend" aria-label="Skill domains">
+      {
+        river.domains.map((domain) => (
+          <span>
+            <i style={`background:${domain.color}`} />
+            {domain.label}
+          </span>
+        ))
+      }
+      <span><i class="education-key"></i>Education / research</span>
+    </div>
+    <div
+      class="chart-scroll"
+      role="region"
+      aria-label="Career river timeline; scroll horizontally on small screens"
+      tabindex="0"
+    >
+      <div class="chart">
+        <svg
+          viewBox="0 0 1250 520"
+          role="img"
+          aria-labelledby="river-title river-desc"
+        >
+          <title id="river-title">Tom Ron's skill river, 2012 to 2026</title>
+          <desc id="river-desc"
+            >Three colored bands show a qualitative sketch of skill emphasis
+            over time. Milestone buttons below provide the dated workplaces and
+            education.</desc
+          >
+          <defs>
+            {
+              river.domains.map((domain) => (
+                <linearGradient
+                  id={`fade-${domain.id}`}
+                  x1="0"
+                  y1="0"
+                  x2="1"
+                  y2="0"
+                >
+                  <>
+                    <stop stop-color={domain.color} stop-opacity=".62" />
+                    <stop
+                      offset="1"
+                      stop-color={domain.color}
+                      stop-opacity=".94"
+                    />
+                  </>
+                </linearGradient>
+              ))
+            }
+          </defs>
+          <rect
+            x="0"
+            y="0"
+            width="1250"
+            height="520"
+            rx="18"
+            fill="var(--river-panel)"></rect>
+          {
+            ticks.map((year) => (
+              <g>
+                <>
+                  <line
+                    x1={x(year)}
+                    y1="50"
+                    x2={x(year)}
+                    y2="414"
+                    stroke="var(--river-grid)"
+                    stroke-dasharray="3 7"
+                  />
+                  <text x={x(year)} y="448" text-anchor="middle" class="tick">
+                    {year}
+                  </text>
+                </>
+              </g>
+            ))
+          }
+          {
+            river.domains.map((domain) => (
+              <g>
+                <>
+                  <path
+                    d={bandPath(domain)}
+                    fill={`url(#fade-${domain.id})`}
+                    stroke={domain.color}
+                    stroke-width="1"
+                  />
+                  <text x="20" y={domain.baseline + 4} class="axis-label">
+                    {domain.label}
+                  </text>
+                </>
+              </g>
+            ))
+          }
+          {
+            river.milestones.map((milestone, i) => (
+              <g class="marker" data-marker={milestone.id}>
+                <line
+                  x1={x(milestone.year)}
+                  x2={x(milestone.year)}
+                  y1="43"
+                  y2="410"
+                  stroke={
+                    milestone.kind === 'education'
+                      ? '#a580b3'
+                      : 'var(--river-marker)'
+                  }
+                  stroke-width="1.5"
+                  stroke-dasharray={
+                    milestone.kind === 'education' ? '4 5' : '2 8'
+                  }
+                  opacity=".65"
+                />
+                <circle
+                  cx={x(milestone.year)}
+                  cy={i % 2 ? 380 : 406}
+                  r={milestone.kind === 'education' ? 7 : 6}
+                  fill={
+                    milestone.kind === 'education'
+                      ? '#a580b3'
+                      : 'var(--river-marker)'
+                  }
+                  stroke="var(--river-panel)"
+                  stroke-width="2"
+                />
+                <text
+                  x={x(milestone.year)}
+                  y={i % 2 ? 368 : 396}
+                  text-anchor="middle"
+                  class="milestone-label"
+                >
+                  {milestone.name}
+                </text>
+              </g>
+            ))
+          }
+          <text x="1145" y="478" text-anchor="end" class="chart-note"
+            >Today →</text
+          >
+        </svg>
+      </div>
+    </div>
+    <p class="hint">
+      On a phone, swipe the chart to follow the river. The dated milestones
+      below are also keyboard accessible.
+    </p>
+    <div class="milestones" aria-label="Career milestones">
+      {
+        river.milestones.map((milestone, i) => (
+          <button
+            type="button"
+            class:list={[
+              'milestone-button',
+              { selected: i === 0, education: milestone.kind === 'education' },
+            ]}
+            data-id={milestone.id}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+          >
+            <>
+              <span class="date">{milestone.date}</span>
+              <span class="name">{milestone.name}</span>
+            </>
+          </button>
+        ))
+      }
+    </div>
+    <section class="detail" aria-live="polite">
+      <p class="detail-date" id="detail-date">{river.milestones[0].date}</p>
+      <h2 id="detail-name">{river.milestones[0].name}</h2>
+      <p class="role" id="detail-role">{river.milestones[0].role}</p>
+      <p id="detail-text">{river.milestones[0].detail}</p>
+    </section>
+    <p class="method">
+      Band widths are illustrative, not measured proficiency or hours worked.
+      They are an editorial reading of the CV, not a score. Roles have gaps
+      between their listed dates; the current is a thematic thread, not a claim
+      of continuous employment. Education is marked by dated events rather than
+      an invented fourth skill band. <a
+        href="https://docs.google.com/document/d/14eZqj2bGRQsL-iYZFEPXgDUcxNxr4cqMZw2Cx9axAB4/edit"
+        >CV source</a
+      >.
+    </p>
+    <p class="back"><a href="/about/">← About Tom</a></p>
+  </div>
+</BaseLayout>
+
+<script>
+  import river from '../data/skill-river.json';
+  const buttons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>('.milestone-button'),
+  );
+  const date = document.getElementById('detail-date')!;
+  const name = document.getElementById('detail-name')!;
+  const role = document.getElementById('detail-role')!;
+  const text = document.getElementById('detail-text')!;
+  function select(id: string) {
+    const milestone = river.milestones.find((m) => m.id === id);
+    if (!milestone) return;
+    date.textContent = milestone.date;
+    name.textContent = milestone.name;
+    role.textContent = milestone.role;
+    text.textContent = milestone.detail;
+    buttons.forEach((button) => {
+      const active = button.dataset.id === id;
+      button.classList.toggle('selected', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    document
+      .querySelectorAll<SVGGElement>('[data-marker]')
+      .forEach((marker) =>
+        marker.classList.toggle('active', marker.dataset.marker === id),
+      );
+  }
+  buttons.forEach((button) =>
+    button.addEventListener('click', () => select(button.dataset.id!)),
+  );
+  select('taykey');
+</script>
+
+<style>
+  :global(main.wrap) {
+    max-width: 76rem;
+  }
+  .river-page {
+    --river-panel: #f8fafb;
+    --river-grid: #d9e0e4;
+    --river-marker: #293a48;
+    max-width: 100%;
+  }
+  .eyebrow {
+    margin: 0.2rem 0 0.65rem;
+    color: var(--muted);
+    font-size: 0.77rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  h1 {
+    margin-bottom: 0.6rem;
+  }
+  .intro {
+    max-width: 38rem;
+    color: var(--muted);
+    font-size: 1.08rem;
+    line-height: 1.55;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 1.15rem;
+    margin: 1.5rem 0 1rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .legend i {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 99px;
+  }
+  .legend .education-key {
+    background: #a580b3;
+  }
+  .chart-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overscroll-behavior-inline: contain;
+  }
+  .chart {
+    min-width: 810px;
+  }
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .tick,
+  .axis-label,
+  .milestone-label,
+  .chart-note {
+    fill: #4b5962;
+    font-family: var(--font);
+  }
+  .tick,
+  .chart-note {
+    font-size: 16px;
+  }
+  .axis-label {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .milestone-label {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .marker.active line {
+    stroke-width: 3;
+    opacity: 1;
+  }
+  .marker.active circle {
+    r: 9;
+  }
+  .hint {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0.6rem 0 1.2rem;
+  }
+  .milestones {
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    padding: 0 0 0.65rem;
+    scrollbar-width: thin;
+  }
+  .milestone-button {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 112px;
+    text-align: left;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--fg);
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+  }
+  .milestone-button:hover,
+  .milestone-button:focus-visible {
+    border-color: var(--accent);
+  }
+  .milestone-button.selected {
+    border-color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent);
+  }
+  .milestone-button.education {
+    border-top: 3px solid #a580b3;
+  }
+  .milestone-button .date {
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+  .milestone-button .name {
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .detail {
+    margin: 1rem 0 1.3rem;
+    padding: 1rem 1.2rem;
+    background: var(--river-panel);
+    border-left: 3px solid var(--accent);
+    min-height: 140px;
+    border-radius: 0 8px 8px 0;
+  }
+  .detail-date {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .detail h2 {
+    font-size: 1.25rem;
+    margin: 0.15rem 0;
+  }
+  .detail .role {
+    font-weight: 600;
+    margin: 0.1rem 0 0.55rem;
+  }
+  .detail p:last-child {
+    margin: 0;
+    line-height: 1.5;
+  }
+  .method {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .back {
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 600px) {
+    .chart {
+      width: 900px;
+    }
+    .legend {
+      font-size: 0.74rem;
+    }
+    .milestone-button {
+      min-width: 104px;
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .river-page {
+      --river-panel: #202831;
+      --river-grid: #34404b;
+      --river-marker: #d3dce3;
+    }
+  }
+  :global([data-theme='dark']) .river-page {
+    --river-panel: #202831;
+    --river-grid: #34404b;
+    --river-marker: #d3dce3;
+  }
+</style>
