@@ -10,7 +10,7 @@ tags:
   - "gemini"
   - "deepseek"
   - "llama"
-draft: false
+draft: true
 ---
 <!-- wp:paragraph -->
 <p>I keep losing track of which model came out when. Between GPT-6, Claude Fable, Gemini 3.8, and the open-weight labs shipping every few weeks, answering "was that before or after X?" got harder than it should be.</p>
