@@ -1,0 +1,109 @@
+{
+  "lines": [
+    { "id": "leadership", "name": "Leadership", "color": "#c95c46" },
+    { "id": "ai", "name": "AI / Data Science", "color": "#4d79a5" },
+    { "id": "engineering", "name": "Engineering", "color": "#449376" },
+    {
+      "id": "education",
+      "name": "Education",
+      "color": "#a378bc",
+      "planned": true
+    },
+    {
+      "id": "volunteering",
+      "name": "Volunteering",
+      "color": "#bc9650",
+      "planned": true
+    }
+  ],
+  "stations": [
+    {
+      "id": "taykey",
+      "name": "Taykey",
+      "role": "Data Scientist / Research Algorithm Engineer",
+      "period": "Feb 2012 - Jun 2015",
+      "location": "Israel / Germany",
+      "lines": ["ai", "engineering"],
+      "x": 142,
+      "y": 282,
+      "description": "Worked across research, proof of concept, architecture, implementation and evaluation.",
+      "highlights": [
+        "End-to-end product development",
+        "Research and algorithms"
+      ]
+    },
+    {
+      "id": "magic",
+      "name": "Magic Internet",
+      "role": "Lead Data Scientist",
+      "period": "Sep 2015 - Mar 2017",
+      "location": "Germany",
+      "lines": ["leadership", "ai", "engineering"],
+      "x": 355,
+      "y": 225,
+      "description": "Led a cross-functional team building backend systems and large-scale data pipelines.",
+      "highlights": ["Team of 7", "Technical leadership and mentoring"]
+    },
+    {
+      "id": "sharecare",
+      "name": "Sharecare",
+      "role": "Senior Data Scientist",
+      "period": "Apr 2017 - Apr 2019",
+      "location": "Germany",
+      "lines": ["ai", "engineering"],
+      "x": 568,
+      "y": 290,
+      "description": "Built health products for feedback, recommendations and risk analysis, from research through production.",
+      "highlights": [
+        "Cross-functional feature team",
+        "Production ML and architecture"
+      ]
+    },
+    {
+      "id": "lynx",
+      "name": "Lynx.MD",
+      "role": "Head of Engineering",
+      "period": "Sep 2020 - May 2023",
+      "location": "Israel",
+      "lines": ["leadership", "ai", "engineering"],
+      "x": 781,
+      "y": 211,
+      "description": "Scaled engineering and helped move a healthcare data platform from an internal MVP to an externally used product.",
+      "highlights": [
+        "8 engineers and DevOps; professional leadership for 3 data scientists and analysts",
+        "Cut cloud costs by over 20%"
+      ]
+    },
+    {
+      "id": "beteende",
+      "name": "Beteende.ai",
+      "role": "CTO",
+      "period": "Sep 2023 - Feb 2026",
+      "location": "Israel",
+      "lines": ["leadership", "ai", "engineering"],
+      "x": 994,
+      "y": 251,
+      "description": "Led product and technology for a self-serve analytics platform for teams deploying AI companions.",
+      "highlights": [
+        "Led 8 multidisciplinary engineers and 2 data analysts",
+        "Explored RAG, agent frameworks and MCP"
+      ]
+    },
+    {
+      "id": "goodnotes",
+      "name": "Goodnotes",
+      "role": "Head of AI Enablement",
+      "period": "Mar 2026 - Present",
+      "location": "Israel",
+      "lines": ["leadership", "ai", "engineering"],
+      "x": 1207,
+      "y": 182,
+      "description": "Leads a globally distributed engineering team driving AI adoption and production rollout of internal AI-native tools.",
+      "highlights": [
+        "AI tooling roadmap and vendor decisions",
+        "MCPs, skills marketplace and reusable templates"
+      ]
+    }
+  ],
+  "plannedTracksNote": "Education and volunteering are reserved tracks. Details will be added later."
+}

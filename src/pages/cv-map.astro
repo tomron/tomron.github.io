@@ -1,0 +1,570 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import map from '../data/cv-metro.json';
+
+const stations = [...map.stations].sort((a, b) => a.x - b.x);
+const liveLines = map.lines.filter(
+  (line) => !('planned' in line && line.planned),
+);
+const segments = liveLines.map((line) => {
+  const stops = stations.filter((station) => station.lines.includes(line.id));
+  const offset =
+    line.id === 'leadership' ? -18 : line.id === 'engineering' ? 18 : 0;
+  // Each route bends out of a shared interchange before reaching the next one.
+  // Separate parallel runs stay legible rather than painting over each other.
+  const path = stops
+    .map((stop, index) => {
+      if (!index) return `M ${stop.x} ${stop.y}`;
+      const prev = stops[index - 1];
+      const gap = Math.min(38, (stop.x - prev.x) / 4);
+      return `L ${prev.x + gap} ${prev.y + offset} L ${stop.x - gap} ${stop.y + offset} L ${stop.x} ${stop.y}`;
+    })
+    .join(' ');
+  return { ...line, path };
+});
+---
+
+<BaseLayout
+  title="Career metro map"
+  description="Tom Ron's career, mapped as intersecting leadership, AI and engineering lines."
+  path="/cv-map/"
+>
+  <header class="map-head">
+    <p class="eyebrow">THE CAREER NETWORK / 2012 - TODAY</p>
+    <h1>Career, by connection.</h1>
+    <p>
+      Three lines through the work I've done. Each stop is a role; interchanges
+      are where leadership, AI and engineering meet. Hover, focus or tap a
+      station for the details.
+    </p>
+  </header>
+
+  <nav class="legend" aria-label="Metro lines">
+    {
+      map.lines.map((line) => (
+        <span
+          class:list={[
+            'legend-item',
+            { planned: 'planned' in line && line.planned },
+          ]}
+        >
+          <span class="legend-mark" style={`--line-color:${line.color}`} />
+          {line.name}
+          {'planned' in line && line.planned && <small>coming soon</small>}
+        </span>
+      ))
+    }
+  </nav>
+
+  <section class="map-section" aria-label="Interactive career map">
+    <div
+      class="map-scroll"
+      tabindex="0"
+      aria-label="Career metro map, scroll horizontally to see all stations"
+    >
+      <div class="map-canvas">
+        <div class="map-grid" aria-hidden="true"></div>
+        <svg
+          viewBox="0 0 1360 420"
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden="true"
+          class="routes"
+        >
+          {
+            segments.map((line) => (
+              <path
+                d={line.path}
+                fill="none"
+                stroke={line.color}
+                stroke-width="9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                opacity="0.94"
+              />
+            ))
+          }
+          <path
+            d="M 72 358 H 650"
+            fill="none"
+            stroke="#a378bc"
+            stroke-width="5"
+            stroke-dasharray="5 12"
+            stroke-linecap="round"
+            opacity="0.6"></path>
+          <path
+            d="M 715 358 H 1286"
+            fill="none"
+            stroke="#bc9650"
+            stroke-width="5"
+            stroke-dasharray="5 12"
+            stroke-linecap="round"
+            opacity="0.6"></path>
+          {
+            stations.map((s) => (
+              <g>
+                <circle
+                  cx={s.x}
+                  cy={s.y}
+                  r="16"
+                  fill="var(--map-paper)"
+                  stroke="var(--map-ink)"
+                  stroke-width="2.5"
+                />
+                <circle
+                  cx={s.x}
+                  cy={s.y}
+                  r="9"
+                  fill="var(--map-paper)"
+                  stroke="var(--map-ink)"
+                  stroke-width="1.5"
+                />
+              </g>
+            ))
+          }
+          <circle cx="72" cy="358" r="7" fill="#a378bc"></circle>
+          <circle cx="715" cy="358" r="7" fill="#bc9650"></circle>
+        </svg>
+        {
+          stations.map((station, index) => (
+            <button
+              class:list={['station', { below: index % 2 === 0 }]}
+              style={`--x:${station.x}px;--y:${station.y}px`}
+              type="button"
+              data-station={station.id}
+              aria-label={`${station.name}, ${station.role}, ${station.period}. Show details`}
+              aria-controls="station-detail"
+              aria-expanded="false"
+            >
+              <span class="hit-area" aria-hidden="true" />
+              <span class="station-label">
+                <>
+                  <strong>{station.name}</strong>
+                  <small>{station.period.replace(/ - .*/, '')}</small>
+                </>
+              </span>
+            </button>
+          ))
+        }
+        <div class="planned-label education" aria-hidden="true">
+          Education <span>to be mapped</span>
+        </div>
+        <div class="planned-label volunteering" aria-hidden="true">
+          Volunteering <span>to be mapped</span>
+        </div>
+        <div class="map-compass" aria-hidden="true">
+          EARLIER <span>→</span> NOW
+        </div>
+      </div>
+    </div>
+    <p class="scroll-hint">← Swipe to follow the line →</p>
+  </section>
+
+  <section
+    class="details"
+    id="station-detail"
+    aria-live="polite"
+    aria-label="Station details"
+  >
+    <div class="detail-placeholder" id="detail-placeholder">
+      <span class="detail-icon" aria-hidden="true">◎</span>
+      <div>
+        <strong>Pick a station</strong><p>
+          The story behind each stop opens here. Hover with a mouse, or tap to
+          keep it open.
+        </p>
+      </div>
+    </div>
+    <article id="detail-content" hidden>
+      <div class="detail-top">
+        <span class="detail-kicker">STATION DETAIL</span><button
+          id="close-detail"
+          type="button"
+          aria-label="Close station details">×</button
+        >
+      </div>
+      <h2 id="detail-name"></h2>
+      <p class="detail-role" id="detail-role"></p>
+      <p class="detail-meta" id="detail-meta"></p>
+      <p id="detail-description"></p>
+      <ul id="detail-highlights"></ul>
+      <div class="detail-lines" id="detail-lines"></div>
+    </article>
+  </section>
+  <p class="map-note">
+    Dashed lines are reserved for education and volunteering. Those stops
+    haven't been added yet.
+  </p>
+  <script define:vars={{ stations, lines: map.lines }} is:inline>
+    const buttons = [...document.querySelectorAll('[data-station]')];
+    const detail = document.getElementById('detail-content');
+    const placeholder = document.getElementById('detail-placeholder');
+    let pinned = false;
+    let active = null;
+    const show = (id) => {
+      const station = stations.find((s) => s.id === id);
+      if (!station) return;
+      active = id;
+      buttons.forEach((b) =>
+        b.setAttribute('aria-expanded', String(b.dataset.station === id)),
+      );
+      document.getElementById('detail-name').textContent = station.name;
+      document.getElementById('detail-role').textContent = station.role;
+      document.getElementById('detail-meta').textContent = [
+        station.period,
+        station.location,
+      ].join('  ·  ');
+      document.getElementById('detail-description').textContent =
+        station.description;
+      document.getElementById('detail-highlights').replaceChildren(
+        ...station.highlights.map((text) => {
+          const li = document.createElement('li');
+          li.textContent = text;
+          return li;
+        }),
+      );
+      document.getElementById('detail-lines').replaceChildren(
+        ...station.lines.map((id) => {
+          const line = lines.find((item) => item.id === id);
+          const span = document.createElement('span');
+          span.textContent = line.name;
+          span.style.setProperty('--line-color', line.color);
+          return span;
+        }),
+      );
+      placeholder.hidden = true;
+      detail.hidden = false;
+    };
+    const clear = () => {
+      if (pinned) return;
+      active = null;
+      buttons.forEach((b) => b.setAttribute('aria-expanded', 'false'));
+      detail.hidden = true;
+      placeholder.hidden = false;
+    };
+    buttons.forEach((button) => {
+      button.addEventListener('mouseenter', () => {
+        if (!pinned) show(button.dataset.station);
+      });
+      button.addEventListener('mouseleave', clear);
+      button.addEventListener('focus', () => {
+        if (!pinned) show(button.dataset.station);
+      });
+      button.addEventListener('blur', clear);
+      button.addEventListener('click', () => {
+        if (pinned && active === button.dataset.station) {
+          pinned = false;
+          clear();
+          return;
+        }
+        pinned = true;
+        show(button.dataset.station);
+        if (matchMedia('(max-width: 700px)').matches)
+          detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+    document.getElementById('close-detail').addEventListener('click', () => {
+      pinned = false;
+      clear();
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .map-head,
+  .legend,
+  .map-section,
+  .details,
+  .map-note {
+    width: min(91vw, 1320px);
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+  .map-head {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .eyebrow,
+  .detail-kicker {
+    color: var(--muted);
+    font: 700 0.72rem var(--mono);
+    letter-spacing: 0.16em;
+  }
+  h1 {
+    font-size: clamp(2.25rem, 5vw, 4.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.055em;
+    margin: 0.55rem 0 0.8rem;
+  }
+  .map-head > p:last-child {
+    max-width: 48rem;
+    color: var(--muted);
+    margin: 0;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1.4rem;
+    padding: 0.8rem 0 1.2rem;
+    font-size: 0.86rem;
+  }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .legend-item.planned {
+    color: var(--muted);
+  }
+  .legend-item small {
+    font: 400 0.72rem var(--mono);
+    opacity: 0.8;
+  }
+  .legend-mark {
+    width: 23px;
+    border-top: 5px solid var(--line-color);
+    border-radius: 4px;
+  }
+  .planned .legend-mark {
+    border-top-style: dashed;
+  }
+  .map-section {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--map-paper);
+    --map-paper: #f9f8f4;
+    --map-ink: #27313b;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.045);
+  }
+  .map-scroll {
+    overflow-x: auto;
+    scrollbar-color: #b9b7af transparent;
+  }
+  .map-canvas {
+    width: 1360px;
+    height: 420px;
+    position: relative;
+    color: #27313b;
+  }
+  .map-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(#e8e6df 1px, transparent 1px),
+      linear-gradient(90deg, #e8e6df 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.43;
+  }
+  .routes {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .station {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+  }
+  .hit-area {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    left: -21px;
+    top: -21px;
+  }
+  .station:hover .hit-area,
+  .station:focus-visible .hit-area,
+  .station[aria-expanded='true'] .hit-area {
+    outline: 2px solid #27313b;
+    outline-offset: 4px;
+  }
+  .station-label {
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    transform: translateX(-50%);
+    display: grid;
+    line-height: 1.15;
+    white-space: nowrap;
+    text-align: center;
+    background: var(--map-paper);
+    padding: 4px 6px;
+    border-radius: 3px;
+  }
+  .station.below .station-label {
+    bottom: auto;
+    top: 23px;
+  }
+  .station-label strong {
+    font-size: 0.89rem;
+  }
+  .station-label small {
+    font: 600 0.71rem var(--mono);
+    color: #59636d;
+    margin-top: 3px;
+  }
+  .planned-label {
+    position: absolute;
+    top: 366px;
+    font: 700 0.76rem var(--mono);
+    letter-spacing: 0.03em;
+  }
+  .planned-label span {
+    font-weight: 400;
+    opacity: 0.7;
+  }
+  .education {
+    left: 89px;
+    color: #75528d;
+  }
+  .volunteering {
+    left: 731px;
+    color: #876621;
+  }
+  .map-compass {
+    position: absolute;
+    top: 19px;
+    right: 24px;
+    font: 700 0.7rem var(--mono);
+    letter-spacing: 0.12em;
+  }
+  .map-compass span {
+    padding: 0 8px;
+  }
+  .scroll-hint {
+    display: block;
+    margin: 0;
+    padding: 0.35rem 1rem;
+    font: 0.72rem var(--mono);
+    color: #58616a;
+    text-align: center;
+    border-top: 1px solid #e8e6df;
+  }
+  .details {
+    margin-top: 1rem;
+    min-height: 190px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+  }
+  .detail-placeholder {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    color: var(--muted);
+    min-height: 125px;
+  }
+  .detail-placeholder strong {
+    color: var(--fg);
+  }
+  .detail-placeholder p {
+    margin: 0.2rem 0 0;
+  }
+  .detail-icon {
+    font-size: 3rem;
+    color: var(--accent);
+  }
+  .details article[hidden],
+  .detail-placeholder[hidden] {
+    display: none;
+  }
+  .detail-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #close-detail {
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .details h2 {
+    margin: 0.1rem 0 0;
+    font-size: 1.8rem;
+    letter-spacing: -0.03em;
+  }
+  .detail-role {
+    font-weight: 700;
+    margin: 0;
+  }
+  .detail-meta {
+    font: 0.82rem var(--mono);
+    color: var(--muted);
+    margin: 0.35rem 0 1rem;
+  }
+  #detail-description {
+    margin: 0 0 0.4rem;
+  }
+  #detail-highlights {
+    margin: 0.3rem 0 0.8rem;
+    padding-left: 1.3rem;
+  }
+  .detail-lines {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .detail-lines :global(span) {
+    font: 600 0.76rem var(--mono);
+    border-left: 5px solid var(--line-color);
+    padding: 0.2rem 0.5rem;
+    background: var(--code-bg);
+  }
+  .map-note {
+    font-size: 0.83rem;
+    color: var(--muted);
+    margin-top: 0.6rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .map-section {
+      --map-paper: #e9e7df;
+    }
+  }
+  :global(:root[data-theme='dark']) .map-section {
+    --map-paper: #e9e7df;
+  }
+  @media (max-width: 700px) {
+    .map-head,
+    .legend,
+    .map-section,
+    .details,
+    .map-note {
+      width: calc(100vw - 28px);
+    }
+    .map-head {
+      margin-top: 0.25rem;
+    }
+    .map-head > p:last-child {
+      font-size: 0.95rem;
+    }
+    .legend {
+      gap: 0.55rem 1rem;
+      padding-bottom: 1rem;
+    }
+    .legend-item {
+      font-size: 0.77rem;
+    }
+    .scroll-hint {
+      display: block;
+    }
+    .details {
+      padding: 1rem;
+    }
+  }
+</style>
