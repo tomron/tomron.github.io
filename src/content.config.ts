@@ -15,6 +15,8 @@ const blog = defineCollection({
     heroImageAlt: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    // Explicit opt-in for the scheduled draft-publishing Action.
+    scheduledPublish: z.boolean().optional(),
   }),
 });
 

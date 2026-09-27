@@ -28,7 +28,7 @@ jobs:
 
       - name: Create pull request
         id: cpr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: 'Publish due drafts'
           title: 'Publish due drafts'
@@ -40,4 +40,5 @@ jobs:
 
       - name: Summary
         if: steps.cpr.outputs.pull-request-number
-        run: echo "Opened PR #${{ steps.cpr.outputs.pull-request-number }}"
+        run: |
+          echo "Opened PR #${{ steps.cpr.outputs.pull-request-number }}"
