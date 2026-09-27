@@ -1,20 +1,22 @@
 ---
 title: "Back in the codebase — growth or retreat?"
-pubDate: 2026-09-29T09:00:00.000Z
-permalink: "/2026/09/29/back-in-the-codebase-growth-or-retreat/"
+pubDate: 2026-09-27T09:00:00.000Z
+permalink: "/2026/09/27/back-in-the-codebase-growth-or-retreat/"
+heroImage: "/wp-content/uploads/2026/09/back-in-the-codebase-hero.png"
+heroImageAlt: "LEGO figure of an engineering manager balancing coding and AI tools on one hand against coaching and team-building on the other, standing on a base labeled Technical Judgment"
 description: "Engineering managers are writing more code again, but is that a sign of growth or retreat? A look at coding, delegation, and the technical judgment AI makes more important."
 tags:
   - "leadership"
   - "engineering management"
   - "ai"
-draft: true
+draft: false
 ---
 <!-- wp:paragraph -->
-<p>Engineering managers are writing more code again. But what does that actually mean for the role - and is it something to celebrate or worry about?</p>
+<p>Engineering managers are writing more code again. What does that actually mean for the role, and is it something to celebrate or worry about?</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>A cluster of articles published this year approaches the same shift from very different angles.</p>
+<p>Several posts and articles published lately approach the same shift from very different angles.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -26,7 +28,7 @@ draft: true
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><a href="https://jellyfish.co/blog/2026-engineering-leaders-shifting-from-ai-adoption-to-ai-accountability/">Jellyfish's 2026 State of Engineering Management report</a> focuses on another part of the same change. As organizations adopt AI, the challenge is no longer simply encouraging usage; it is demonstrating that the investment delivers value.</p>
+<p><a href="https://jellyfish.co/blog/2026-engineering-leaders-shifting-from-ai-adoption-to-ai-accountability/">Jellyfish's 2026 State of Engineering Management report</a> focuses on another part of the same change. As organizations adopt AI, the challenge is no longer simply encouraging usage; it is demonstrating that the investment delivers value. Measuring the ROI on AI investment is one of the top discussions I see over and over in engineering managers groups.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -54,7 +56,7 @@ draft: true
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>The important question is not whether coding is inherently good or bad for managers. It is whether the time spent in the codebase improves the team's outcomes enough to justify what it takes away from the rest of the role.</p>
+<p>The important question is not whether coding is inherently good or bad for managers. It is whether the time spent in the codebase improves the team's outcomes enough to justify what it takes away from the rest of the role. This tension exists even before AI but it is surfaced and amplified now since AI tooling reduced barriers even to technical managers who used to be ICs.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -62,7 +64,7 @@ draft: true
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>There is a distinction worth making: <strong>writing code and being able to evaluate code are different capabilities.</strong></p>
+<p>There is a distinction worth making: <strong>writing code and being able to evaluate solutions and code are different capabilities.</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -94,15 +96,11 @@ draft: true
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Coding hours and commit counts can tell us that activity happened. They cannot, on their own, tell us whether the manager made the right trade-off. Nor can a broad productivity metric explain whether a manager's technical contribution helped the team learn, reduced risk, or created a new bottleneck.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>The challenge is to connect individual activity to outcomes without pretending that every valuable part of engineering leadership can be captured in a single metric.</p>
+<p>Coding hours and commit counts can tell us that activity happened. They cannot, on their own, tell us whether the manager made the right trade-off. Nor can a broad productivity metric explain whether a manager's technical contribution helped the team learn, reduced risk, or created a new bottleneck. The challenge, as it was in the past, is to connect individual activity to outcomes.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Where you actually sit</h3>
+<h3 class="wp-block-heading">Finding our own balance</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
