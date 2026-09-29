@@ -52,6 +52,6 @@ draft: false
 
 <!-- wp:embed {"url":"https://gist.github.com/tomron/e5069b63411319cdf5955f530209524a","type":"rich","providerNameSlug":"embed-handler"} -->
 <figure class="wp-block-embed is-type-rich is-provider-embed-handler wp-block-embed-embed-handler"><div class="wp-block-embed__wrapper">
-https://gist.github.com/tomron/e5069b63411319cdf5955f530209524a
+<script src="https://gist.github.com/tomron/e5069b63411319cdf5955f530209524a.js"></script>
 </div></figure>
 <!-- /wp:embed -->

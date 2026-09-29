@@ -19,6 +19,6 @@ Note - in order to run this Spark job your code should be in Spark master machin
 
 &nbsp;
 
-https://gist.github.com/tomron/6ebc60cd3450478c7fc4
+<script src="https://gist.github.com/tomron/6ebc60cd3450478c7fc4.js"></script>
 
 &nbsp;

@@ -25,6 +25,6 @@ draft: false
 
 <!-- wp:embed {"url":"https:\/\/gist.github.com\/tomron\/8b2f5872a28101445a9205d9e735099d","type":"rich","providerNameSlug":"embed","className":""} -->
 <figure class="wp-block-embed is-type-rich is-provider-embed wp-block-embed-embed"><div class="wp-block-embed__wrapper">
-https://gist.github.com/tomron/8b2f5872a28101445a9205d9e735099d
+<script src="https://gist.github.com/tomron/8b2f5872a28101445a9205d9e735099d.js"></script>
 </div></figure>
 <!-- /wp:embed -->
