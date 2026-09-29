@@ -7,32 +7,32 @@ draft: false
 ---
 I run Spark code on Java. I had data with the following schema -
 
-[code language="bash"]
+```text
 root
-|-- userId: string (nullable = true&lt;/span&gt;
-|-- dt: string (nullable = true)&lt;/span&gt;
-|-- result: map (nullable = true)&lt;/span&gt;
+|-- userId: string (nullable = true)
+|-- dt: string (nullable = true)
+|-- result: map (nullable = true)
 |    |-- key: string
 |    |-- value: long (valueContainsNull = true)
-[/code]
+```
 
 And I wanted to get a single record for a user which has the following schema -
 
-[code language="bash"]
+```text
 root
-|-- userId: string (nullable = true)&lt;/span&gt;
+|-- userId: string (nullable = true)
 |-- result: map (nullable = true)
 |    |-- key: string
 |    |-- value: map (valueContainsNull = true)
 |    |    |-- key: string
 |    |    |-- value: long (valueContainsNull = true)
-[/code]
+```
 
 Attached the user defined aggregation function I wrote to achieve it. Before that -
 
-[code language="bash"]
+```java
 MergeMapUDAF mergeMapUDAF = new MergeMapUDAF();
-df.groupBy(&quot;userId&quot;).agg(mergeMapUDAF.apply(df.col(&quot;dt&quot;), df.col(&quot;result&quot;)).as(&quot;result&quot;));
-[/code]
+df.groupBy("userId").agg(mergeMapUDAF.apply(df.col("dt"), df.col("result")).as("result"));
+```
 
 <script src="https://gist.github.com/tomron/36fd3c1b41169fc40acaeb4dbe95067d.js"></script>

@@ -11,10 +11,10 @@ I recently got to check some code challenges and was surprised from some of the 
 
  
 <h3><strong>Call a file \ process on your local machine</strong></h3>
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 for line in open('/Users/user/code/data.csv'):
     print ('No, No, No!')
-[/sourcecode]
+```
 
  
 

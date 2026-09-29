@@ -111,9 +111,9 @@ Kernel: Red Hat</blockquote>
 <div>
 3. <strong>Output folder must not exists</strong>. This is the same as in hadoop streaming map reduce, for me the way to avoid it was to add a timestamp -
 
-[sourcecode language="python" wraplines="false" collapse="false"]
-output=&quot;s3n://&lt;my-bucket&gt;/output/&quot;+str(int(time.time()))
-[/sourcecode]
+```python
+output="s3n://<my-bucket>/output/"+str(int(time.time()))
+```
 
 </div>
 </div>
@@ -130,9 +130,9 @@ output=&quot;s3n://&lt;my-bucket&gt;/output/&quot;+str(int(time.time()))
 </div>
 <div>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
-cache_files=['s3n://&lt;file-location&gt;/&lt;file-name&gt;#&lt;local-file-name&gt;']
-[/sourcecode]
+```python
+cache_files=['s3n://<file-location>/<file-name>#<local-file-name>']
+```
 
 </div>
 </div>

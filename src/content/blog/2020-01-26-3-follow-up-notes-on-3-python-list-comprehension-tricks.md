@@ -11,36 +11,35 @@ I saw the following post about <a href="https://levelup.gitconnected.com/3-pytho
 <p style="padding-left:40px;"><strong>1. Set Comprehension</strong></p>
 <span style="font-weight:400;">Beside dictionary and lists, comprehensions also work for sets -</span>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 {s for s in [1, 2, 1, 0]}
 #set(0,1,2))
 {s**2 for s in [1,2,1,0,-1]}
 #set(0,1,4)
-[/sourcecode]
+```
 <p style="padding-left:40px;"><strong>2. Filtering (and a glimpse to generators)</strong></p>
 <span style="font-weight:400;">In order to filter a list, one can iterate over the list or generator, apply the filter function and output a list or can use the build-in </span><a href="https://thepythonguru.com/python-builtin-functions/filter/"><span style="font-weight:400;">filter</span></a><span style="font-weight:400;"> function and receive a generator that is more efficient as described further in the original post.</span>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 words = ['deified', 'radar', 'guns']
 palindromes = filter(lambda w: w==w[::-1], words)
 list(palindromes)
 #['deified', 'radar']
-[/sourcecode]
+```
 
 <span style="font-weight:400;">Additional nice to know the build-in function is the </span><a href="https://thepythonguru.com/python-builtin-functions/map/"><span style="font-weight:400;">map</span></a><span style="font-weight:400;"> function, that for example can yield the words’ lengths as generators - </span>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 words = ['deified', 'radar', 'guns']
 lengths = map(lambda w: len(w), words)
 list(lengths)
 #[7, 5, 4]
-[/sourcecode]
+```
 
 <p style="padding-left:40px;"><strong>3. Generators</strong></p>
 <span style="font-weight:400;">Another nice usage of generators is to create an infinite sequence - </span>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
-
+```python
 def infinite_sequence():
 
     num=0
@@ -65,7 +64,6 @@ next(gen)
 next(gen)
 
 #2
-
-[/sourcecode]
+```
 
 Generators can be piped, return multiple outputs, and more. I recommend this <a href="https://realpython.com/introduction-to-python-generators/">post</a>to a better understand generators.
