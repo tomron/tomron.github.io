@@ -23,27 +23,27 @@ get method</li>
 </ul>
 Let's investigate first -
 
-[sourcecode language="python" wraplines="false" collapse="false"]
-key, value = &quot;key&quot;, &quot;value&quot;
+```python
+key, value = "key", "value"
 data = {}
 x = data.get(key,value)
 print x, data #value {}
 data= {}
 x = data.setdefault(key,value)
 print x, data #value {'key': 'value'}
-[/sourcecode]
+```
 
 Well, we get almost the same result, x obtains the same value and in get data is not changed while in setdefault data changes. When does it become a problem?
 
-[sourcecode language="python" wraplines="false" collapse="false"]
-key, value = &quot;key&quot;, &quot;value&quot;
+```python
+key, value = "key", "value"
 data = {}
 x = data.get(key,[])append(value)
 print x, data #None {}
 data= {}
 x = data.setdefault(key,[]).append(value)
 print x, data None {'key': ['value']}
-[/sourcecode]
+```
 
 So, when we are dealing with mutable data types the difference is clearer and error prone.
 
@@ -53,13 +53,13 @@ We can time the differences but it does not really matter as they produce differ
 
 And for defaultdict -
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 from collections import defaultdict
 data = defaultdict(list)
 print data[key] #[]
 data[key].append(value)
 print data[key] #['value']
-[/sourcecode]
+```
 
 setdefault sets the default value to a <span style="text-decoration:underline;">specific</span> key we access to while defaultdict is the type of the data variable and set this default value to <span style="text-decoration:underline;">every</span> key we access to.
 
@@ -195,7 +195,7 @@ Conclusions and summary -
 </ul>
 Code -
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 import timeit
 from collections import defaultdict
 from itertools import product
@@ -218,10 +218,9 @@ if __name__ == '__main__':
  import timeit
  number = 1000
  dict_sizes = [100,10000, 100000]
- defaultvalues = [[], 0, &quot;&quot;, set()]
+ defaultvalues = [[], 0, "", set()]
  for dict_size, defaultvalue in product(dict_sizes, defaultvalues):
- print &quot;dict_size: &quot;, dict_size, &quot; defaultvalue: &quot;, type(defaultvalue)
- print &quot;\tsetdefault:&quot;, timeit.timeit(&quot;measure_setdefault(dict_size, defaultvalue)&quot;, setup=&quot;from __main__ import measure_setdefault, dict_size, defaultvalue&quot;, number=number)
- print &quot;\\tdefaultdict:&quot;, timeit.timeit(&quot;measure_defaultdict(dict_size, defaultvalue)&quot;, setup=&quot;from __main__ import measure_defaultdict, dict_size, defaultvalue&quot;, number=number)
-
-[/sourcecode]
+ print "dict_size: ", dict_size, " defaultvalue: ", type(defaultvalue)
+ print "\tsetdefault:", timeit.timeit("measure_setdefault(dict_size, defaultvalue)", setup="from __main__ import measure_setdefault, dict_size, defaultvalue", number=number)
+ print "\\tdefaultdict:", timeit.timeit("measure_defaultdict(dict_size, defaultvalue)", setup="from __main__ import measure_defaultdict, dict_size, defaultvalue", number=number)
+```

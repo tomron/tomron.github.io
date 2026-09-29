@@ -19,17 +19,45 @@ draft: false
 
 <span style="font-weight:400;">In the example below, we see that if the graph type is not defined correctly, functionalities such as degree calculation may yield the wrong value -</span>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 import networkx as nx</pre>
-G = nx.MultiGraph() G.add_nodes_from([1, 2, 3]) G.add_edges_from([(1, 2), (1, 3), (1, 2)]) print(G.degree()) #[(1, 3), (2, 2), (3, 1)] H = nx.Graph() H.add_nodes_from([1, 2, 3]) H.add_edges_from([(1, 2), (1, 3), (1, 2)]) print(H.degree()) #[(1, 2), (2, 1), (3, 1)] [/sourcecode]
+G = nx.MultiGraph()
+G.add_nodes_from([1, 2, 3])
+G.add_edges_from([(1, 2), (1, 3), (1, 2)])
+print(G.degree())
+# [(1, 3), (2, 2), (3, 1)]
+
+H = nx.Graph()
+H.add_nodes_from([1, 2, 3])
+H.add_edges_from([(1, 2), (1, 3), (1, 2)])
+print(H.degree())
+# [(1, 2), (2, 1), (3, 1)]
+```
 
 <span style="text-decoration:underline;"><b>Create a graph from pandas dataframe</b></span>
 
 <span style="font-weight:400;">Pandas is the swiss knife of every data scientist, so naturally, it would be a good idea to create a graph from pandas dataframe. The other way around is also possible. See the documentation </span><a href="https://networkx.github.io/documentation/latest/reference/generated/networkx.convert_matrix.from_pandas_edgelist.html"><span style="font-weight:400;">here</span></a><span style="font-weight:400;">. The example below shows how to create a multigraph from a pandas dataframe where each edge has a weight property.</span>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 import pandas as pd</pre>
-df = pd.DataFrame([[1, 1, 4], [2, 1, 5], [3, 2, 6], [1, 1, 3]], columns=['source', 'destination', 'weight']) print(df) # source destination weight # 0 1 1 4 # 1 2 1 5 # 2 3 2 6 # 3 1 1 3 G = nx.from_pandas_edgelist(df, 'source', 'destination', ['weight'], create_using=nx.MultiGraph) print(nx.info(G)) # Name: # Type: MultiGraph # Number of nodes: 3 # Number of edges: 4 # Average degree: 2.6667 [/sourcecode]
+df = pd.DataFrame([[1, 1, 4], [2, 1, 5], [3, 2, 6], [1, 1, 3]],
+                  columns=['source', 'destination', 'weight'])
+print(df)
+#    source  destination  weight
+# 0       1            1       4
+# 1       2            1       5
+# 2       3            2       6
+# 3       1            1       3
+
+G = nx.from_pandas_edgelist(df, 'source', 'destination', ['weight'],
+                            create_using=nx.MultiGraph)
+print(nx.info(G))
+# Name:
+# Type: MultiGraph
+# Number of nodes: 3
+# Number of edges: 4
+# Average degree: 2.6667
+```
 
 <span style="text-decoration:underline;"><b>Graph generators</b></span>
 
@@ -41,7 +69,7 @@ O<span style="font-weight:400;">ne of the features I find the most interesting a
 
 <b>Star graph - </b><span style="font-weight:400;">create a graph with one central node connected to n external nodes.</span>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 G = nx.complete_graph(n=9)
 print(len(G.edges()), len(G.nodes()))
 # 36 9
@@ -54,35 +82,35 @@ print(len(J.edges()), len(J.nodes()))
 K = nx.star_graph(n=9)
 print(len(K.edges()), len(K.nodes()))
 # 9 10
-[/sourcecode]
+```
 
 <b>Binomial Graph</b><span style="font-weight:400;"> - create a graph with n nodes and each edge is created with probability p (alias for gnp_random_graph and erdos_renyi_graph).</span>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 G1 = nx.binomial_graph(n=9, p=0.5, seed=1)
 G2 = nx.binomial_graph(n=9, p=0.5, seed=1)
 G3 = nx.binomial_graph(n=9, p=0.5)
 print(G1.edges()==G2.edges(), G1.edges()==G3.edges())
 # True False
-[/sourcecode]
+```
 
 <b>Random regular graph</b><span style="font-weight:400;"> - creates a graph with n nodes, edges are created randomly and each node has degree d.</span>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 G = nx.random_regular_graph(d=4, n=10)
 nx.draw(G)
 plt.show()
-[/sourcecode]
+```
 
 <img class="alignnone size-medium wp-image-1323" src="/wp-content/uploads/2020/01/random_graph-e1579287139674.png" alt="Random regula graph" width="300" height="225" />
 
 <b>Random tree</b><span style="font-weight:400;"> - create a uniformly random tree of n nodes.</span>
 
-[sourcecode language="python" wraplines="false" collapse="false"]
+```python
 G = nx.random_tree(n=10)
 nx.draw(G)
 plt.show()
-[/sourcecode]
+```
 
 <img class="alignnone size-medium wp-image-1324" src="/wp-content/uploads/2020/01/random_tree.png" alt="random_tree" width="300" height="225" />
 

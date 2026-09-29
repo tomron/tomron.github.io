@@ -15,7 +15,7 @@ Really random - this is matter of statistics. If we have a coin and we tossed it
 
 So of course the bigger the sample is the higher the confidence we have whether the coin \ dice \ generator is random or not. This test actually asks if a random sequence python random produces has a mean like a "real" random distribution. A repeating sequence of 0, 1, 0, 1, ... will pass this test but it is clearly not random.
 
-[code language="python"]
+```python
 from random import randint
 from collections import Counter
 from math import sqrt, exp
@@ -42,14 +42,14 @@ for size in sizes:
  expected_mean, expected_stdev)
  q = 100 * normpdf(min(sample.values()), 
  expected_mean, expected_stdev)
- print &quot;size: %s, p(observed_mean &gt; %s) = %s%%&quot;\
- %(&quot;{0:.3f}&quot;.format(1.0/COIN_SIDES),
- size, &quot;{0:.3f}&quot;.format(p))
- print &quot;size: %s, p(observed_mean &lt; %s) = %s%%&quot;\
- %(&quot;{0:.3f}&quot;.format(1.0/COIN_SIDES),
- size, &quot;{0:.3f}&quot;.format(q))
- print &quot;samples: %s&quot;%sample
-[/code]
+ print "size: %s, p(observed_mean > %s) = %s%%"\
+ %("{0:.3f}".format(1.0/COIN_SIDES),
+ size, "{0:.3f}".format(p))
+ print "size: %s, p(observed_mean < %s) = %s%%"\
+ %("{0:.3f}".format(1.0/COIN_SIDES),
+ size, "{0:.3f}".format(q))
+ print "samples: %s"%sample
+```
 
 And the output - for sample size 100000 the probability that the observed mean is greater \ less than 0.5 is 0.251%. For p-value of 5%, i.e. the probability that the probability is less or great than 0.5 sample of size 1000+- is enough.
 
