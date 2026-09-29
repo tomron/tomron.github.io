@@ -5,4 +5,4 @@ permalink: "/2016/02/27/spark-lambda-emr-aws/"
 tags: []
 draft: true
 ---
-https://gist.github.com/tomron/6ebc60cd3450478c7fc4
+<script src="https://gist.github.com/tomron/6ebc60cd3450478c7fc4.js"></script>

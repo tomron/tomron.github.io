@@ -38,6 +38,6 @@ draft: false
 
 <!-- wp:embed {"url":"https://gist.github.com/tomron/dffae6ca7c679094894159b26b1d4d6f","type":"rich","providerNameSlug":"embed-handler"} -->
 <figure class="wp-block-embed is-type-rich is-provider-embed-handler wp-block-embed-embed-handler"><div class="wp-block-embed__wrapper">
-https://gist.github.com/tomron/dffae6ca7c679094894159b26b1d4d6f
+<script src="https://gist.github.com/tomron/dffae6ca7c679094894159b26b1d4d6f.js"></script>
 </div></figure>
 <!-- /wp:embed -->

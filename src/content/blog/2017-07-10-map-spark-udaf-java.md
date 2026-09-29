@@ -35,4 +35,4 @@ MergeMapUDAF mergeMapUDAF = new MergeMapUDAF();
 df.groupBy(&quot;userId&quot;).agg(mergeMapUDAF.apply(df.col(&quot;dt&quot;), df.col(&quot;result&quot;)).as(&quot;result&quot;));
 [/code]
 
-https://gist.github.com/tomron/36fd3c1b41169fc40acaeb4dbe95067d
+<script src="https://gist.github.com/tomron/36fd3c1b41169fc40acaeb4dbe95067d.js"></script>
