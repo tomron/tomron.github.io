@@ -117,9 +117,5 @@ jobs:
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>The project has 83 mocked tests and <a href="https://github.com/tomron/pr-label-slack-notify/actions/runs/36703588702">passing CI</a> (format, lint, TypeScript, bundle, dependency audit). A live Slack delivery test is still outstanding, so these checks validate the implementation, not delivery into a real workspace.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
 <p>The <a href="https://github.com/tomron/pr-label-slack-notify">README</a> covers all inputs, outputs and recovery steps.</p>
 <!-- /wp:paragraph -->
