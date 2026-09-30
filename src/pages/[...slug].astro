@@ -296,6 +296,50 @@ const jsonLd = {
   </article>
 
   <script is:inline>
+    document.querySelectorAll('.post-body pre').forEach(function (pre) {
+      var wrap = document.createElement('div');
+      wrap.className = 'code-block';
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'code-copy';
+      btn.setAttribute('aria-label', 'Copy code');
+      btn.title = 'Copy code';
+      var copyIcon =
+        '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      var checkIcon =
+        '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
+      btn.innerHTML = copyIcon;
+      btn.addEventListener('click', function () {
+        var text = pre.innerText;
+        var done = function () {
+          btn.innerHTML = checkIcon;
+          btn.title = 'Copied';
+          setTimeout(function () {
+            btn.innerHTML = copyIcon;
+            btn.title = 'Copy code';
+          }, 1500);
+        };
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(done, done);
+        } else {
+          var t = document.createElement('textarea');
+          t.value = text;
+          document.body.appendChild(t);
+          t.select();
+          try {
+            document.execCommand('copy');
+          } catch (e) {}
+          t.remove();
+          done();
+        }
+      });
+      wrap.appendChild(btn);
+    });
+  </script>
+
+  <script is:inline>
     document.querySelectorAll('.copy-link').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var url = btn.getAttribute('data-url');
@@ -406,6 +450,28 @@ const jsonLd = {
   :global(:root[data-theme='light']) .post-body :global(pre.shiki),
   :global(:root[data-theme='light']) .post-body :global(pre.shiki span) {
     color: var(--shiki-light);
+  }
+
+  .post-body :global(.code-block) {
+    position: relative;
+  }
+  .post-body :global(.code-copy) {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    padding: 0.35rem;
+    background: var(--bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+  .post-body :global(.code-copy:hover),
+  .post-body :global(.code-copy:focus-visible) {
+    opacity: 1;
+    color: var(--fg);
   }
 
   .adjacent {
