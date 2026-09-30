@@ -9,51 +9,27 @@ tags:
   - "classification"
   - "jev"
   - "open source"
-draft: true
+draft: false
 ---
 
 <!-- wp:paragraph -->
-<p>A pull request can fix a bug, change documentation, and add a test at the same time. Labeling it means answering several small questions, not writing an explanation. That seemed like a useful place to try Jev.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>I built <a href="https://github.com/tomron/pr-ai-labeler">pr-ai-labeler</a>, a GitHub Action that uses TypeSafe AI's Jev to classify pull requests and add multiple labels. You define the labels, their meaning, the context the model sees, and how certain it needs to be before applying each one. The first release is <a href="https://github.com/tomron/pr-ai-labeler/releases/tag/v1.0.0">v1.0.0</a>, under the MIT license.</p>
+<p>A pull request can fix a bug, change documentation, and add a test at the same time. Labeling it means answering several small questions, not writing an explanation. I built <a href="https://github.com/tomron/pr-ai-labeler">pr-ai-labeler</a>, a GitHub Action that classifies pull requests and applies multiple labels. You define the labels, what they mean, the context the model sees, and how certain it must be before each label is applied. It is MIT licensed and available on the <a href="https://github.com/marketplace/actions/jev-pr-multi-label-classifier">GitHub Actions Marketplace</a>.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>Decisions, not generated text</h2>
+<h2>How it works</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Jev is TypeSafe's first <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">System One model</a>. Instead of asking a chat model to generate JSON and hoping it follows the format, you send a state and typed questions. The response contains decisions and probabilities within the answer space you defined.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>The interface has three primitives: <strong>Choice</strong> selects from a fixed set, <strong>Score</strong> evaluates against an ordered rubric, and <strong>Noul</strong> returns the probability that a yes/no proposition is true. Routing, classification, and checks with a fixed answer space are the natural fit. Writing prose is not.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>Agam More's <a href="https://unzip.dev/0x025-system-one-models/">System One Models (Jev)</a> on Unzip.dev is a good introduction. The distinction I want to keep in view is the one he makes explicit: a model can stay inside your schema and still choose the wrong answer. Type safety is a useful boundary, not evidence that the classification is correct.</p>
+<p>On each PR event the action builds a state from the PR title, body, and optionally the diff and repository context. It then asks one yes/no question per label and applies every label whose probability meets its threshold. A PR can get several labels, or none. Missing labels are created; existing labels are never removed.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>Why one question per label?</h2>
+<h2>Set it up</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>A Choice question asking "bug, enhancement, or documentation?" would force one winner. A PR does not have to fit just one. The action builds a separate Noul question for every label, evaluates them in one System One request, and applies every label whose probability meets its threshold.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>For example, a PR that fixes a broken command and updates its usage example can receive both <code>bug</code> and <code>documentation</code>. It can also receive no labels. The global threshold defaults to 0.8; individual labels can require a higher threshold. That number is a policy choice to test against your own PRs, not a promise of 80% accuracy on your repository.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:heading -->
-<h2>Try it in two files</h2>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph -->
-<p>Create a TypeSafe API key in the <a href="https://console.typesafe.ai">official console</a> and store it as the repository secret <code>TYPESAFE_API_KEY</code>. Calls use your TypeSafe account and API balance. Then commit the following config to <code>.github/pr-labeler.yml</code> on your default branch:</p>
+<p>Store a <a href="https://console.typesafe.ai">TypeSafe API key</a> as the repository secret <code>TYPESAFE_API_KEY</code>, then commit this config to <code>.github/pr-labeler.yml</code> on your default branch:</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
@@ -78,7 +54,7 @@ labels:
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
-<p>Add this as <code>.github/workflows/label-pr.yml</code>. It starts in dry-run mode so you can inspect the selected labels without changing the PR:</p>
+<p>Add the workflow as <code>.github/workflows/label-pr.yml</code>. It starts in dry-run mode, so you can inspect the selected labels before anything changes:</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
@@ -108,49 +84,33 @@ jobs:
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
-<p>The action exposes <code>labels</code> as a JSON array and <code>status</code> as an output. Once the dry-run results look useful, change <code>dry-run</code> to <code>'false'</code>. Missing labels are created before they are added; existing labels are never removed. Use <code>@v1</code> for compatible updates, <code>@v1.0.0</code> for this release, or a reviewed full commit SHA for a supply-chain pin.</p>
+<p><code>pull_request_target</code> exposes secrets and write permissions to fork PRs, so the example has no checkout step. Do not add a PR-head checkout or build to this job.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>Context is part of the classifier</h2>
+<h2>Inputs and outputs</h2>
 <!-- /wp:heading -->
 
+<!-- wp:list -->
+<ul><li><code>api-key</code> (required): TypeSafe API key, supplied as a secret.</li><li><code>github-token</code>: token with contents read, issues write, and pull requests write. Defaults to <code>github.token</code>.</li><li><code>config-path</code>: YAML config, read from the PR base commit and never the PR branch. Defaults to <code>.github/pr-labeler.yml</code>.</li><li><code>max-input-tokens</code>: conservative cap on the request size, including instructions. Overrides the config value; default 16000.</li><li><code>dry-run</code>: classify and output labels without applying them. Defaults to <code>false</code>.</li><li>Outputs: <code>labels</code> (JSON array of selected names) and <code>status</code> (<code>applied</code>, <code>dry-run</code>, <code>no-labels</code>, <code>skipped</code>, or <code>classification-failed</code>).</li></ul>
+<!-- /wp:list -->
+
 <!-- wp:paragraph -->
-<p>You can choose the title, body, diff, repository tree, and repository-file contents independently. Title and body may be enough for clear PRs. Diffs add evidence when the description is vague. Repository context can explain what an unfamiliar module does, but costs more input and sends more source material to the provider.</p>
+<p>In the config file, <code>context</code> picks what the model sees (title, body, diff, repository tree, repository files), <code>threshold</code> sets the global default (0.8), and each label can set its own <code>threshold</code>, <code>description</code>, and <code>color</code>. Repository-file context is opt-in and limited by include/exclude patterns, file count, and file size. The <a href="https://github.com/marketplace/actions/jev-pr-multi-label-classifier">Marketplace page</a> and <a href="https://github.com/tomron/pr-ai-labeler">README</a> cover the full reference, including versioning and pinning.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Repository-file context is opt-in, filtered by include/exclude patterns, and limited by file count and per-file size. It is not an unlimited whole-repo upload. The action reads configuration and repository files from the immutable PR base commit, not from configuration supplied by the PR. Diff patches come from GitHub and may be absent for binary or oversized files.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>The <code>max-input-tokens</code> input caps a conservative estimate for the serialized request, including question and instruction overhead. Context is truncated to fit; instructions are not. Because I do not have an official Jev tokenizer for this implementation, the estimate counts one UTF-8 byte per token. It is intentionally conservative and can discard more context than necessary. It is not the provider's exact token count or a guaranteed billing cap. Byte limits apply as well.</p>
+<p>PR text is untrusted input. Classification instructions come only from the trusted config, responses are validated with Zod, and API or parse failures apply no labels. That does not make the labels infallible, so use them for triage rather than for deployments or access changes. The threshold is a policy choice to test against your own PRs, not a promise of accuracy.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>What I would not automate with it</h2>
+<h2>Why Jev</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>PR text is untrusted input. A contributor can put instructions in a title, description, or diff. The action keeps that material in the state, takes classification instructions only from the trusted config, and validates the response with Zod. Extra or missing question IDs, invalid probabilities, and unexpected answer types produce a clean no-label result. API and parse failures do not create or apply labels.</p>
+<p>Jev is TypeSafe's first <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">System One model</a>. Instead of asking a chat model to generate JSON and hoping it follows the format, you send a state and typed questions, and the response contains decisions and probabilities within the answer space you defined. Its three primitives are <strong>Choice</strong> (pick from a fixed set), <strong>Score</strong> (rate against an ordered rubric), and <strong>Noul</strong> (probability that a yes/no proposition is true).</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>None of that makes prompt injection impossible or the selected labels infallible. I would not connect an AI-assigned label directly to a deployment, payment, or access change. Start with labels that help people triage work, not labels that authorize consequential actions. Likewise, common secret-file exclusions are not a substitute for reviewing what repository context you send.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p><code>pull_request_target</code> makes secrets and write permissions available for fork PRs. The example deliberately has no checkout step, and the action does not execute PR code. Do not add a PR-head checkout or build to that privileged job.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:heading -->
-<h2>A small experiment with a clear boundary</h2>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph -->
-<p>The motivation was to try Jev on a task with a closed answer space, configurable evidence, and a visible result. The project has 42 mocked tests and passing CI for formatting, lint, TypeScript, the bundled action, and dependency auditing. That validates the implementation boundaries, not Jev's labeling accuracy: I have not yet run a live API-backed evaluation on a set of real PRs.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>The next useful step is a dry-run comparison against human labels on a small PR set, including ambiguous changes and hostile descriptions. Measure which labels are wrong, adjust descriptions and thresholds, then decide what is worth automating. The <a href="https://github.com/tomron/pr-ai-labeler">code and README</a> are available if you want to try that experiment too.</p>
+<p>A Choice question like "bug, enhancement, or documentation?" would force one winner, so the action uses a separate Noul question per label instead. All are evaluated in a single request. Agam More's <a href="https://unzip.dev/0x025-system-one-models/">System One Models (Jev)</a> on Unzip.dev is a good introduction, including the caveat worth remembering: a model can stay inside your schema and still choose the wrong answer.</p>
 <!-- /wp:paragraph -->
