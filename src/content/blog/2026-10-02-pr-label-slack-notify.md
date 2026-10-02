@@ -1,14 +1,14 @@
 ---
 title: "PR Labels to Slack, Without a Bot Token"
 description: "A webhook-only GitHub Action for PR label notifications, with multi-channel fan-out, author and labeler mentions, and per-destination deduplication."
-pubDate: 2026-10-01T09:00:00.000Z
-permalink: "/2026/10/01/pr-label-slack-notify/"
+pubDate: 2026-10-02T09:00:00.000Z
+permalink: "/2026/10/02/pr-label-slack-notify/"
 tags:
   - "github actions"
   - "slack"
   - "pull request"
   - "open source"
-draft: true
+draft: false
 ---
 
 <!-- wp:paragraph -->
