@@ -6,7 +6,7 @@ description: "Twenty years after starting a CS degree, most of what I learned ha
 tags:
   - "leadership"
   - "reading"
-draft: true
+draft: false
 scheduledPublish: true
 ---
 <!-- wp:paragraph -->
