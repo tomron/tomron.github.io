@@ -6,6 +6,8 @@ description: "Twenty years after starting a CS degree, most of what I learned ha
 tags:
   - "leadership"
   - "reading"
+heroImage: "/wp-content/uploads/2026/10/dr_seusss_20_years.png"
+heroImageAlt: "Four students with backpacks walking a winding path toward colorful castles, past a Dr. Seuss-style signpost reading Wonderful Places"
 draft: false
 scheduledPublish: true
 ---
