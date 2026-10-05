@@ -1,0 +1,83 @@
+{
+  "merged": [
+    {
+      "repo": "grafana/grafana",
+      "number": 133860,
+      "title": "Alerting: Fix View policies link ignoring the subpath",
+      "url": "https://github.com/grafana/grafana/pull/133860",
+      "date": "2026-10-05"
+    },
+    {
+      "repo": "promptfoo/promptfoo",
+      "number": 11317,
+      "title": "docs(site): clarify gateway model and grader setup",
+      "url": "https://github.com/promptfoo/promptfoo/pull/11317",
+      "date": "2026-10-03"
+    }
+  ],
+  "open": [
+    {
+      "repo": "stanfordnlp/dspy",
+      "number": 10573,
+      "title": "fix(dspy): tolerate unavailable source in Refine when built in a plain REPL",
+      "url": "https://github.com/stanfordnlp/dspy/pull/10573",
+      "date": "2026-10-05"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "number": 44518,
+      "title": "fix(otel): skip raw_gen_ai_request span when per-request message redaction applies",
+      "url": "https://github.com/BerriAI/litellm/pull/44518",
+      "date": "2026-10-04"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "number": 44158,
+      "title": "fix(responses): report truncated chat output as incomplete in the Responses bridge",
+      "url": "https://github.com/BerriAI/litellm/pull/44158",
+      "date": "2026-10-02"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "number": 43991,
+      "title": "fix(router): keep per-chunk response_cost after a streaming fallback",
+      "url": "https://github.com/BerriAI/litellm/pull/43991",
+      "date": "2026-10-01"
+    },
+    {
+      "repo": "grafana/grafana",
+      "number": 133875,
+      "title": "Transformations: Edit annotation-topic transformations against annotation frames",
+      "url": "https://github.com/grafana/grafana/pull/133875",
+      "date": "2026-09-30"
+    },
+    {
+      "repo": "grafana/grafana",
+      "number": 133874,
+      "title": "Transformations: Fix group to nested table throwing on empty input",
+      "url": "https://github.com/grafana/grafana/pull/133874",
+      "date": "2026-09-30"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "number": 43831,
+      "title": "fix(bedrock): allow bedrock-websearch actions in web identity session policy",
+      "url": "https://github.com/BerriAI/litellm/pull/43831",
+      "date": "2026-09-30"
+    },
+    {
+      "repo": "kubeflow/sdk",
+      "number": 813,
+      "title": "fix(trainer): reject duplicate LocalProcessBackend job names",
+      "url": "https://github.com/kubeflow/sdk/pull/813",
+      "date": "2026-09-30"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "number": 43682,
+      "title": "fix(proxy): strip router_settings_override when request carries api_key/api_base",
+      "url": "https://github.com/BerriAI/litellm/pull/43682",
+      "date": "2026-09-29"
+    }
+  ]
+}
