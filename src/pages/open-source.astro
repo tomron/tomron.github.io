@@ -1,0 +1,330 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import allData from '../data/contributions.json';
+
+interface Pr {
+  repo: string;
+  number: number;
+  title: string;
+  url: string;
+  date: string;
+}
+
+// Rolling 12-month window (the update script applies the same cutoff).
+const cutoffDate = new Date();
+cutoffDate.setUTCFullYear(cutoffDate.getUTCFullYear() - 1);
+const CUTOFF = cutoffDate.toISOString().slice(0, 10);
+const data = {
+  merged: allData.merged.filter((p) => p.date >= CUTOFF),
+  open: allData.open.filter((p) => p.date >= CUTOFF),
+};
+
+// Group PRs by repository; projects with the most recent activity come first.
+function groupByRepo(prs: Pr[]) {
+  const map = new Map<string, Pr[]>();
+  for (const pr of prs) map.set(pr.repo, [...(map.get(pr.repo) ?? []), pr]);
+  return [...map.entries()]
+    .map(([repo, items]) => ({ repo, items }))
+    .sort((a, b) => b.items[0].date.localeCompare(a.items[0].date));
+}
+
+const merged = groupByRepo(data.merged);
+const open = groupByRepo(data.open);
+
+const fmt = (d: string) =>
+  new Date(`${d}T00:00:00Z`).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+
+// Swimlane timeline: one lane per project, one dot per merged PR.
+const DAY = 86_400_000;
+const time = (d: string) => Date.parse(`${d}T00:00:00Z`);
+const end = Date.now();
+const start = time(CUTOFF);
+const pct = (t: number) => ((t - start) / (end - start)) * 100;
+// First-of-month ticks across the window, labelled every third month.
+const ticks: { t: number; label: string }[] = [];
+for (
+  let d = new Date(
+    Date.UTC(cutoffDate.getUTCFullYear(), cutoffDate.getUTCMonth() + 1, 1),
+  );
+  d.getTime() <= end;
+  d = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1))
+) {
+  if (d.getUTCMonth() % 3 === 0)
+    ticks.push({
+      t: d.getTime(),
+      label: d.toLocaleDateString('en-US', {
+        month: 'short',
+        year: '2-digit',
+        timeZone: 'UTC',
+      }),
+    });
+}
+// Hover text shows only the start of the PR title.
+const TITLE_CHARS = 50;
+const short = (t: string) =>
+  t.length > TITLE_CHARS ? `${t.slice(0, TITLE_CHARS).trimEnd()}…` : t;
+const lanes = [...merged].sort((a, b) => b.items.length - a.items.length);
+---
+
+<BaseLayout
+  title="Open source"
+  description="Merged pull requests Tom Ron has contributed to open source projects, grouped by project."
+  path="/open-source/"
+>
+  <h1>Open source</h1>
+  <p class="intro">
+    My recent contributions to open source projects, from the last year.
+  </p>
+
+  {
+    merged.length > 0 && (
+      <section aria-labelledby="timeline-h">
+        <h2 id="timeline-h">
+          Timeline <span class="count">{data.merged.length} merged</span>
+        </h2>
+        <div class="timeline">
+          <div class="axis" aria-hidden="true">
+            <div class="axis-track">
+              {ticks.map((tk) => (
+                <span style={`left:${pct(tk.t)}%`}>{tk.label}</span>
+              ))}
+            </div>
+          </div>
+          {lanes.map((g) => (
+            <div class="lane">
+              <a class="lane-name" href={`https://github.com/${g.repo}`}>
+                {g.repo.split('/')[1]}
+              </a>
+              <div class="track">
+                {g.items.map((pr) => (
+                  <a
+                    class:list={['dot', { end: pct(time(pr.date)) > 55 }]}
+                    style={`left:${pct(time(pr.date))}%`}
+                    href={pr.url}
+                    aria-label={`${g.repo}#${pr.number}: ${pr.title}`}
+                  >
+                    <span class="tip" aria-hidden="true">
+                      <strong>
+                        {g.repo} #{pr.number}
+                      </strong>
+                      <span>{short(pr.title)}</span>
+                      <span class="tip-date">{fmt(pr.date)}</span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section aria-labelledby="merged-h">
+    <h2 id="merged-h">Merged</h2>
+    {
+      merged.map((g) => (
+        <div class="project">
+          <h3>
+            <a href={`https://github.com/${g.repo}`}>{g.repo}</a>
+            <span class="count">{g.items.length}</span>
+          </h3>
+          <ul>
+            {g.items.map((pr) => (
+              <li>
+                <time datetime={pr.date}>{fmt(pr.date)}</time>
+                <a href={pr.url}>
+                  {pr.title} <span class="num">#{pr.number}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </section>
+
+  {
+    open.length > 0 && (
+      <section aria-labelledby="open-h">
+        <h2 id="open-h">
+          Open <span class="count">{data.open.length}</span>
+        </h2>
+        <p class="note">In review, not merged yet. Opened date shown.</p>
+        {open.map((g) => (
+          <div class="project">
+            <h3>
+              <a href={`https://github.com/${g.repo}`}>{g.repo}</a>
+              <span class="count">{g.items.length}</span>
+            </h3>
+            <ul>
+              {g.items.map((pr) => (
+                <li>
+                  <time datetime={pr.date}>{fmt(pr.date)}</time>
+                  <a href={pr.url}>
+                    {pr.title} <span class="num">#{pr.number}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .intro {
+    color: var(--muted);
+  }
+  h2 {
+    margin-top: 2.5rem;
+  }
+  .count {
+    margin-left: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .note {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: -0.5rem;
+  }
+  .project h3 {
+    margin: 1.5rem 0 0.4rem;
+    font-size: 1.05rem;
+  }
+  .project ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .project li {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    gap: 0.75rem;
+    padding: 0.3rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .project time,
+  .num {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 30rem) {
+    .project li {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+
+  .timeline {
+    margin-top: 1rem;
+  }
+  .axis,
+  .lane {
+    display: grid;
+    grid-template-columns: 8.5rem 1fr;
+    gap: 0.75rem;
+  }
+  .axis {
+    position: relative;
+    height: 1.4rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .axis-track {
+    position: relative;
+    grid-column: 2;
+  }
+  .axis span {
+    position: absolute;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+  .lane {
+    align-items: center;
+    min-height: 1.9rem;
+  }
+  .lane-name {
+    font-size: 0.85rem;
+    color: var(--fg);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .track {
+    position: relative;
+    height: 1.9rem;
+    border-left: 1px solid var(--border);
+  }
+  .track::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    border-top: 1px dashed var(--border);
+  }
+  .dot {
+    position: absolute;
+    top: 50%;
+    width: 0.8rem;
+    height: 0.8rem;
+    margin: -0.4rem 0 0 -0.4rem;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .dot:hover,
+  .dot:focus-visible {
+    z-index: 10;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  .tip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: min(18rem, 70vw);
+    padding: 0.4rem 0.6rem;
+    background: var(--fg);
+    color: var(--bg);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    pointer-events: none;
+  }
+  .tip > * {
+    display: block;
+  }
+  .tip-date {
+    opacity: 0.7;
+  }
+  .dot:hover .tip,
+  .dot:focus-visible .tip {
+    display: block;
+  }
+  /* Dots near the right edge: anchor the tooltip to the dot's right side. */
+  .dot.end .tip {
+    left: auto;
+    right: -0.4rem;
+    transform: none;
+  }
+  @media (max-width: 30rem) {
+    .axis,
+    .lane {
+      grid-template-columns: 5.5rem 1fr;
+    }
+  }
+</style>
