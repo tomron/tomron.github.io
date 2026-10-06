@@ -17,10 +17,24 @@
   ],
   "open": [
     {
+      "repo": "apache/airflow",
+      "number": 74289,
+      "title": "Remember the Dag runs limit across tab switches and visits",
+      "url": "https://github.com/apache/airflow/pull/74289",
+      "date": "2026-10-05"
+    },
+    {
       "repo": "stanfordnlp/dspy",
       "number": 10573,
       "title": "fix(dspy): tolerate unavailable source in Refine when built in a plain REPL",
       "url": "https://github.com/stanfordnlp/dspy/pull/10573",
+      "date": "2026-10-05"
+    },
+    {
+      "repo": "apache/iceberg-python",
+      "number": 4077,
+      "title": "REST: Apply rest.client timeouts to SigV4 requests",
+      "url": "https://github.com/apache/iceberg-python/pull/4077",
       "date": "2026-10-05"
     },
     {
@@ -29,13 +43,6 @@
       "title": "fix(otel): skip raw_gen_ai_request span when per-request message redaction applies",
       "url": "https://github.com/BerriAI/litellm/pull/44518",
       "date": "2026-10-04"
-    },
-    {
-      "repo": "BerriAI/litellm",
-      "number": 44158,
-      "title": "fix(responses): report truncated chat output as incomplete in the Responses bridge",
-      "url": "https://github.com/BerriAI/litellm/pull/44158",
-      "date": "2026-10-02"
     },
     {
       "repo": "BerriAI/litellm",
