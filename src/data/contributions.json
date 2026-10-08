@@ -24,6 +24,13 @@
   ],
   "open": [
     {
+      "repo": "Dokploy/dokploy",
+      "number": 5614,
+      "title": "feat(dns): add optional zone to OVH provider",
+      "url": "https://github.com/Dokploy/dokploy/pull/5614",
+      "date": "2026-10-07"
+    },
+    {
       "repo": "mlflow/mlflow",
       "number": 26493,
       "title": "Fix signature inferred from a list of lists rejecting its own input",
