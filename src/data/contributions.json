@@ -24,6 +24,13 @@
   ],
   "open": [
     {
+      "repo": "stanfordnlp/dspy",
+      "number": 10604,
+      "title": "fix(BootstrapFewShot): honor metric_threshold=0.0",
+      "url": "https://github.com/stanfordnlp/dspy/pull/10604",
+      "date": "2026-10-08"
+    },
+    {
       "repo": "Dokploy/dokploy",
       "number": 5614,
       "title": "feat(dns): add optional zone to OVH provider",
