@@ -25,6 +25,13 @@
   "open": [
     {
       "repo": "stanfordnlp/dspy",
+      "number": 10610,
+      "title": "docs(dspy): fix cache env var names in FAQ",
+      "url": "https://github.com/stanfordnlp/dspy/pull/10610",
+      "date": "2026-10-10"
+    },
+    {
+      "repo": "stanfordnlp/dspy",
       "number": 10604,
       "title": "fix(BootstrapFewShot): honor metric_threshold=0.0",
       "url": "https://github.com/stanfordnlp/dspy/pull/10604",
