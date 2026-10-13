@@ -9,7 +9,7 @@ tags:
   - "mentoring"
   - "leadership"
   - "product"
-draft: true
+draft: false
 scheduledPublish: true
 ---
 
