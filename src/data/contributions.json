@@ -31,6 +31,13 @@
   ],
   "open": [
     {
+      "repo": "apache/iceberg-python",
+      "number": 4101,
+      "title": "CLI: Fix --output=json list-refs emitting one object per retention property",
+      "url": "https://github.com/apache/iceberg-python/pull/4101",
+      "date": "2026-10-13"
+    },
+    {
       "repo": "stanfordnlp/dspy",
       "number": 10610,
       "title": "docs(dspy): fix cache env var names in FAQ",
