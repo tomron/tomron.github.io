@@ -31,6 +31,13 @@
   ],
   "open": [
     {
+      "repo": "pydantic/pydantic-extra-types",
+      "number": 446,
+      "title": "fix(phone_numbers): keep the country code for foreign numbers with NATIONAL format",
+      "url": "https://github.com/pydantic/pydantic-extra-types/pull/446",
+      "date": "2026-10-14"
+    },
+    {
       "repo": "apache/iceberg-python",
       "number": 4101,
       "title": "CLI: Fix --output=json list-refs emitting one object per retention property",
