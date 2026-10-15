@@ -1,6 +1,13 @@
 {
   "merged": [
     {
+      "repo": "pydantic/pydantic-extra-types",
+      "number": 446,
+      "title": "fix(phone_numbers): keep the country code for foreign numbers with NATIONAL format",
+      "url": "https://github.com/pydantic/pydantic-extra-types/pull/446",
+      "date": "2026-10-14"
+    },
+    {
       "repo": "Dokploy/dokploy",
       "number": 5614,
       "title": "feat(dns): add optional zone to OVH provider",
@@ -31,10 +38,17 @@
   ],
   "open": [
     {
-      "repo": "pydantic/pydantic-extra-types",
-      "number": 446,
-      "title": "fix(phone_numbers): keep the country code for foreign numbers with NATIONAL format",
-      "url": "https://github.com/pydantic/pydantic-extra-types/pull/446",
+      "repo": "apache/airflow",
+      "number": 74755,
+      "title": "Enforce execution_timeout on stub tasks run by a language SDK",
+      "url": "https://github.com/apache/airflow/pull/74755",
+      "date": "2026-10-14"
+    },
+    {
+      "repo": "apache/airflow",
+      "number": 74730,
+      "title": "Skip or fail ECS tasks correctly when their CloudWatch log stream is …",
+      "url": "https://github.com/apache/airflow/pull/74730",
       "date": "2026-10-14"
     },
     {
