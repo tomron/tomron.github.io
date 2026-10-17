@@ -39,13 +39,6 @@
   "open": [
     {
       "repo": "apache/airflow",
-      "number": 74755,
-      "title": "Enforce execution_timeout on stub tasks run by a language SDK",
-      "url": "https://github.com/apache/airflow/pull/74755",
-      "date": "2026-10-14"
-    },
-    {
-      "repo": "apache/airflow",
       "number": 74730,
       "title": "Skip or fail ECS tasks correctly when their CloudWatch log stream is …",
       "url": "https://github.com/apache/airflow/pull/74730",
