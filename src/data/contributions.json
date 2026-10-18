@@ -1,6 +1,13 @@
 {
   "merged": [
     {
+      "repo": "mozilla-ai/otari",
+      "number": 2423,
+      "title": "docs(access-control): document reject_user_mismatch and the one-key app case",
+      "url": "https://github.com/mozilla-ai/otari/pull/2423",
+      "date": "2026-10-18"
+    },
+    {
       "repo": "pydantic/pydantic-extra-types",
       "number": 446,
       "title": "fix(phone_numbers): keep the country code for foreign numbers with NATIONAL format",
@@ -37,6 +44,13 @@
     }
   ],
   "open": [
+    {
+      "repo": "pola-rs/polars",
+      "number": 30040,
+      "title": "fix(python): Treat 0-d NumPy arrays as scalars in constructors and `lit`",
+      "url": "https://github.com/pola-rs/polars/pull/30040",
+      "date": "2026-10-18"
+    },
     {
       "repo": "apache/airflow",
       "number": 74730,
