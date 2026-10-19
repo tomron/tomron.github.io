@@ -45,10 +45,17 @@
   ],
   "open": [
     {
-      "repo": "pola-rs/polars",
-      "number": 30040,
-      "title": "fix(python): Treat 0-d NumPy arrays as scalars in constructors and `lit`",
-      "url": "https://github.com/pola-rs/polars/pull/30040",
+      "repo": "vllm-project/guidellm",
+      "number": 1348,
+      "title": "fix: exclude exactly k requests for request-count warmup and cooldown",
+      "url": "https://github.com/vllm-project/guidellm/pull/1348",
+      "date": "2026-10-19"
+    },
+    {
+      "repo": "mozilla-ai/otari",
+      "number": 2424,
+      "title": "fix(web): stop dashboard pages panning sideways on a phone",
+      "url": "https://github.com/mozilla-ai/otari/pull/2424",
       "date": "2026-10-18"
     },
     {
