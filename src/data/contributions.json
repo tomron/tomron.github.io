@@ -1,6 +1,20 @@
 {
   "merged": [
     {
+      "repo": "apache/airflow",
+      "number": 74730,
+      "title": "Skip or fail ECS tasks correctly when their CloudWatch log stream is …",
+      "url": "https://github.com/apache/airflow/pull/74730",
+      "date": "2026-10-20"
+    },
+    {
+      "repo": "stanfordnlp/dspy",
+      "number": 10604,
+      "title": "fix(BootstrapFewShot): honor metric_threshold=0.0",
+      "url": "https://github.com/stanfordnlp/dspy/pull/10604",
+      "date": "2026-10-20"
+    },
+    {
       "repo": "mozilla-ai/otari",
       "number": 2424,
       "title": "fix(web): stop dashboard pages panning sideways on a phone",
@@ -59,13 +73,6 @@
       "date": "2026-10-19"
     },
     {
-      "repo": "apache/airflow",
-      "number": 74730,
-      "title": "Skip or fail ECS tasks correctly when their CloudWatch log stream is …",
-      "url": "https://github.com/apache/airflow/pull/74730",
-      "date": "2026-10-14"
-    },
-    {
       "repo": "apache/iceberg-python",
       "number": 4101,
       "title": "CLI: Fix --output=json list-refs emitting one object per retention property",
@@ -78,13 +85,6 @@
       "title": "docs(dspy): fix cache env var names in FAQ",
       "url": "https://github.com/stanfordnlp/dspy/pull/10610",
       "date": "2026-10-10"
-    },
-    {
-      "repo": "stanfordnlp/dspy",
-      "number": 10604,
-      "title": "fix(BootstrapFewShot): honor metric_threshold=0.0",
-      "url": "https://github.com/stanfordnlp/dspy/pull/10604",
-      "date": "2026-10-08"
     },
     {
       "repo": "mlflow/mlflow",
