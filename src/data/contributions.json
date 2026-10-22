@@ -66,6 +66,20 @@
   ],
   "open": [
     {
+      "repo": "stanfordnlp/dspy",
+      "number": 10698,
+      "title": "feat(PythonInterpreter): make the large-variable threshold configurable",
+      "url": "https://github.com/stanfordnlp/dspy/pull/10698",
+      "date": "2026-10-22"
+    },
+    {
+      "repo": "stanfordnlp/dspy",
+      "number": 10697,
+      "title": "fix(ChatAdapter): don't fall back to JSONAdapter on field validation errors",
+      "url": "https://github.com/stanfordnlp/dspy/pull/10697",
+      "date": "2026-10-22"
+    },
+    {
       "repo": "vllm-project/guidellm",
       "number": 1348,
       "title": "fix: correct request-count warmup and cooldown boundaries in synchronous runs",
