@@ -66,6 +66,20 @@
   ],
   "open": [
     {
+      "repo": "ray-project/ray",
+      "number": 67402,
+      "title": "[Data] Fix read_orc V2 failure on evolved struct fields with older PyArrow",
+      "url": "https://github.com/ray-project/ray/pull/67402",
+      "date": "2026-10-25"
+    },
+    {
+      "repo": "docker/mcp-registry",
+      "number": 6087,
+      "title": "Add a report-only repository-status checker",
+      "url": "https://github.com/docker/mcp-registry/pull/6087",
+      "date": "2026-10-25"
+    },
+    {
       "repo": "stanfordnlp/dspy",
       "number": 10698,
       "title": "feat(PythonInterpreter): make the large-variable threshold configurable",
