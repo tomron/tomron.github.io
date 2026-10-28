@@ -1,6 +1,6 @@
 ---
 name: post-brainstorm
-description: Browse what leading AI and dev-infra companies (Anthropic, OpenAI, Shopify, Cloudflare, Vercel, AWS) and their leaders are saying on their blogs and on X/Twitter, plus news on AI, LLMs, open source, LLM security and engineering management, then brainstorm takes for Tom's blog — interesting angles, agreements, and especially places where these voices contradict each other or the evidence. Use when the user asks to brainstorm post ideas, wants takes or hot takes, asks "what are people saying about X", "what's the debate around X", or wants to react to what a company or leader posted.
+description: Browse what leading AI and dev-infra companies (Anthropic, OpenAI, Google, Irregular, Shopify, Cloudflare, Vercel, AWS) and their leaders are saying on their blogs and on X/Twitter, plus news on AI, LLMs, open source, LLM security and engineering management, then brainstorm takes for Tom's blog — interesting angles, agreements, and especially places where these voices contradict each other or the evidence. Use when the user asks to brainstorm post ideas, wants takes or hot takes, asks "what are people saying about X", "what's the debate around X", or wants to react to what a company or leader posted.
 ---
 
 # Post brainstorm
