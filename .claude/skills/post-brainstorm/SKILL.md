@@ -21,14 +21,23 @@ Skim titles and descriptions in `src/content/blog/` (files are `YYYY-MM-DD-slug.
 
 ## 2. Gather what the voices are saying
 
-Source list: [references/sources.md](references/sources.md) — companies, official blogs and changelogs, leaders' X handles, and independent voices per topic. If the user named a topic, pick the relevant rows; otherwise cover each company briefly and each topic area at least once.
+Source list: [references/sources.md](references/sources.md) — companies, official blogs and changelogs, leaders' X handles, and independent voices per topic.
+
+Coverage rules (unless the user named a narrow topic or company):
+- **Every company:** read its blog listing and check every listed leader on X. A quick look at recent posts is enough, but skip none.
+- **Independent voices:** 2–3 per topic area per run. Rotate, so people skipped last time come first. Always include anyone whose topic matches a tension you're already building.
+- Keep track of who you skipped and who you couldn't reach. They're reported separately (see Output).
 
 Compute absolute dates from today's date and use month + year in queries. Run searches in parallel.
 
 **Company blogs and changelogs** — the most reliable source. WebFetch the listing pages in `sources.md` and note posts inside the window. Open the 3–6 most interesting ones; don't build a take on a headline.
 
 **X/Twitter** — X pages can't be fetched directly (login wall). Tom has the Claude in Chrome extension enabled, so that's the main path:
-1. Load the `claude-in-chrome` skill and the Chrome tools in one ToolSearch call (include `browser_batch`, `computer`, `get_page_text`). Open one new tab and, in a single `browser_batch`, for each handle: navigate to `https://x.com/<handle>`, wait ~4 seconds (X renders slowly; reading right away returns nothing), then `get_page_text`. `get_page_text` returns only the top post, so for key people also scroll down 2–3 times and read again, and skip posts older than the window. Close the tab when done. Read only; never like, reply, repost, post or follow.
+1. Load the `claude-in-chrome` skill and the Chrome tools in one ToolSearch call (include `browser_batch`, `computer`, `javascript_tool`, `get_page_text`). Open one new tab and, in a single `browser_batch`, for each handle: navigate to `https://x.com/<handle>`, wait ~4 seconds (X renders slowly; reading right away returns nothing), then run this with `javascript_tool` to get the 4 newest posts, skipping pinned ones:
+   ```js
+   [...document.querySelectorAll('article')].filter(a=>!a.innerText.startsWith('Pinned')).slice(0,4).map(a=>a.innerText.slice(0,500)).join('\n=====\n')
+   ```
+   If the result says `BLOCKED` (the extension's privacy filter can trip on links in posts), fall back to `get_page_text`, which returns only the top post. If that post is pinned, scroll down and read again. Skip posts older than the window. Close the tab when done. Read only; never like, reply, repost, post or follow.
 2. If Chrome isn't connected: WebSearch with `site:x.com <handle> <topic>` or `"<name>" <topic> <month year>`.
 3. Find where the post was quoted: news articles, Hacker News threads, Simon Willison's blog, newsletters, LinkedIn reposts, Threads/Bluesky mirrors.
 If none works, say which handles couldn't be checked rather than guessing what they said. Never invent or paraphrase a quote you haven't seen — attribute only what a source shows, with a link.
@@ -78,7 +87,9 @@ Then 3 ideas, strongest first (more only if the user asks):
 
 Then:
 - **Quotes worth saving** — up to 4 notable quotes with author, date, link (only ones you actually saw).
-- **Couldn't check** — sources or handles that were unreachable, so Tom knows the gaps.
+- **Coverage gaps**, split in two so Tom knows why each gap exists:
+  - **Couldn't reach** — fetch failed, blocked, or no account.
+  - **Skipped** — your choice this run (rotation or time). These go first next run.
 - One line offering to dig into, outline or draft any idea.
 
 Keep it skimmable. Don't write drafts or create files unless asked; if asked to save, write to a scratch file, not into `src/content/blog/`.

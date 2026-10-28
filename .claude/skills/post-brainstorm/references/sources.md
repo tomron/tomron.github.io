@@ -11,7 +11,7 @@ Handles and roles change. If a handle looks wrong (no recent posts, different pe
 | Shopify | shopify.engineering, shopify.com/news | @Shopify, @ShopifyEng | Tobi Lütke @tobi, Farhan Thawar @fnthawar |
 | Cloudflare | blog.cloudflare.com, developers.cloudflare.com/changelog | @Cloudflare, @CloudflareDev | Matthew Prince @eastdakota, Dane Knecht @dok2001 |
 | Vercel | vercel.com/blog, vercel.com/changelog | @vercel | Guillermo Rauch @rauchg |
-| AWS | aws.amazon.com/blogs/aws, aws.amazon.com/new, allthingsdistributed.com | @awscloud | Andy Jassy @ajassy, Werner Vogels @Werner, Matt Garman (AWS CEO; find current handle) |
+| AWS | aws.amazon.com/blogs/aws, aws.amazon.com/new, allthingsdistributed.com | @awscloud | Andy Jassy @ajassy, Werner Vogels @Werner, @awsdevelopers. Matt Garman (AWS CEO) has no X account as of Oct 2026, so follow him through AWS blog posts and keynotes. |
 
 ## Independent voices by topic
 
