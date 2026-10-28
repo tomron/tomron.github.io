@@ -13,7 +13,7 @@ Arguments (all optional):
 - a topic ("coding agents", "LLM security", "eng management and AI")
 - a company or person ("what is Shopify saying", "@rauchg")
 - a time window (default: last 14 days for posts and news, last 3 months for debates)
-- "quick" — fewer sources, 3–4 ideas
+- "quick" — fewer sources (official blogs + the most relevant 5–6 handles)
 
 ## 1. Know what's already on the blog
 
@@ -27,9 +27,9 @@ Compute absolute dates from today's date and use month + year in queries. Run se
 
 **Company blogs and changelogs** — the most reliable source. WebFetch the listing pages in `sources.md` and note posts inside the window. Open the 3–6 most interesting ones; don't build a take on a headline.
 
-**X/Twitter** — X pages usually can't be fetched directly (login wall). Try, in order:
-1. If Claude in Chrome tools (`mcp__claude-in-chrome__*`) are available, load the `claude-in-chrome` skill and read the person's profile in a new tab (`https://x.com/<handle>`), using the user's logged-in session. Read only; never like, reply, post or follow.
-2. WebSearch with `site:x.com <handle> <topic>` or `"<name>" <topic> <month year>`.
+**X/Twitter** — X pages can't be fetched directly (login wall). Tom has the Claude in Chrome extension enabled, so that's the main path:
+1. Load the `claude-in-chrome` skill and the Chrome tools in one ToolSearch call (include `browser_batch`, `computer`, `get_page_text`). Open one new tab and, in a single `browser_batch`, for each handle: navigate to `https://x.com/<handle>`, wait ~4 seconds (X renders slowly; reading right away returns nothing), then `get_page_text`. `get_page_text` returns only the top post, so for key people also scroll down 2–3 times and read again, and skip posts older than the window. Close the tab when done. Read only; never like, reply, repost, post or follow.
+2. If Chrome isn't connected: WebSearch with `site:x.com <handle> <topic>` or `"<name>" <topic> <month year>`.
 3. Find where the post was quoted: news articles, Hacker News threads, Simon Willison's blog, newsletters, LinkedIn reposts, Threads/Bluesky mirrors.
 If none works, say which handles couldn't be checked rather than guessing what they said. Never invent or paraphrase a quote you haven't seen — attribute only what a source shows, with a link.
 
@@ -58,13 +58,13 @@ For each strong tension, propose a take. Prefer takes that:
 - can be backed by a hands-on experiment, team experience or data;
 - connect two topics (e.g. LLM security × engineering management: "who owns prompt-injection risk on a team?").
 
-Mix the output: at least one engineering-management idea, one LLM security or open source idea, and one "react to a company/leader" idea when the material supports it.
+Pick the 3 strongest. When the material supports it, mix them: one engineering-management idea, one LLM security or open source idea, and one "react to a company/leader" idea.
 
 ## 5. Output
 
 Start with a 2–3 line **"What the room is saying"** summary of the main themes this window.
 
-Then 5–8 ideas, strongest first:
+Then 3 ideas, strongest first (more only if the user asks):
 
 ```
 ### <Working title>
@@ -77,7 +77,7 @@ Then 5–8 ideas, strongest first:
 ```
 
 Then:
-- **Quotes worth saving** — 3–6 notable quotes with author, date, link (only ones you actually saw).
+- **Quotes worth saving** — up to 4 notable quotes with author, date, link (only ones you actually saw).
 - **Couldn't check** — sources or handles that were unreachable, so Tom knows the gaps.
 - One line offering to dig into, outline or draft any idea.
 
