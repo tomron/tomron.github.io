@@ -10,6 +10,7 @@ Goal: find **what notable people and companies are claiming right now**, set tho
 How this differs from the `post-ideas` skill: `post-ideas` scans broad news for topics. This skill starts from **specific voices** (companies, leaders, practitioners) and looks for **takes and contradictions**.
 
 Arguments (all optional):
+
 - a topic ("coding agents", "LLM security", "eng management and AI")
 - a company or person ("what is Shopify saying", "@rauchg")
 - a time window (default: last 14 days for posts and news, last 3 months for debates)
@@ -24,6 +25,7 @@ Skim titles and descriptions in `src/content/blog/` (files are `YYYY-MM-DD-slug.
 Source list: [references/sources.md](references/sources.md) — companies, official blogs and changelogs, leaders' X handles, and independent voices per topic.
 
 Coverage rules (unless the user named a narrow topic or company):
+
 - **Every company:** read its blog listing and check every listed leader on X. A quick look at recent posts is enough, but skip none.
 - **Independent voices:** 2–3 per topic area per run. Rotate, so people skipped last time come first. Always include anyone whose topic matches a tension you're already building.
 - Keep track of who you skipped and who you couldn't reach. They're reported separately (see Output).
@@ -33,14 +35,19 @@ Compute absolute dates from today's date and use month + year in queries. Run se
 **Company blogs and changelogs** — the most reliable source. WebFetch the listing pages in `sources.md` and note posts inside the window. Open the 3–6 most interesting ones; don't build a take on a headline.
 
 **X/Twitter** — X pages can't be fetched directly (login wall). Tom has the Claude in Chrome extension enabled, so that's the main path:
+
 1. Load the `claude-in-chrome` skill and the Chrome tools in one ToolSearch call (include `browser_batch`, `computer`, `javascript_tool`, `get_page_text`). Open one new tab and, in a single `browser_batch`, for each handle: navigate to `https://x.com/<handle>`, wait ~4 seconds (X renders slowly; reading right away returns nothing), then run this with `javascript_tool` to get the 4 newest posts, skipping pinned ones:
    ```js
-   [...document.querySelectorAll('article')].filter(a=>!a.innerText.startsWith('Pinned')).slice(0,4).map(a=>a.innerText.slice(0,500)).join('\n=====\n')
+   [...document.querySelectorAll('article')]
+     .filter((a) => !a.innerText.startsWith('Pinned'))
+     .slice(0, 4)
+     .map((a) => a.innerText.slice(0, 500))
+     .join('\n=====\n');
    ```
    If the result says `BLOCKED` (the extension's privacy filter can trip on links in posts), fall back to `get_page_text`, which returns only the top post. If that post is pinned, scroll down and read again. Skip posts older than the window. Close the tab when done. Read only; never like, reply, repost, post or follow.
 2. If Chrome isn't connected: WebSearch with `site:x.com <handle> <topic>` or `"<name>" <topic> <month year>`.
 3. Find where the post was quoted: news articles, Hacker News threads, Simon Willison's blog, newsletters, LinkedIn reposts, Threads/Bluesky mirrors.
-If none works, say which handles couldn't be checked rather than guessing what they said. Never invent or paraphrase a quote you haven't seen — attribute only what a source shows, with a link.
+   If none works, say which handles couldn't be checked rather than guessing what they said. Never invent or paraphrase a quote you haven't seen — attribute only what a source shows, with a link.
 
 **News and evidence** — WebSearch for the topic areas in `sources.md` (`standard` mode; `extended` for very recent or niche items or when results are thin). Look specifically for data that tests the claims: studies, surveys, benchmarks, incident reports, postmortems, layoffs/hiring numbers, pricing changes.
 
@@ -63,6 +70,7 @@ Weak tensions (a nuance, not a disagreement) are fine as supporting material but
 ## 4. Turn tensions into ideas
 
 For each strong tension, propose a take. Prefer takes that:
+
 - come from a practitioner/manager view, not a pundit view;
 - can be backed by a hands-on experiment, team experience or data;
 - connect two topics (e.g. LLM security × engineering management: "who owns prompt-injection risk on a team?").
@@ -86,6 +94,7 @@ Then 3 ideas, strongest first (more only if the user asks):
 ```
 
 Then:
+
 - **Quotes worth saving** — up to 4 notable quotes with author, date, link (only ones you actually saw).
 - **Coverage gaps**, split in two so Tom knows why each gap exists:
   - **Couldn't reach** — fetch failed, blocked, or no account.
