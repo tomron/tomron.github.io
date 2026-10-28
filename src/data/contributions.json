@@ -73,6 +73,13 @@
   ],
   "open": [
     {
+      "repo": "pola-rs/polars",
+      "number": 30374,
+      "title": "fix: Reset sorted flag when literal aggregation inserts nulls for empty groups",
+      "url": "https://github.com/pola-rs/polars/pull/30374",
+      "date": "2026-10-28"
+    },
+    {
       "repo": "ray-project/ray",
       "number": 67402,
       "title": "[Data] Fix read_orc V2 failure on evolved struct fields with older PyArrow",
