@@ -15,6 +15,13 @@ export interface Props {
   tags?: string[];
   /** Keep the page out of search indexes (404, search, utility pages). */
   noindex?: boolean;
+  /**
+   * GoatCounter only: report the requested pathname (as "/404" + pathname)
+   * instead of the canonical path. Set on the 404 page so missing URLs show
+   * up individually. The query string field that count.js adds is removed from
+   * the request, so it is not sent.
+   */
+  trackRequestedPath?: boolean;
 }
 
 const SITE_TITLE = 'Tom Ron';
@@ -31,6 +38,7 @@ const {
   modifiedTime,
   tags = [],
   noindex = false,
+  trackRequestedPath = false,
 } = Astro.props;
 
 const TWITTER_HANDLE = '@tomron696';
@@ -48,6 +56,14 @@ const year = new Date().getFullYear();
 // GoatCounter analytics: set PUBLIC_GOATCOUNTER to your endpoint, e.g.
 // "https://tomron.goatcounter.com/count". Left unset -> no script, no tracking.
 const goatcounter = import.meta.env.PUBLIC_GOATCOUNTER;
+// 404 page only (see trackRequestedPath). Before count.js: report the requested
+// pathname and hold the automatic count. When count.js loads (onload attribute
+// on its tag, so the event cannot be missed): drop the "q" (query string) field
+// it always adds, then count once. The address bar is not touched.
+const REQUESTED_PATH_SNIPPET =
+  "window.goatcounter={no_onload:true,path:function(){var p=location.pathname;return p==='/404'||p==='/404/'?p:'/404'+p;}};";
+const REQUESTED_PATH_ONLOAD =
+  "var g=window.goatcounter,f=g.get_data;if(typeof f==='function'){g.get_data=function(v){var d=f.call(g,v);if(d)delete d.q;return d;};}g.count();";
 
 // Webmention receiving endpoint, only when PUBLIC_WEBMENTION_DOMAIN is set.
 const wmDomain = import.meta.env.PUBLIC_WEBMENTION_DOMAIN;
@@ -123,10 +139,16 @@ const wmDomain = import.meta.env.PUBLIC_WEBMENTION_DOMAIN;
     <slot name="head" />
 
     {
+      goatcounter && trackRequestedPath && (
+        <script is:inline set:html={REQUESTED_PATH_SNIPPET} />
+      )
+    }
+    {
       goatcounter && (
         <script
           is:inline
           data-goatcounter={goatcounter}
+          onload={trackRequestedPath ? REQUESTED_PATH_ONLOAD : undefined}
           async
           src="//gc.zgo.at/count.js"
         />
