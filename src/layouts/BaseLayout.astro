@@ -56,12 +56,27 @@ const year = new Date().getFullYear();
 // GoatCounter analytics: set PUBLIC_GOATCOUNTER to your endpoint, e.g.
 // "https://tomron.goatcounter.com/count". Left unset -> no script, no tracking.
 const goatcounter = import.meta.env.PUBLIC_GOATCOUNTER;
-// 404 page only (see trackRequestedPath). Before count.js: report the requested
-// pathname and hold the automatic count. When count.js loads (onload attribute
-// on its tag, so the event cannot be missed): drop the "q" (query string) field
-// it always adds, then count once. The address bar is not touched.
+// Query string privacy. count.js always adds the raw query string ("q") to
+// each hit. On every page we hold the automatic count (no_onload) and count
+// from the script tag's onload attribute (so the event cannot be missed), after
+// wrapping get_data to rebuild "q" from GoatCounter's recognised campaign
+// parameters only (https://www.goatcounter.com/help/campaigns). Every other
+// parameter is dropped. The address bar, canonical URL and page are untouched.
+// 404 page only (see trackRequestedPath): also report the requested pathname
+// as "/404" + pathname, and drop "q" entirely.
+const CAMPAIGN_PARAMS = [
+  'utm_campaign',
+  'campaign',
+  'utm_source',
+  'ref',
+  'src',
+  'source',
+];
+const HOLD_SNIPPET = 'window.goatcounter={no_onload:true};';
 const REQUESTED_PATH_SNIPPET =
   "window.goatcounter={no_onload:true,path:function(){var p=location.pathname;return p==='/404'||p==='/404/'?p:'/404'+p;}};";
+const filterQuery = `var A=${JSON.stringify(CAMPAIGN_PARAMS)};var u=new URLSearchParams(location.search),k=new URLSearchParams();A.forEach(function(n){u.getAll(n).forEach(function(v){k.append(n,v);});});var s=k.toString();d.q=s?'?'+s:'';`;
+const COUNT_ONLOAD = `var g=window.goatcounter,f=g.get_data;if(typeof f==='function'){g.get_data=function(v){var d=f.call(g,v);if(d){${filterQuery}}return d;};}g.count();`;
 const REQUESTED_PATH_ONLOAD =
   "var g=window.goatcounter,f=g.get_data;if(typeof f==='function'){g.get_data=function(v){var d=f.call(g,v);if(d)delete d.q;return d;};}g.count();";
 
@@ -139,8 +154,11 @@ const wmDomain = import.meta.env.PUBLIC_WEBMENTION_DOMAIN;
     <slot name="head" />
 
     {
-      goatcounter && trackRequestedPath && (
-        <script is:inline set:html={REQUESTED_PATH_SNIPPET} />
+      goatcounter && (
+        <script
+          is:inline
+          set:html={trackRequestedPath ? REQUESTED_PATH_SNIPPET : HOLD_SNIPPET}
+        />
       )
     }
     {
@@ -148,7 +166,7 @@ const wmDomain = import.meta.env.PUBLIC_WEBMENTION_DOMAIN;
         <script
           is:inline
           data-goatcounter={goatcounter}
-          onload={trackRequestedPath ? REQUESTED_PATH_ONLOAD : undefined}
+          onload={trackRequestedPath ? REQUESTED_PATH_ONLOAD : COUNT_ONLOAD}
           async
           src="//gc.zgo.at/count.js"
         />
