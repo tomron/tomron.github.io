@@ -1,6 +1,13 @@
 {
   "merged": [
     {
+      "repo": "grafana/grafana",
+      "number": 133874,
+      "title": "Transformations: Fix group to nested table throwing on empty input",
+      "url": "https://github.com/grafana/grafana/pull/133874",
+      "date": "2026-10-28"
+    },
+    {
       "repo": "stanfordnlp/dspy",
       "number": 10610,
       "title": "docs(dspy): fix cache env var names in FAQ",
@@ -80,13 +87,6 @@
       "date": "2026-10-28"
     },
     {
-      "repo": "ray-project/ray",
-      "number": 67402,
-      "title": "[Data] Fix read_orc V2 failure on evolved struct fields with older PyArrow",
-      "url": "https://github.com/ray-project/ray/pull/67402",
-      "date": "2026-10-25"
-    },
-    {
       "repo": "docker/mcp-registry",
       "number": 6087,
       "title": "Add a report-only repository-status checker",
@@ -129,13 +129,6 @@
       "date": "2026-10-06"
     },
     {
-      "repo": "stanfordnlp/dspy",
-      "number": 10573,
-      "title": "fix(dspy): tolerate unavailable source in Refine when built in a plain REPL",
-      "url": "https://github.com/stanfordnlp/dspy/pull/10573",
-      "date": "2026-10-05"
-    },
-    {
       "repo": "apache/iceberg-python",
       "number": 4077,
       "title": "REST: Apply rest.client timeouts to SigV4 requests",
@@ -161,13 +154,6 @@
       "number": 133875,
       "title": "Transformations: Edit annotation-topic transformations against annotation frames",
       "url": "https://github.com/grafana/grafana/pull/133875",
-      "date": "2026-09-30"
-    },
-    {
-      "repo": "grafana/grafana",
-      "number": 133874,
-      "title": "Transformations: Fix group to nested table throwing on empty input",
-      "url": "https://github.com/grafana/grafana/pull/133874",
       "date": "2026-09-30"
     },
     {
