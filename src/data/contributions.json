@@ -80,13 +80,6 @@
   ],
   "open": [
     {
-      "repo": "pola-rs/polars",
-      "number": 30374,
-      "title": "fix: Reset sorted flag when literal aggregation inserts nulls for empty groups",
-      "url": "https://github.com/pola-rs/polars/pull/30374",
-      "date": "2026-10-28"
-    },
-    {
       "repo": "docker/mcp-registry",
       "number": 6087,
       "title": "Add a report-only repository-status checker",
