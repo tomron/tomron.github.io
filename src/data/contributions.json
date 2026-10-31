@@ -80,6 +80,20 @@
   ],
   "open": [
     {
+      "repo": "apache/iceberg-python",
+      "number": 4210,
+      "title": "Fix row filter literals narrowed to old file types after type promotion",
+      "url": "https://github.com/apache/iceberg-python/pull/4210",
+      "date": "2026-10-30"
+    },
+    {
+      "repo": "apache/iceberg-python",
+      "number": 4209,
+      "title": "Fix duplicate sort order id when adding an existing sort order",
+      "url": "https://github.com/apache/iceberg-python/pull/4209",
+      "date": "2026-10-30"
+    },
+    {
       "repo": "docker/mcp-registry",
       "number": 6087,
       "title": "Add a report-only repository-status checker",
