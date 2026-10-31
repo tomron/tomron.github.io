@@ -46,7 +46,9 @@ export default defineConfig({
         !page.includes('/og/') &&
         // Thin tag archives: keep them out of the sitemap so crawl budget
         // goes to real posts.
-        !page.includes('/tags/'),
+        !page.includes('/tags/') &&
+        // Same for the monthly archives (/2023/06/); posts themselves stay.
+        !/\/\d{4}\/\d{2}\/$/.test(page),
       changefreq: EnumChangefreq.WEEKLY,
       lastmod: new Date(),
       serialize(item) {

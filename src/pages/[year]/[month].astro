@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  getPublishedPosts,
+  postExcerpt,
+  readingMinutes,
+} from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  const byMonth = new Map<string, typeof posts>();
+  for (const post of posts) {
+    // permalink is "/2014/05/12/slug/" - group by its year/month prefix
+    const m = post.data.permalink.match(/^\/(\d{4})\/(\d{2})\//);
+    if (!m) continue;
+    const key = `${m[1]}/${m[2]}`;
+    if (!byMonth.has(key)) byMonth.set(key, []);
+    byMonth.get(key)!.push(post);
+  }
+  return [...byMonth.entries()].map(([key, monthPosts]) => {
+    const [year, month] = key.split('/');
+    return {
+      params: { year, month },
+      props: { posts: monthPosts },
+    };
+  });
+}
+
+const { year, month } = Astro.params;
+const { posts } = Astro.props;
+
+const monthLong = new Date(
+  Number(year),
+  Number(month) - 1,
+  1,
+).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+---
+
+<BaseLayout
+  title={monthLong}
+  description={`Posts by Tom Ron from ${monthLong}.`}
+  path={`/${year}/${month}/`}
+>
+  <p class="crumb"><a href="/blog/">Blog</a></p>
+  <h1>{monthLong}</h1>
+  <p class="count">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
+
+  <ul class="post-list">
+    {
+      posts.map((post) => (
+        <li>
+          <div class="row">
+            <a class="title" href={post.data.permalink}>
+              {post.data.title}
+            </a>
+            <span class="when">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {fmt(post.data.pubDate)}
+              </time>
+              <span class="dot">·</span>
+              {readingMinutes(post)} min
+            </span>
+          </div>
+          <p class="excerpt">{postExcerpt(post, 180)}</p>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  .crumb {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+  h1 {
+    margin: 0.25rem 0 0.25rem;
+  }
+  .count {
+    color: var(--muted);
+    margin-top: 0;
+  }
+  .post-list {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+  }
+  .post-list li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-list .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .post-list .title {
+    font-weight: 500;
+  }
+  .post-list .when {
+    color: var(--muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .post-list .when .dot {
+    opacity: 0.5;
+    margin: 0 0.15rem;
+  }
+  .post-list .excerpt {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+</style>
