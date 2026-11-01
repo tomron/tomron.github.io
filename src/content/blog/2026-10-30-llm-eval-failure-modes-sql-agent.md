@@ -13,7 +13,7 @@ tags:
   - "testing"
   - "sql"
   - "machine learning"
-draft: true
+draft: false
 ---
 
 <!-- wp:paragraph -->
