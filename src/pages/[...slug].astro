@@ -367,6 +367,35 @@ const jsonLd = {
       });
     });
   </script>
+  <script is:inline>
+    // Open a collapsed <details> when the URL hash points at it (or inside it).
+    (function () {
+      function openFromHash() {
+        var id = decodeURIComponent(location.hash.slice(1));
+        if (!id) return;
+        var el = document.getElementById(id);
+        if (!el) return;
+        var d = el.closest('details');
+        if (!d) return;
+        d.open = true;
+        el.scrollIntoView();
+      }
+      openFromHash();
+      window.addEventListener('hashchange', openFromHash);
+      // A title link toggles its section and puts the section URL in the
+      // address bar, so it can be copied without jumping the page.
+      document
+        .querySelectorAll('.post-body details > summary a[href^="#"]')
+        .forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            var d = a.closest('details');
+            d.open = !d.open;
+            history.replaceState(null, '', a.hash);
+          });
+        });
+    })();
+  </script>
 </BaseLayout>
 
 <style>
