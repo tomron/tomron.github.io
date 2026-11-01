@@ -2,7 +2,7 @@
 title: "How an Agent Eval Lies"
 description: "Eleven old and new ways an agent eval can show a healthy score while the agent is wrong, told through one SQL agent."
 pubDate: 2026-11-01T09:00:00.000Z
-permalink: "/2026/10/30/llm-eval-failure-modes-sql-agent/"
+permalink: "/2026/11/01/llm-eval-failure-modes-sql-agent/"
 heroImage: "/wp-content/uploads/2026/10/evals_dashboard.png"
 heroImageAlt: "A dashboard card with a green check badge above a struck-through 320.00, with an arrow pointing to the correct figure, 210.00, in a red-orange box"
 tags:
