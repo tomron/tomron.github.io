@@ -11,7 +11,7 @@ tags:
   - "software engineering"
   - "coding agents"
   - "engineering culture"
-draft: true
+draft: false
 scheduledPublish: true
 ---
 
