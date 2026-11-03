@@ -2,6 +2,13 @@
   "merged": [
     {
       "repo": "grafana/grafana",
+      "number": 133875,
+      "title": "Transformations: Edit annotation-topic transformations against annotation frames",
+      "url": "https://github.com/grafana/grafana/pull/133875",
+      "date": "2026-11-02"
+    },
+    {
+      "repo": "grafana/grafana",
       "number": 133874,
       "title": "Transformations: Fix group to nested table throwing on empty input",
       "url": "https://github.com/grafana/grafana/pull/133874",
@@ -155,13 +162,6 @@
       "title": "fix(router): keep per-chunk response_cost after a streaming fallback",
       "url": "https://github.com/BerriAI/litellm/pull/43991",
       "date": "2026-10-01"
-    },
-    {
-      "repo": "grafana/grafana",
-      "number": 133875,
-      "title": "Transformations: Edit annotation-topic transformations against annotation frames",
-      "url": "https://github.com/grafana/grafana/pull/133875",
-      "date": "2026-09-30"
     },
     {
       "repo": "BerriAI/litellm",
