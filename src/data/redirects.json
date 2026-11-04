@@ -10,5 +10,13 @@
   {
     "from": "/עיריית-פתח-תקווה-מקימה-את-שכונת-הסטרטא/",
     "to": "/"
+  },
+  {
+    "from": "/2016/11/30/davies-bouldin-index/comment-page-1/",
+    "to": "/2016/11/30/davies-bouldin-index/"
+  },
+  {
+    "from": "/2021/08/15/pandas-read_csv-and-missing-values/comment-page-1/",
+    "to": "/2021/08/15/pandas-read_csv-and-missing-values/"
   }
 ]
