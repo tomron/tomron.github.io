@@ -1,6 +1,13 @@
 {
   "merged": [
     {
+      "repo": "vllm-project/guidellm",
+      "number": 1348,
+      "title": "fix: correct request-count warmup and cooldown boundaries in synchronous runs",
+      "url": "https://github.com/vllm-project/guidellm/pull/1348",
+      "date": "2026-11-06"
+    },
+    {
       "repo": "grafana/grafana",
       "number": 133875,
       "title": "Transformations: Edit annotation-topic transformations against annotation frames",
@@ -120,13 +127,6 @@
       "title": "fix(ChatAdapter): don't fall back to JSONAdapter on field validation errors",
       "url": "https://github.com/stanfordnlp/dspy/pull/10697",
       "date": "2026-10-22"
-    },
-    {
-      "repo": "vllm-project/guidellm",
-      "number": 1348,
-      "title": "fix: correct request-count warmup and cooldown boundaries in synchronous runs",
-      "url": "https://github.com/vllm-project/guidellm/pull/1348",
-      "date": "2026-10-19"
     },
     {
       "repo": "apache/iceberg-python",
