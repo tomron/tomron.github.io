@@ -94,6 +94,13 @@
   ],
   "open": [
     {
+      "repo": "kubeflow/pipelines",
+      "number": 15503,
+      "title": "docs(sdk): fix caching argument name and note pipeline_id limitation",
+      "url": "https://github.com/kubeflow/pipelines/pull/15503",
+      "date": "2026-11-11"
+    },
+    {
       "repo": "apache/iceberg-python",
       "number": 4210,
       "title": "Fix row filter literals narrowed to old file types after type promotion",
