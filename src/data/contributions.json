@@ -1,6 +1,13 @@
 {
   "merged": [
     {
+      "repo": "mozilla-ai/otari",
+      "number": 3295,
+      "title": "fix(mail): refuse an email address with a non-ASCII local part",
+      "url": "https://github.com/mozilla-ai/otari/pull/3295",
+      "date": "2026-11-19"
+    },
+    {
       "repo": "kubeflow/pipelines",
       "number": 15503,
       "title": "docs(sdk): fix caching argument name and note pipeline_id limitation",
@@ -100,13 +107,6 @@
     }
   ],
   "open": [
-    {
-      "repo": "mozilla-ai/otari",
-      "number": 3295,
-      "title": "fix(mail): refuse an email address with a non-ASCII local part",
-      "url": "https://github.com/mozilla-ai/otari/pull/3295",
-      "date": "2026-11-15"
-    },
     {
       "repo": "apache/iceberg-python",
       "number": 4210,
