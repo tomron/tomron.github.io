@@ -47,6 +47,9 @@ export default defineConfig({
         // Thin tag archives: keep them out of the sitemap so crawl budget
         // goes to real posts.
         !page.includes('/tags/') &&
+        // Singular /tag/<slug>/ legacy redirect pages. The redirects.json
+        // entries (incl. bare /tag/) are already excluded via redirectUrls.
+        !page.includes('/tag/') &&
         // Same for the monthly archives (/2023/06/); posts themselves stay.
         !/\/\d{4}\/\d{2}\/$/.test(page),
       changefreq: EnumChangefreq.WEEKLY,

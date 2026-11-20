@@ -1,0 +1,22 @@
+---
+// WordPress served tag archives at singular /tag/<slug>/; this site uses plural
+// /tags/<slug>/. Those old URLs 404 today (e.g. /tag/box-plot/), so emit a
+// redirect page for every current tag. Paths come from the same getTagMap() as
+// the real tag pages, so tags added to future posts are covered automatically
+// on the next build. Slugs without a current tag keep 404ing and stay visible
+// in the 404 path tracking.
+import RedirectPage from '../../layouts/RedirectPage.astro';
+import { getTagMap } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const tagMap = await getTagMap();
+  return [...tagMap.keys()].map((slug) => ({
+    params: { tag: slug },
+    props: { to: `/tags/${slug}/` },
+  }));
+}
+
+const { to } = Astro.props;
+---
+
+<RedirectPage to={to} />
